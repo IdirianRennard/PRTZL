@@ -1,0 +1,35 @@
+
+:host {
+  position: absolute;
+  right: 0;
+
+  height: calc(100vh - 7.5rem);
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .players {
+    height: unset;
+    border-radius: 10px;
+    margin: 2rem;
+  }
+
+  .lots {
+    border-color: limegreen;
+    border-style: inset;
+    border-width: 4px;
+  }
+
+  .little {
+    border-color: black;
+    border-style: inset;
+    border-width: 4px;
+    background-color: limegreen;
+    color: black;
+
+    mat-card-subtitle {
+      color: black;
+    }
+  }
+}

@@ -1,0 +1,65 @@
+:host {
+  position: absolute;
+  left: 0;
+  width: 75%;
+  height: calc(100vh - 7.5rem);
+
+  .clear-button {
+    background-color: black;
+    color: white;
+  }
+
+  .edit-button {
+    background-color: red;
+    color: black;
+    font-size: x-large;
+  }
+
+  .family_reg {
+    border-radius: 10px;
+    margin: 2rem;
+    height: max-content;
+    width: 50%;
+  }
+
+  .form-input {
+    width: 15rem;
+  }
+
+  .form-barcode {
+    width: 15rem;
+  }
+
+  .player_reg {
+    border-radius: 10px;
+    margin: 2rem;
+    height: max-content;
+    width: 50%;
+  }
+
+  .reg_form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 85%;
+  }
+
+
+  .submit-button {
+    background-color: limegreen;
+    color: black;
+  }
+
+  .submit-button-disabled {
+    background-color: grey;
+    color: darkgrey;
+  }
+
+
+  mat-card-content {
+    margin: 1rem 0;
+  }
+
+}
+
+

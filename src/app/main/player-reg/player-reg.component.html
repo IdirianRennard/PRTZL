@@ -1,0 +1,108 @@
+<mat-card class="player_reg">
+  <mat-card-title-group>
+    <mat-card-subtitle><h1>Single Registration</h1></mat-card-subtitle>
+    <button mat-icon-button class="edit-button"><fa-icon [icon]="edit"></fa-icon></button>
+  </mat-card-title-group>
+    <mat-card-content>
+      <form>
+
+        <div class="reg_form">
+
+          <mat-form-field appearance="fill" class="form-input">
+            <mat-label>Con ID</mat-label>
+            <input
+              matInput
+              [formControl]="conID"
+              (keyup)="filterPlayers()"
+              [matAutocomplete]="conIDAuto" >
+            <mat-icon matSuffix>search</mat-icon>
+          <mat-autocomplete #conIDAuto="matAutocomplete"
+            autoActiveFirstOption
+            (optionSelected)="formComplete($event)"
+          >
+            <mat-option *ngFor="let option of filterPlayer" [value]="option" >
+              {{ option.id + " - " + option.first_name + " " + option.last_name }}
+            </mat-option>
+          </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-barcode">
+            <mat-label>Barcode</mat-label>
+            <input
+              matInput
+              [formControl]="formBarcode"
+            >
+            <mat-icon matSuffix><fa-icon [icon]="barcode"></fa-icon></mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="reg_form">
+
+          <mat-form-field appearance="fill" class="form-input">
+            <mat-label>First Name</mat-label>
+            <input
+              matInput
+              [formControl]="firstName"
+              (keyup)="filterPlayers()"
+              [matAutocomplete]="fNameAuto"
+            >
+            <mat-icon matSuffix>search</mat-icon>
+          <mat-autocomplete #fNameAuto="matAutocomplete"
+            autoActiveFirstOption
+            (optionSelected)="formComplete($event)"
+          >
+            <mat-option *ngFor="let option of filterPlayer" [value]="option">
+              {{ option.id + "-" + option.first_name + " " + option.last_name }}
+            </mat-option>
+          </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="form-input">
+            <mat-label>Last Name</mat-label>
+            <input
+              matInput
+              [formControl]="lastName"
+              (keyup)="filterPlayers()"
+              [matAutocomplete]="lNameAuto"
+            >
+            <mat-icon matSuffix>search</mat-icon>
+          <mat-autocomplete #lNameAuto="matAutocomplete"
+            autoActiveFirstOption
+            (optionSelected)="formComplete($event)"
+          >
+            <mat-option *ngFor="let option of filterPlayer" [value]="option">
+              {{ option.id + "-" + option.first_name + " " + option.last_name }}
+            </mat-option>
+          </mat-autocomplete>
+          </mat-form-field>
+
+        </div>
+
+      </form>
+
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button mat-raised-button class="clear-button" (click)="clearForm()">Clear</button>
+    <button *ngIf="SUBMIT_DISABLED"
+      mat-raised-button
+      class="submit-button-disabled"
+      [disabled]="SUBMIT_DISABLED"
+      (click)="submitMainReg()"
+    >Submit
+    </button>
+
+    <button *ngIf="!SUBMIT_DISABLED"
+      mat-raised-button
+      class="submit-button"
+      [disabled]="SUBMIT_DISABLED"
+      (click)="submitMainReg()"
+    >Submit
+    </button>
+  </mat-card-actions>
+
+</mat-card>
+
+<mat-card class="family_reg" *ngIf="FAMILIY_BOOL">
+  <mat-card-subtitle><h1>Family Registration</h1></mat-card-subtitle>
+</mat-card>
