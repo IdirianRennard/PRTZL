@@ -12,7 +12,7 @@ export class AttendeesService {
   constructor(private http: HttpClient) { }
 
   public getAll() {
-    return this.http.get('/getAttendees').pipe(
+    return this.http.get('getAttendees').pipe(
       map((res: any) => {
         console.log(res);
         return res;
