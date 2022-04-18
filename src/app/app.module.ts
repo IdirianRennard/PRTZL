@@ -58,7 +58,7 @@ import { APIInterceptor } from 'src/assets/classes/APIInterceptor';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: APIIntercepter,
+      useClass: APIInterceptor,
       multi: true,
     }
   ],

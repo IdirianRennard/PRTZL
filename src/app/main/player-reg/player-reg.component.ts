@@ -1,11 +1,10 @@
+import { AttendeesService } from './../../../services/Attendees.service';
+import { Attendee } from 'src/assets/models/attendee';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { faBarcode, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Player } from 'src/assets/models/player';
-import { Reg } from 'src/assets/models/reg';
-import { ReplaySubject } from 'rxjs';
-import { SheetsAPIService } from 'src/services/sheets-api.service';
+import { ReplaySubject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-player-reg',
@@ -15,25 +14,7 @@ import { SheetsAPIService } from 'src/services/sheets-api.service';
 export class PlayerRegComponent implements OnInit, OnDestroy {
 
   private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
-
-  private _player$: Player[] = [];
-  private _reg$: Reg[] = [];
-
-  private _sheetID = "11qTIwHqrunw63Jkmqv98iQPfENKTI8s1WAsMTpy2Wv8";
-  private _playerSheet = "sample_gamers";
-  private _regSheet = "registered_players";
-
-  private _playerMap = {
-    badge: "badge",
-    id: "id",
-    first_name: "first_name",
-    last_name: "last_name"
-  }
-
-  private _regMap = {
-    ...this._playerMap,
-    timestamp: "timestamp"
-  }
+  private _player$: Attendee[] = [];
 
   public readonly edit = faEdit;
   public readonly barcode = faBarcode;
@@ -46,14 +27,12 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   public firstName = new FormControl('');
   public lastName = new FormControl('');
 
-  public filterPlayer: Player[] = [];
+  public filterPlayer: Attendee[] = [];
 
-  constructor(public sapi: SheetsAPIService) {
-
-  }
+  constructor(private _attendeesService: AttendeesService) { }
 
   ngOnInit(): void {
-
+    this.getAttendees();
   }
 
   ngOnDestroy(): void {
@@ -71,10 +50,10 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
   public filterPlayers() {
     let scratchFilter = this._player$;
-    let activeFilter: Player;
+    let activeFilter: Attendee;
 
     if (this.conID.value.length > 0) {
-      scratchFilter = scratchFilter.filter(player => player.id.toString().includes(this.conID.value));
+      scratchFilter = scratchFilter.filter(player => player.attendee_id.toString().includes(this.conID.value));
     }
 
     if (this.firstName.value.length > 0) {
@@ -92,9 +71,6 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     if (this.filterPlayer.length === 1) {
       activeFilter = this.filterPlayer[0];
 
-      const activePlayerList: Reg[] = this._reg$.filter(reg => reg.id.toString().includes(activeFilter.id.toString()))
-        .filter(reg => reg.first_name.toLowerCase().includes(activeFilter.first_name.toLowerCase()))
-        .filter(reg => reg.last_name.toLowerCase().includes(activeFilter.last_name.toLowerCase()))
     }
   }
 
@@ -104,6 +80,12 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     this.firstName.setValue(autoValue.first_name, { emitEvent: true });
     this.lastName.setValue(autoValue.last_name, { emitEvent: true });
     this.filterPlayers();
+  }
+
+  public getAttendees(): void {
+    this._attendeesService.getAll().pipe(takeUntil(this._destroyed$)).subscribe((data: Attendee[]) => {
+      this._player$ = data;
+    });
   }
 
   public loadFamily() {

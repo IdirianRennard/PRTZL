@@ -21,7 +21,7 @@
             (optionSelected)="formComplete($event)"
           >
             <mat-option *ngFor="let option of filterPlayer" [value]="option" >
-              {{ option.id + " - " + option.first_name + " " + option.last_name }}
+              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name }}
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
@@ -52,7 +52,7 @@
             (optionSelected)="formComplete($event)"
           >
             <mat-option *ngFor="let option of filterPlayer" [value]="option">
-              {{ option.id + "-" + option.first_name + " " + option.last_name }}
+              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name }}
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
@@ -71,7 +71,7 @@
             (optionSelected)="formComplete($event)"
           >
             <mat-option *ngFor="let option of filterPlayer" [value]="option">
-              {{ option.id + "-" + option.first_name + " " + option.last_name }}
+              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name }}
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
