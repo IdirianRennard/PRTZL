@@ -14,6 +14,7 @@ export class AttendeesService {
   public getAll() {
     return this.http.get('/getAttendees').pipe(
       map((res: any) => {
+        console.log(res);
         return res;
       })
     )
