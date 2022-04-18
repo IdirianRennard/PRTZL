@@ -1,4 +1,4 @@
-import { AttendeesService } from './../../../services/Attendees.service';
+import { AttendeesService } from 'src/services/Attendees.service';
 import { Attendee } from 'src/assets/models/attendee';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { faBarcode, faEdit } from '@fortawesome/free-solid-svg-icons';
