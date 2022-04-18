@@ -48,7 +48,9 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
   public filterPlayer: Player[] = [];
 
-  constructor(public sapi: SheetsAPIService) { }
+  constructor(public sapi: SheetsAPIService) {
+
+  }
 
   ngOnInit(): void {
 

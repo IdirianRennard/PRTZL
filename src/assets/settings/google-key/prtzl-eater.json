@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "prtzl-mk-ii",
+  "private_key_id": "b5eda75b566b606115bf8a64483efc7af5d71c4b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCigDr9zHUF7GoG\nQ1qvtdE2fMeJGTlQojadG5lsEbUIS78c2GkCflEJIjvxjw11QIpJEQwBbr7uRq5V\nCNSNc4oxOCKZs3qKhcRf1heDxtS1v5ZQbAlHzIfhSc7qr0oDyPTeRXld7491aAQe\na8DbnhPPx4Hq/hpwaWC98lGLhZRHfDMTIuK67+9LKIHKRGk/LANWCTu8sELgI/b+\ndP9zI7V4vHSYXtg09ktKUjwPz2i30cEXNt8pkhpQfS9/tbmGrmvFlejJ0q8fVarE\nFHcD3fvLfFubohn7XKJY+p/bHCGdQXk2G2ACyODPT+vEfGWORXaSj94iW+Fb3i+p\nSG3QmROdAgMBAAECggEABLuTDovQ3mm5jn+2QpStdjIT3RIwSCWhTUeCWxuKoTiC\nZWkZ1vxSiLraFqdhyogAiC9joR+floL6etPQ3hnIEZF6QaSVP8mQI9+MzlhsjKqN\nE7/4nctsva9rDTFPLUDCD9DjmwMzRbNijHeyEzyEYA3PUGszAske5y3k0BlOkhuD\nT0OhpawMICPg03kiGYI2MXZODK0/rOsf8Va4RjivjbutCE4gzkJ6NRdwnSAH+ZRp\n/NE1y2aifFnDL2nkxqNmSYiYmSoHByMQCUl1jylOY+O0ld1D6z7jPZ5ullfsCgjc\nhlncMyGxLBTNRXsj5JCS4fU7Gk7/wqrkkFFMvrSxJQKBgQDUEM43AaxStHc6FZVP\nVckEtUra9B3AfhhNtL/PbbSGOd1dy5clR/nEVqftD+rfmmQwuUBBQf3NXoec7ido\nsPnIfw/g4ivOTfB8Xb89s3srNMv5D6N8ZwskUACLxES3DA5kpLSbhzctg31v1lcM\n6InoVSOA+irQUQTMZSaRE7vgQwKBgQDEKrCrx15i8tpOhJ3MoQPYtxgm3VI3wCYt\nsx19iEQL9CduZzCpu/mSQbbDkkRhgWRs0Bza8Z6CTvLu5bdesWSAIBqQA1msy4Ui\n7u+7yeYuGkmy8YaMV9/iLNm1VWhyQZogMFxT9Kg/4tjCeokGc4Iv9SyIcbvzLY56\nf5rU5oRunwKBgFGSWVAtU5TImCf+j11h+R3XgoCwcBVQK5cQVMu8Pjl3XqAqpOwR\nQJD2aEe23LjAEZPwXjf7412w4+dIcF5D3QDzZy8wsHr93ehowxw/wrv+5graqh87\nH70LDPq2N1xVxd+Ov24n1+Co+IIhZ4CungWBYlPFZtyUnYzlx6z8c0MzAoGBAIcr\nv3dutqxKGYG3QiDp5oOjjqHhKbE+10/wN2bzyafPAojB1DdxTsSoQW670CC8D14n\nfWqkyYuTKTTS16sJY24iMQuBM36s8r2ilVD6C4FDHfuPEB6OwrfQHegkxQbOC40Y\npdY4JON4xdIkq1zlpRS0xY3ziQZFIwNoAGGpwiGTAoGADVaDX1v+OZ5t5SQjuFRL\nwsW1BxN7k8odDsZ3+Vi4NmPsUw2EH97YBL1Yhwm8ycHFpZlIkdI6/dA5ROWALWbC\nHM9INgV8V3cHBvG2hv+Igu/pOMUz4OlrLzTpiUE0cGDL9/Z2PX0X3wV47v7IRBFk\nFtEMwQc02AYtRBNPWlr9sLI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "prtzl-eater@prtzl-mk-ii.iam.gserviceaccount.com",
+  "client_id": "108188602896545671318",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/prtzl-eater%40prtzl-mk-ii.iam.gserviceaccount.com"
+}

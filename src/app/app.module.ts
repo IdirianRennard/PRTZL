@@ -4,7 +4,7 @@ import { PlayToWinComponent } from './main/play-to-win/play-to-win.component';
 import { GameCheckInComponent } from './main/game-check-in/game-check-in.component';
 import { GameCheckOutComponent } from './main/game-check-out/game-check-out.component';
 import { PlayerRegComponent } from './main/player-reg/player-reg.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -24,6 +24,7 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GemboxComponent } from './main/gembox/gembox.component';
+import { APIInterceptor } from 'src/assets/classes/APIInterceptor';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,11 @@ import { GemboxComponent } from './main/gembox/gembox.component';
     ReactiveFormsModule
   ],
   providers: [
-
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: APIIntercepter,
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })
