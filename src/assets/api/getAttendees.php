@@ -14,9 +14,12 @@ function mapAttendee ( $arr ) {
     $attendee->badge = null;
   }
   return $attendee;
-}
+};
 
-$sql = "SELECT attendees.attendee_id, attendees.first_name, attendees.last_name, reg_txn.attendee_id AS con_id, reg_txn.badge_id, reg_txn.timestamp FROM attendees LEFT JOIN reg_txn ON attendees.attendee_id = reg_txn.attendee_id ORDER BY attendees.attendee_id ASC";
+$sql = "SELECT attendees.attendee_id, attendees.first_name, attendees.last_name, reg_txn.attendee_id AS con_id, reg_txn.badge_id, reg_txn.timestamp
+        FROM attendees
+        LEFT JOIN reg_txn ON attendees.attendee_id = reg_txn.attendee_id
+        ORDER BY attendees.attendee_id ASC";
 
 json_return( array_map( 'mapAttendee', sql_submit( $sql ) ) );
 
