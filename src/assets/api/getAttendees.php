@@ -8,8 +8,11 @@ function mapAttendee ( $arr ) {
   $attendee->last_name = $arr['last_name'];
 
   if ( !is_null( $arr['con_id'] ) {
-    $attendee->badge->id = (int)$arr['badge_id'];
-    $attendee->badge->timestamp = $arr['timestamp'];
+    $badge = new stdClass();
+    $badge->id = (int)$arr['badge_id'];
+    $badge->timestamp = $arr['timestamp'];
+
+    $attendee->badge = $badge;
   } else {
     $attendee->badge = null;
   }
