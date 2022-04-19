@@ -7,7 +7,7 @@ function mapAttendee ( $obj ) {
   $attendee->first_name = $obj->first_name;
   $attendee->last_name = $obj->last_name;
 
-  if ( !is_null( $obj.con_id ) ) {
+  if ( !is_null( $obj->con_id ) ) {
     $attendee->badge->id = $obj->badge_id;
     $attendee->badge->timestamp = $obj->timestamp;
   } else {
