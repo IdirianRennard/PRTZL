@@ -3,7 +3,7 @@ include 'include.php';
 
 function mapAttendee ( $arr ) {
   $attendee = new stdClass();
-  $attendee->attendee_id = (int)$arr['attendee_is'];
+  $attendee->attendee_id = (int)$arr['attendee_id'];
   $attendee->first_name = $arr['first_name'];
   $attendee->last_name = $arr['last_name'];
 
