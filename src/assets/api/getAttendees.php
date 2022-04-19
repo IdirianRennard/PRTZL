@@ -1,15 +1,15 @@
 <?php
 include 'include.php';
 
-function mapAttendee ( $obj ) {
+function mapAttendee ( $arr ) {
   $attendee = new stdClass();
-  $attendee->attendee_id = $obj->attendee_id;
-  $attendee->first_name = $obj->first_name;
-  $attendee->last_name = $obj->last_name;
+  $attendee->attendee_id = (int)$arr['attendee_is'];
+  $attendee->first_name = $arr['first_name'];
+  $attendee->last_name = $arr['last_name'];
 
-  if ( !is_null( $obj->con_id ) ) {
-    $attendee->badge->id = $obj->badge_id;
-    $attendee->badge->timestamp = $obj->timestamp;
+  if ( !is_null( $arr['con_id'] ) {
+    $attendee->badge->id = (int)$arr['badge_id'];
+    $attendee->badge->timestamp = $arr['timestamp'];
   } else {
     $attendee->badge = null;
   }
