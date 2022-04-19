@@ -76,7 +76,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
   public formComplete(event: MatAutocompleteSelectedEvent) {
     const autoValue = event.option.value;
-    this.conID.setValue(autoValue.id, { emitEvent: true });
+    this.conID.setValue(autoValue.attendee_id, { emitEvent: true });
     this.firstName.setValue(autoValue.first_name, { emitEvent: true });
     this.lastName.setValue(autoValue.last_name, { emitEvent: true });
     this.filterPlayers();
