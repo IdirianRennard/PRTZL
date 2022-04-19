@@ -17,11 +17,10 @@ function db_login() {
 
     //get the credentials
     $creds = db_credentials();
-    echo $creds;
-    
+
     //translate credentials to be used
     $creds = json_decode( $creds );
-    
+
     //modified from host for php connection to database
     $conn = new mysqli( $creds->host, $creds->user, $creds->pwd, $creds->db );
 
@@ -34,7 +33,7 @@ function db_login() {
 
 //make sql insert string
 function insert_sql( $array, $table ) {
-      
+
     //start the insert string
     $return = "INSERT INTO $table (";
 
@@ -66,7 +65,7 @@ function select_sql( $select_array, $table, $where ) {
 
     //start the select string
     $select = "SELECT ";
-   
+
     //is array a wildcard?
     if ( is_string( $select_array ) ) {
 
@@ -79,17 +78,17 @@ function select_sql( $select_array, $table, $where ) {
             $select .= $item . ', ';
         }
     }
-       
+
     //trim the comma
     $select = rtrim( $select, ", " );
-   
+
     $select .= " FROM $table";
 
     //if where is not null then specify
     if ( $where === NULL ) {
-        
+
     } else {
-        
+
         $select .= " WHERE ";
         foreach( $where as $k => $v ) {
             $select .= "$k = '$v' AND ";
@@ -119,9 +118,9 @@ function sql_submit( $query ) {
         if ( is_bool( $res ) ) {
 
             return $res;
-            
+
         } else {
-            
+
             //fetch associated array
             while( $row = $res->fetch_assoc() ) {
                 $return[] = $row;
