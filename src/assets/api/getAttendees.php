@@ -7,17 +7,17 @@ function mapAttendee ( $arr ) {
   $attendee->first_name = $arr['first_name'];
   $attendee->last_name = $arr['last_name'];
 
-  if ( !is_null( $arr['con_id'] ) {
+  if ( !is_null( $arr['con_id'] ) ) {
     $badge = new stdClass();
     $badge->id = (int)$arr['badge_id'];
     $badge->timestamp = $arr['timestamp'];
-
     $attendee->badge = $badge;
   } else {
     $attendee->badge = null;
   }
+
   return $attendee;
-};
+}
 
 $sql = "SELECT attendees.attendee_id, attendees.first_name, attendees.last_name, reg_txn.attendee_id AS con_id, reg_txn.badge_id, reg_txn.timestamp
         FROM attendees
