@@ -5,6 +5,7 @@ import { faBarcode, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ReplaySubject, takeUntil } from 'rxjs';
+import { BarcodeColor } from 'src/assets/models/barcode-color';
 
 @Component({
   selector: 'app-player-reg',
@@ -17,7 +18,9 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   private _player$: Attendee[] = [];
 
   public readonly edit = faEdit;
-  public readonly barcode = faBarcode;
+
+  public barcode = faBarcode;
+  public barcodeColor: BarcodeColor = { stroke: 'black', color: 'white' };
 
   public FAMILIY_BOOL: boolean = false;
   public SUBMIT_DISABLED: boolean = true;

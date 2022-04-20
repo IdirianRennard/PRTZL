@@ -1,7 +1,13 @@
 <mat-card class="player_reg">
   <mat-card-title-group>
     <mat-card-subtitle><h1>Single Registration</h1></mat-card-subtitle>
-    <button mat-icon-button class="edit-button"><fa-icon [icon]="edit"></fa-icon></button>
+    <button mat-icon-button class="edit-button">
+      <fa-icon
+        [styles]="{ 'stroke': 'black', 'color': 'white' }"
+        [fixedWidth]="true"
+        [icon]="edit">
+      </fa-icon>
+    </button>
   </mat-card-title-group>
     <mat-card-content>
       <form>
@@ -35,6 +41,8 @@
             <mat-icon matSuffix><fa-icon [icon]="barcode"></fa-icon></mat-icon>
           </mat-form-field>
         </div>
+
+        <div class="reg_form"></div>
 
         <div class="reg_form">
 
