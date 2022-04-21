@@ -5,7 +5,7 @@ import { faBarcode, faCheckCircle, faEdit, faExclamationTriangle } from '@fortaw
 import { isEqual } from 'lodash';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ReplaySubject, takeUntil } from 'rxjs';
+import { Observable, of, ReplaySubject, takeUntil } from 'rxjs';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
@@ -21,7 +21,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   public readonly edit = faEdit;
 
   public barcode = faBarcode;
-  public barcodeColor: FaIconComponent["styles"] = { stroke: 'black', color: 'white' };
+  public barcodeColor: FaIconComponent["styles"] = { color: 'white' }
   public barcodeErr!: string;
 
   public FAMILIY_BOOL: boolean = false;
@@ -51,6 +51,9 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     this.firstName.setValue('');
     this.lastName.setValue('');
     this.filterPlayers();
+    this.barcode = faBarcode;
+    this.barcodeColor = { color: 'white' };
+    this.barcodeErr = '';
   }
 
   public filterPlayers() {
@@ -70,12 +73,12 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     }
 
     this.filterPlayer = scratchFilter.slice(0, 4);
+
     this.loadFamily();
     this.validSubmit();
 
     if (this.filterPlayer.length === 1) {
       activeFilter = this.filterPlayer[0];
-
     }
   }
 
@@ -88,8 +91,8 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     if (autoValue.badge) {
       this.formBarcode.setValue(autoValue.badge.id, { emitEvent: true });
     }
-    this.filterPlayers();
 
+    this.filterPlayers();
   }
 
   public getAttendees(): void {
@@ -113,25 +116,29 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   public validBarcode() {
     if (this.formBarcode.value.length === 0) {
       this.barcode = faBarcode;
+      this.barcodeColor = { color: 'white' };
       this.barcodeErr = '';
     }
 
-    // Is the barcode assigned to someone else?
-    const validAttendee = this._player$.filter((player) => player.badge != null && player.badge.id.includes(this.formBarcode.value));
+    const validAttendee = this._player$.filter((player) => player.badge != null && player.badge.id.toString().includes(this.formBarcode.value));
+    console.log(validAttendee);
+    console.log(this.filterPlayer);
 
     if (validAttendee.length === 0 || isEqual(this.filterPlayer, validAttendee[0])) {
       this.barcode = faCheckCircle;
-      this.barcodeColor = { stroke: 'white', color: 'limegreen' }
+      this.barcodeColor = { color: 'limegreen' };
     } else {
       this.barcode = faExclamationTriangle;
-      this.barcodeColor = { stroke: 'yellow', color: 'red' }
+      this.barcodeColor = { color: 'red' };
       this.barcodeErr = `Barcode registered to ${validAttendee[0].first_name} ${validAttendee[0].first_name} at ${validAttendee[0].badge ? validAttendee[0].badge.timestamp : 'MISSING TIMESTAMP'}`
     }
   }
 
 
   public validSubmit() {
-    if (this.filterPlayer.length === 1 && (this.barcode = faCheckCircle)) {
+    this.validBarcode();
+
+    if (this.filterPlayer.length === 1 && (this.barcode === faCheckCircle)) {
       this.SUBMIT_DISABLED = false;
     } else {
       this.SUBMIT_DISABLED = true;

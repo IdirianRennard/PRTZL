@@ -3,7 +3,7 @@
     <mat-card-subtitle><h1>Single Registration</h1></mat-card-subtitle>
     <button mat-icon-button class="edit-button">
       <fa-icon
-        [styles]="{ 'stroke': 'black', 'color': 'white' }"
+        [styles]="{ 'stroke': 'white', 'color': 'black' }"
         [fixedWidth]="true"
         [icon]="edit">
       </fa-icon>
@@ -27,7 +27,7 @@
             (optionSelected)="formComplete($event)"
           >
             <mat-option *ngFor="let option of filterPlayer" [value]="option" >
-              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name }}
+              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name + ( option.badge != null ? " - " + option.badge.id : ' ' ) }}
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
@@ -37,6 +37,8 @@
             <input
               matInput
               [formControl]="formBarcode"
+              (keyup)="filterPlayers()"
+              [matAutocomplete]="formBarcodeAuto"
             >
             <mat-icon matSuffix>
               <fa-icon
@@ -44,6 +46,15 @@
                 [icon]="barcode">
               </fa-icon>
           </mat-icon>
+          <mat-autocomplete
+            #formBarcodeAuto
+            autoActiveFirstOption
+            (optionSelected)="formComplete($event)"
+          >
+            <mat-option *ngFor="let option of filterPlayer" [value]="option" >
+              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name + ( option.badge != null ? " - " + option.badge.id : ' ' ) }}
+            </mat-option>
+          </mat-autocomplete>
           </mat-form-field>
         </div>
 
@@ -65,7 +76,7 @@
             (optionSelected)="formComplete($event)"
           >
             <mat-option *ngFor="let option of filterPlayer" [value]="option">
-              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name }}
+              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name + ( option.badge != null ? " - " + option.badge.id : ' ' ) }}
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
@@ -82,9 +93,10 @@
           <mat-autocomplete #lNameAuto="matAutocomplete"
             autoActiveFirstOption
             (optionSelected)="formComplete($event)"
+            (keyup)="filterPlayers()"
           >
             <mat-option *ngFor="let option of filterPlayer" [value]="option">
-              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name }}
+              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name + ( option.badge ? " - " + option.badge.id : ' ' ) }}
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
