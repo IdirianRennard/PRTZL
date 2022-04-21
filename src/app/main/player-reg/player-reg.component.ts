@@ -121,8 +121,10 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
     if (validAttendee.length === 0 || isEqual(this.filterPlayer, validAttendee[0])) {
       this.barcode = faCheckCircle;
+      this.barcodeColor = { stroke: 'white', color: 'limegreen' }
     } else {
       this.barcode = faExclamationTriangle;
+      this.barcodeColor = { stroke: 'white', color: 'limegreen' }
       this.barcodeErr = `Barcode registered to ${validAttendee[0].first_name} ${validAttendee[0].first_name} at ${validAttendee[0].badge ? validAttendee[0].badge.timestamp : 'MISSING TIMESTAMP'}`
     }
   }
