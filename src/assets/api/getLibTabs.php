@@ -2,14 +2,14 @@
 include 'include.php';
 
 class Tab {
-	public name;
-	public loc;
-	public icon;
+	public $name;
+	public $loc;
+	public $icon;
 }
 
 class Icon {
-	public prefix;
-	public name;
+	public $prefix;
+	public $name;
 }
 
 $tabs = [];

@@ -1,11 +1,12 @@
 import { AttendeesService } from 'src/services/Attendees.service';
 import { Attendee } from 'src/assets/models/attendee';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { faBarcode, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faBarcode, faCheckCircle, faEdit, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { isEqual } from 'lodash';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ReplaySubject, takeUntil } from 'rxjs';
-import { BarcodeColor } from 'src/assets/models/barcode-color';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-player-reg',
@@ -20,7 +21,8 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   public readonly edit = faEdit;
 
   public barcode = faBarcode;
-  public barcodeColor: BarcodeColor = { stroke: 'black', color: 'white' };
+  public barcodeColor: FaIconComponent["styles"] = { stroke: 'black', color: 'white' };
+  public barcodeErr!: string;
 
   public FAMILIY_BOOL: boolean = false;
   public SUBMIT_DISABLED: boolean = true;
@@ -69,7 +71,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
     this.filterPlayer = scratchFilter.slice(0, 4);
     this.loadFamily();
-    this.validSumbit();
+    this.validSubmit();
 
     if (this.filterPlayer.length === 1) {
       activeFilter = this.filterPlayer[0];
@@ -82,7 +84,12 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     this.conID.setValue(autoValue.attendee_id, { emitEvent: true });
     this.firstName.setValue(autoValue.first_name, { emitEvent: true });
     this.lastName.setValue(autoValue.last_name, { emitEvent: true });
+
+    if (autoValue.badge) {
+      this.formBarcode.setValue(autoValue.badge.id, { emitEvent: true });
+    }
     this.filterPlayers();
+
   }
 
   public getAttendees(): void {
@@ -103,8 +110,26 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
   }
 
-  public validSumbit() {
-    if (this.filterPlayer.length === 1) {
+  public validBarcode() {
+    if (this.formBarcode.value.length === 0) {
+      this.barcode = faBarcode;
+      this.barcodeErr = '';
+    }
+
+    // Is the barcode assigned to someone else?
+    const validAttendee = this._player$.filter((player) => player.badge != null && player.badge.id.includes(this.formBarcode.value));
+
+    if (validAttendee.length === 0 || isEqual(this.filterPlayer, validAttendee[0])) {
+      this.barcode = faCheckCircle;
+    } else {
+      this.barcode = faExclamationTriangle;
+      this.barcodeErr = `Barcode registered to ${validAttendee[0].first_name} ${validAttendee[0].first_name} at ${validAttendee[0].badge ? validAttendee[0].badge.timestamp : 'MISSING TIMESTAMP'}`
+    }
+  }
+
+
+  public validSubmit() {
+    if (this.filterPlayer.length === 1 && (this.barcode = faCheckCircle)) {
       this.SUBMIT_DISABLED = false;
     } else {
       this.SUBMIT_DISABLED = true;
