@@ -56,7 +56,7 @@ $scr->name = "Reports";
 $scr->loc = "reports";
 $scr->icon = new Icon ();
 $scr->icon->prefix = "fas";
-$scr->icon->name = "file"
+$scr->icon->name = "file";
 
 $tabs[] = $scr;
 

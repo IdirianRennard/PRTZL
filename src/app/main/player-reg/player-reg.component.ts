@@ -124,7 +124,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
       this.barcodeColor = { stroke: 'white', color: 'limegreen' }
     } else {
       this.barcode = faExclamationTriangle;
-      this.barcodeColor = { stroke: 'white', color: 'limegreen' }
+      this.barcodeColor = { stroke: 'yellow', color: 'red' }
       this.barcodeErr = `Barcode registered to ${validAttendee[0].first_name} ${validAttendee[0].first_name} at ${validAttendee[0].badge ? validAttendee[0].badge.timestamp : 'MISSING TIMESTAMP'}`
     }
   }
