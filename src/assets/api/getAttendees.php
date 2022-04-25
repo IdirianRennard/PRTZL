@@ -2,7 +2,7 @@
 include 'include.php';
 
 //Get the TTE Key
-$tte = call( 'https://houserennard.online/credits/tte.json' );
+$tte = call("https://www.houserennard.online/credits/tte.json");
 
 // function mapAttendee ( $arr ) {
 //   $attendee = new stdClass();
