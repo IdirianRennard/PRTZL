@@ -59,7 +59,9 @@
         </div>
 
         <div class="reg_form">
-          <span *ngIf="barcodeErr">{{ barcodeErr }}</span>
+          <div class="error-msg">
+            <span *ngIf="barcodeErr">{{ barcodeErr }}</span>
+          </div>
         </div>
 
         <div class="reg_form">

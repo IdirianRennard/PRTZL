@@ -3,7 +3,13 @@
 //basic curl function
 function call( $url ) {
   $handle = curl_init();
-  curl_setopt($handle, CURLOPT_URL, $url);
+
+  curl_setopt_array($handle,
+    array(
+      CURLOPT_URL             =>  $url,
+      CURLOPT_RETURNTRANSFER  =>  true,
+    )
+  );
 
   $data = curl_exec($handle);
   curl_close($handle);
