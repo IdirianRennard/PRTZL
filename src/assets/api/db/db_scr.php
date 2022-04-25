@@ -3,7 +3,7 @@
 //get credentials
 function db_credentials() {
 
-    include 'http://houserennard.online/credits/credentials.php';
+    include 'credentials.php';
 
     $list = get_defined_vars();
 
