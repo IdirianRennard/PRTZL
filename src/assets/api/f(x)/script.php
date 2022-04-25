@@ -1,7 +1,18 @@
 <?php
 
+//basic curl function
+function call( $url ) {
+  $handle = curl_init();
+  curl_setopt($handle, CURLOPT_URL, $url);
+
+  $data = curl_exec($handle);
+  curl_close($handle);
+
+  return $data;
+}
+
 //log data to js console using php
-function console( $data ) { 
+function console( $data ) {
 
 	if ( is_string( $data ) ) {
 
@@ -13,7 +24,7 @@ function console( $data ) {
 		//make it json to show in the console
 		$json = make_json( $data );
 	}
-	
+
 	echo "<script>console.log( $json )</script>\n";
 }
 
@@ -28,7 +39,7 @@ function convert( $array ) {
 
 		return $return;
 
-	} else { 
+	} else {
 
 		return "Error, array not passed to function.";
 	}
@@ -73,12 +84,12 @@ function make_json ( $data ) {
 	//if data is a string, return the string
 	if ( is_string( $data ) ) {
 		return $data;
-	
+
 	//else encode the data
 	} else {
 		$return = json_encode( $data, JSON_PRETTY_PRINT );
 	}
-	
+
 	return $return;
 }
 
@@ -86,7 +97,7 @@ function make_json ( $data ) {
 function write_mail ( $obj ) {
 
 	$headers = "From: ASHER <asher@houserennard.online> \r\n";
-	
+
 	if ( $obj->master ) {
 
 		$to = "Idirian Rennard <idirian@houserennard.online>";
@@ -100,7 +111,7 @@ function write_mail ( $obj ) {
 
 		$headers .= "Reply-To: Idirian Rennard <idirian@houserennard.online> \r\n";
 	}
-	
+
 	$headers .= "MIME-Versio : 1.0 \r\n";
 	$headers .= "Content-Type: text/html; charset=ISO-8859-1 \r\n";
 
