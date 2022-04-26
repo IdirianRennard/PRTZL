@@ -17,27 +17,6 @@ function call( $url ) {
   return $data;
 }
 
-function con_call( $sessionId, $postData, $url ) {
-  $handle = curl_init();
-
-  curl_setopt_array($handle,
-    [
-      CURLOPT_URL             =>  $url,
-      CURLOPT_POST            =>  true,
-      CURLOPT_POSTFIELDS      =>  json_encode($postData),
-      CURLOPT_HTTPHEADER      =>  [ 'Content-Type:application/json', "Cookie: session_id=$sessionId" ],
-      CURLOPT_RETURNTRANSFER  =>  true,
-      CURLOPT_SSLVERSION      =>  6,
-    ]
-  );
-
-  $data = curl_exec($handle);
-  curl_close($handle);
-
-  return $data;
-
-}
-
 //log data to js console using php
 function console( $data ) {
 
