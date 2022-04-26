@@ -33,10 +33,8 @@ $badges = get_call( $badgesUrl );
 $badges = json_decode( $badges );
 $pages = $badges->result->paging;
 
-json_return( $badges );
-
 $tteBadges = [];
-$tteBadges[] = $badge->result->items;
+array_push( $tteBadges, $badges->result->items );
 
 for( $i = 1; $i <= $pages->total_pages ; $i++ ){
   if( $i === 1 ) {
@@ -45,7 +43,7 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
     $badgesUrl += "&page=$i";
     $badges = get_call( $badgesUrl );
     $badges = json_decode( $badges );
-    $tteBadges[] = $badge->result->items;
+    array_push( $tteBadges, $badges->result->items );
   }
 }
 
