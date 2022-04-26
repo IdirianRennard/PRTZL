@@ -1,12 +1,12 @@
 <?php
 include 'include.php';
 
-function mapAttendee ( $arr ) {
+function mapAttendee ( $obj ) {
   $attendee = new stdClass();
-  $attendee->attendee_id = (int)$arr['badge_number'];
-  $attendee->first_name = $arr['firstname'];
-  $attendee->last_name = $arr['lastname'];
-  $attendee->email = $arr['email'];
+  $attendee->attendee_id = (int)$obj->badge_number;
+  $attendee->first_name = $obj->firstname;
+  $attendee->last_name = $obj->lastname;
+  $attendee->email = $obj->email;
   $attendee->badge = null;
 
   // if ( !is_null( $arr['con_id'] ) ) {
