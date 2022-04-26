@@ -64,6 +64,7 @@ foreach( $tteBadges as $badge ) {
     $badge->email,
     null
   );
+  print_r($scr);
 
   array_push( $attendee, $scr );
 }
