@@ -14,6 +14,7 @@ class ConJson {
   public $name;
   public $json;
 }
+
 class Login {
   public $api_key_id;
   public $password;
@@ -48,7 +49,7 @@ $conJsonData->json = [
   "name"          =>  "PretzCon2022",
 ];
 
-$conJson = con_call( $login->id, $conJsonData,  )
+$conJson = con_call( $login->id, $conJsonData, $conJsonUrl );
 
 // $session = new Session ();
 // $session->sessionId = $login->id;
@@ -86,5 +87,5 @@ $conJson = con_call( $login->id, $conJsonData,  )
 
 // json_return( array_map( 'mapAttendee', sql_submit( $sql ) ) );
 
-json_return( $badges );
+json_return( $conJson );
 ?>
