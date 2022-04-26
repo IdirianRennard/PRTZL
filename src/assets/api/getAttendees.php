@@ -19,7 +19,7 @@ $pwd = urldecode( base64_decode( $tte->encoded_pw ) );
 
 $loginUrl = "$TTE_URL/session";
 
-$loginData = new Locale ( $user, $pwd, $key );
+$loginData = new Login ( $user, $pwd, $key );
 
 $login = post_call( $loginData, $loginUrl );
 
