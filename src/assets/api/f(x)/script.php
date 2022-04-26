@@ -63,6 +63,23 @@ function echo_json( $data ) {
 	echo $return;
 }
 
+function get_call ( $url ) {
+  $handle = curl_init();
+
+  curl_setopt_array($handle,
+    [
+      CURLOPT_URL             =>  $url,
+      CURLOPT_RETURNTRANSFER  =>  true,
+      CURLOPT_SSLVERSION      =>  6,
+    ]
+  );
+
+  $data = curl_exec($handle);
+  curl_close($handle);
+
+  return $data;
+}
+
 //echo pretty json
 function json_echo( $data ) {
 

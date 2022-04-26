@@ -2,7 +2,7 @@
 include 'include.php';
 
 //Get the TTE Key
-$tte = call("https://www.houserennard.online/credits/tte.json");
+$tte = get_call("https://www.houserennard.online/credits/tte.json");
 $tte = json_decode( $tte );
 
 $TTE_URL = "https://tabletop.events/api";
@@ -13,18 +13,29 @@ class Login {
   public $username;
 }
 
+class Session {
+  public $sessionId;
+  public $userId;
+}
+
+
 $loginUrl = "$TTE_URL/session";
 
 $loginData = new Login ();
 $loginData->username = $tte->username;
-$loginData->password = "********************";
 $loginData->api_key_id = $tte->key;
-
-json_return( $loginData );
-
 $loginData->password = urldecode( base64_decode( $tte->encoded_pw ) );
 
 $login = post_call( $loginData, $loginUrl );
+$login = json_decode( $login );
+
+$session = new Session ();
+$session->sessionId = $login->id;
+$session->userId = $login->user_id;
+
+$badgeUrl = "$TTE_URL/badge";
+$badges = get_call( $badgeUrl );
+
 
 // function mapAttendee ( $arr ) {
 //   $attendee = new stdClass();
@@ -51,5 +62,5 @@ $login = post_call( $loginData, $loginUrl );
 
 // json_return( array_map( 'mapAttendee', sql_submit( $sql ) ) );
 
-json_return( $login );
+json_return( $badges );
 ?>
