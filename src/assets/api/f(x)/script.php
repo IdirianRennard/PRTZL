@@ -99,6 +99,24 @@ function make_json ( $data ) {
 	return $return;
 }
 
+function post_call ( $postData, $url ) {
+  $handle = curl_init();
+
+  curl_setopt_array($handle,
+    array(
+      CURLOPT_URL             =>  $url,
+      CURLOPT_POST            =>  true,
+      CURLOPT_POSTFIELDS      =>  $postData,
+      CURLOPT_RETURNTRANSFER  =>  true,
+    )
+  );
+
+  $data = curl_exec($handle);
+  curl_close($handle);
+
+  return $data;
+}
+
 //write email
 function write_mail ( $obj ) {
 

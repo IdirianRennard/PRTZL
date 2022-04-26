@@ -3,6 +3,25 @@ include 'include.php';
 
 //Get the TTE Key
 $tte = call("https://www.houserennard.online/credits/tte.json");
+$tte = json_decode( $tte );
+
+$TTE_URL = "https://tabletop.events/api";
+
+class Login {
+  public $username;
+  public $password;
+  public $api_key_id;
+}
+
+$key =  $tte->key;
+$user = $tte->username;
+$pwd = urldecode( base64_decode( $tte->encoded_pw ) );
+
+$loginUrl = "$TTE_URL/session";
+
+$loginData = new Locale ( $user, $pwd, $key );
+
+$login = post_call( $loginData, $loginUrl );
 
 // function mapAttendee ( $arr ) {
 //   $attendee = new stdClass();
@@ -29,5 +48,5 @@ $tte = call("https://www.houserennard.online/credits/tte.json");
 
 // json_return( array_map( 'mapAttendee', sql_submit( $sql ) ) );
 
-json_return( $tte );
+json_return( $login );
 ?>
