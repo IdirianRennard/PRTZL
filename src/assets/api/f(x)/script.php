@@ -63,6 +63,25 @@ function echo_json( $data ) {
 	echo $return;
 }
 
+function fetch_call ( $fetchData, $url ) {
+  $handle = curl_init();
+
+  curl_setopt_array($handle,
+    [
+      CURLOPT_URL             =>  $url,
+      CURLOPT_POSTFIELDS      =>  http_build_query($fetchData),
+      CURLOPT_HTTPHEADER      =>  [ 'Content-Type:application/json' ],
+      CURLOPT_RETURNTRANSFER  =>  true,
+      CURLOPT_SSLVERSION      =>  6,
+    ]
+  );
+
+  $data = curl_exec($handle);
+  curl_close($handle);
+
+  return $data;
+}
+
 function get_call ( $url ) {
   $handle = curl_init();
 

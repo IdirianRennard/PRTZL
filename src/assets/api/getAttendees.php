@@ -34,7 +34,8 @@ $session->sessionId = $login->id;
 $session->userId = $login->user_id;
 
 $badgeUrl = "$TTE_URL/badge";
-$badges = get_call( $badgeUrl );
+$fetchBadge = [ "_includes" => "PretzCon" ];
+$badges = fetch_call( $fetchBadge, $badgeUrl );
 
 
 // function mapAttendee ( $arr ) {
