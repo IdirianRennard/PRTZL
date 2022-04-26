@@ -33,9 +33,10 @@ $session = new Session ();
 $session->sessionId = $login->id;
 $session->userId = $login->user_id;
 
-$badgeUrl = "$TTE_URL/badge";
 $fetchBadge = [ "_includes" => "PretzCon" ];
-$badges = fetch_call( $fetchBadge, $badgeUrl );
+$fetchQuerry = http_build_query( $fetchBadge );
+$badgeUrl = "$TTE_URL/badge/$fetchQuery";
+$badges = get_call( $fetchBadge, $badgeUrl );
 
 
 // function mapAttendee ( $arr ) {
