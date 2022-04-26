@@ -8,8 +8,9 @@ $tte = json_decode( $tte );
 $TTE_URL = "https://tabletop.events/api";
 
 class Login {
-  public $username;
+  public $api_key_id;
   public $password;
+  public $username;
 }
 
 $loginUrl = "$TTE_URL/session";
@@ -17,7 +18,7 @@ $loginUrl = "$TTE_URL/session";
 $loginData = new Login ();
 $loginData->username = $tte->username;
 $loginData->password = urldecode( base64_decode( $tte->encoded_pw ) );
-// $loginData->api_key_id = $tte->key;
+$loginData->api_key_id = $tte->key;
 
 json_return( $loginData );
 
