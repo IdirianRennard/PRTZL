@@ -13,13 +13,14 @@ class Login {
   public $api_key_id;
 }
 
-$key =  $tte->key;
-$user = $tte->username;
-$pwd = urldecode( base64_decode( $tte->encoded_pw ) );
-
 $loginUrl = "$TTE_URL/session";
 
-$loginData = new Login ( $user, $pwd, $key );
+$loginData = new Login ();
+$loginData->username = $tte->username;
+$loginData->api_key_id = $tte->key;
+$loginData->password = urldecode( base64_decode( $tte->encoded_pw ) );
+
+json_return( $loginData );
 
 $login = post_call( $loginData, $loginUrl );
 
