@@ -7,6 +7,7 @@ function mapAttendee ( $arr ) {
   $attendee->first_name = $arr['firstname'];
   $attendee->last_name = $arr['lastname'];
   $attendee->email = $arr['email'];
+  $attendee->badge = null;
 
   // if ( !is_null( $arr['con_id'] ) ) {
   //   $badge = new stdClass();
@@ -29,11 +30,13 @@ $TTE_URL = "https://tabletop.events/api";
 
 $badgesUrl = "$TTE_URL/convention/$conId/badges?_items_per_page=100";
 $badges = get_call( $badgesUrl );
-$badges = json_decode( $basges );
+$badges = json_decode( $badges );
 $pages = $badges->result->paging;
 
-$attendees = [];
-$attendees[] = $badge->result->items;
+json_return( $badges );
+
+$tteBadges = [];
+$tteBadges[] = $badge->result->items;
 
 for( $i = 1; $i <= $pages->total_pages ; $i++ ){
   if( $i === 1 ) {
@@ -42,10 +45,11 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
     $badgesUrl += "&page=$i";
     $badges = get_call( $badgesUrl );
     $badges = json_decode( $badges );
-    $attendees[] = $badge->result->items;
+    $tteBadges[] = $badge->result->items;
   }
 }
 
+json_return( $tteBadges );
 // $session = new Session ();
 // $session->sessionId = $login->id;
 // $session->userId = $login->user_id;
@@ -64,5 +68,5 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
 //         LEFT JOIN reg_txn ON attendees.attendee_id = reg_txn.attendee_id
 //         ORDER BY attendees.attendee_id ASC";
 
-json_return( array_map( 'mapAttendee', $attendees ));
+json_return( array_map( 'mapAttendee', $tteBadges ));
 ?>
