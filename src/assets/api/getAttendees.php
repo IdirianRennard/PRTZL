@@ -3,10 +3,10 @@ include 'include.php';
 
 function mapAttendee ( $arr ) {
   $attendee = new stdClass();
-  $attendee->attendee_id = (int)$arr->badge_number;
-  $attendee->first_name = $arr->firstname;
-  $attendee->last_name = $arr->lastname;
-  $attendee->email = $arr->email;
+  $attendee->attendee_id = (int)$arr['badge_number'];
+  $attendee->first_name = $arr['firstname'];
+  $attendee->last_name = $arr['lastname'];
+  $attendee->email = $arr['email'];
 
   // if ( !is_null( $arr['con_id'] ) ) {
   //   $badge = new stdClass();
