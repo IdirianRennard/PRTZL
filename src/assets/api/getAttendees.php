@@ -56,6 +56,7 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
 }
 $attendee = [];
 foreach( $tteBadges as $badge ) {
+  print_r($badge);
   $scr = new Attendee (
     $badge->badge_number,
     $badge->firstname,
