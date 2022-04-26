@@ -107,9 +107,12 @@ function post_call ( $postData, $url ) {
       CURLOPT_URL             =>  $url,
       CURLOPT_POST            =>  true,
       CURLOPT_POSTFIELDS      =>  json_encode($postData),
+      CURLOPT_HTTPHEADER      =>  [ 'Content-Type:application/json' ],
       CURLOPT_RETURNTRANSFER  =>  true,
     ]
   );
+
+  json_echo($postData);
 
   $data = curl_exec($handle);
   curl_close($handle);
