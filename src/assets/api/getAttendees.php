@@ -20,6 +20,8 @@ $loginData->username = $tte->username;
 $loginData->api_key_id = $tte->key;
 $loginData->password = urldecode( base64_decode( $tte->encoded_pw ) );
 
+json_return( $loginData );
+
 $login = post_call( $loginData, $loginUrl );
 
 // function mapAttendee ( $arr ) {
