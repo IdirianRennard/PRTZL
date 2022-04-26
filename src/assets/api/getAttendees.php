@@ -41,8 +41,11 @@ $badges = get_call( $badgesUrl );
 $badges = json_decode( $badges );
 $pages = $badges->result->paging;
 
+print_r( $badges );
+
 $tteBadges = [];
 array_merge( $tteBadges, $badges->result->items );
+
 
 for( $i = 1; $i <= $pages->total_pages ; $i++ ){
   if( $i === 1 ) {
@@ -55,7 +58,7 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
   }
 }
 
-json_return( $tteBadges );
+print_r( $tteBadges );
 $attendee = [];
 
 for( $i = 0 ; $i < count( $tteBadges ) ; $i++ ){
