@@ -5,8 +5,15 @@ include 'include.php';
 $tte = get_call("https://www.houserennard.online/credits/tte.json");
 $tte = json_decode( $tte );
 
+$conId = $tte->con_key;
+
 $TTE_URL = "https://tabletop.events/api";
 
+class ConJson {
+  public $convention_id;
+  public $name;
+  public $json;
+}
 class Login {
   public $api_key_id;
   public $password;
@@ -18,7 +25,6 @@ class Session {
   public $userId;
 }
 
-
 $loginUrl = "$TTE_URL/session";
 
 $loginData = new Login ();
@@ -29,15 +35,31 @@ $loginData->password = urldecode( base64_decode( $tte->encoded_pw ) );
 $login = post_call( $loginData, $loginUrl );
 $login = json_decode( $login );
 
-$session = new Session ();
-$session->sessionId = $login->id;
-$session->userId = $login->user_id;
+$conJsonUrl = "$TTE_URL/conventionjson";
+$conJsonData = new ConJson ();
+$conJsonData->convention_id = $conId;
+$conJsonData->name = "PretzCon 2022";
+$conJsonData->json = [
+  "convention_id" =>  $conId,
+  "date_created"  =>  $time,
+  "date_updated"  =>  $time,
+  "id"            =>  "P",
+  "json"          =>  null,
+  "name"          =>  "PretzCon2022",
+];
 
-$fetchBadge = [ "_includes" => "PretzCon" ];
-$fetchQuerry = http_build_query( $fetchBadge );
-$badgeUrl = "$TTE_URL/badge/$fetchQuery";
-$badges = get_call( $fetchBadge, $badgeUrl );
+$conJson = con_call( $login->id, $conJsonData,  )
 
+// $session = new Session ();
+// $session->sessionId = $login->id;
+// $session->userId = $login->user_id;
+
+// $fetchBadge = [ "_includes" => "PretzCon" ];
+// $fetchQuerry = http_build_query( $fetchBadge );
+// $badgeUrl = "$TTE_URL/badge/?$fetchQuery";
+// $badges = get_call( $fetchBadge, $badgeUrl );
+
+// echo $badgeUrl;
 
 // function mapAttendee ( $arr ) {
 //   $attendee = new stdClass();
