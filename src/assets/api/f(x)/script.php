@@ -109,10 +109,9 @@ function post_call ( $postData, $url ) {
       CURLOPT_POSTFIELDS      =>  json_encode($postData),
       CURLOPT_HTTPHEADER      =>  [ 'Content-Type:application/json' ],
       CURLOPT_RETURNTRANSFER  =>  true,
+      CURLOPT_SSLVERSION      =>  6,
     ]
   );
-
-  json_echo($postData);
 
   $data = curl_exec($handle);
   curl_close($handle);
