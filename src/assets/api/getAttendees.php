@@ -13,7 +13,7 @@ class Login {
   public $username;
 }
 
-$loginUrl = "$TTE_URL/_test/session";
+$loginUrl = "$TTE_URL/session";
 
 $loginData = new Login ();
 $loginData->username = $tte->username;
