@@ -21,6 +21,14 @@ function mapAttendee ( $obj ) {
   return $attendee;
 }
 
+class Attendee {
+  public $attendee_id;
+  public $first_name;
+  public $last_name;
+  public $email;
+  public $badge;
+}
+
 //Get the TTE Key
 $tte = get_call("https://www.houserennard.online/credits/tte.json");
 $tte = json_decode( $tte );
@@ -46,25 +54,25 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
     array_push( $tteBadges, $badges->result->items );
   }
 }
+$attendee = [];
+foreach( $tteBadges as $badge ) {
+  $scr = new Attendee (
+    $badge->badge_number,
+    $badge->firstname,
+    $badge->lastname,
+    $badge->email,
+    null
+  );
 
-json_return( $tteBadges );
-// $session = new Session ();
-// $session->sessionId = $login->id;
-// $session->userId = $login->user_id;
+  array_push( $attendee, $scr );
+}
 
-// $fetchBadge = [ "_includes" => "PretzCon" ];
-// $fetchQuerry = http_build_query( $fetchBadge );
-// $badgeUrl = "$TTE_URL/badge/?$fetchQuery";
-// $badges = get_call( $fetchBadge, $badgeUrl );
-
-// echo $badgeUrl;
-
-
+json_return( $attendee );
 
 // $sql = "SELECT attendees.attendee_id, attendees.first_name, attendees.last_name, reg_txn.attendee_id AS con_id, reg_txn.badge_id, reg_txn.timestamp
 //         FROM attendees
 //         LEFT JOIN reg_txn ON attendees.attendee_id = reg_txn.attendee_id
 //         ORDER BY attendees.attendee_id ASC";
 
-json_return( array_map( 'mapAttendee', $tteBadges ));
+// json_return( array_map( 'mapAttendee', $tteBadges ));
 ?>
