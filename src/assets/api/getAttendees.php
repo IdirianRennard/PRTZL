@@ -10,15 +10,14 @@ $TTE_URL = "https://tabletop.events/api";
 class Login {
   public $username;
   public $password;
-  public $api_key_id;
 }
 
 $loginUrl = "$TTE_URL/session";
 
 $loginData = new Login ();
 $loginData->username = $tte->username;
-$loginData->api_key_id = $tte->key;
 $loginData->password = urldecode( base64_decode( $tte->encoded_pw ) );
+// $loginData->api_key_id = $tte->key;
 
 json_return( $loginData );
 
