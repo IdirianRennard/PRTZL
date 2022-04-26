@@ -55,13 +55,14 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
   }
 }
 $attendee = [];
-foreach( $tteBadges as $badge ) {
-  print_r($badge);
+
+for( $i = 0 ; $i < count( $tteBadges ) ; $i++ ){
+  print_r( $tteBadges[$i] );
   $scr = new Attendee (
-    $badge->badge_number,
-    $badge->firstname,
-    $badge->lastname,
-    $badge->email,
+    $tteBadges[$i]->badge_number,
+    $tteBadges[$i]->firstname,
+    $tteBadges[$i]->lastname,
+    $$tteBadges[$i]->email,
     null
   );
   print_r($scr);
