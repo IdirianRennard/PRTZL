@@ -7,3 +7,8 @@ export interface Reg extends Player {
   last_name: string,
   timestamp: string
 }
+
+export interface RegSubmit extends Object {
+  id: number,
+  barcode: number,
+}

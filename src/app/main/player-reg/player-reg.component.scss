@@ -17,10 +17,12 @@
 
   .error-msg {
     height: 1.5rem;
+    margin-top: -1rem;
+    padding: 0.5rem;
     width: 100%;
     color: red;
-    text-align:  right;
-    font-size: large;
+    text-align: right;
+    vertical-align: top;
   }
 
   .family_reg {

@@ -1,3 +1,4 @@
+import { RegSubmit } from './../../../assets/models/reg';
 import { AttendeesService } from 'src/services/Attendees.service';
 import { Attendee } from 'src/assets/models/attendee';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -91,9 +92,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     console.log("NATE >>> \t formComplete.autoValue = ", autoValue);
 
     if (autoValue.barcode.length > 0) {
-
-
-      this.formBarcode.setValue(autoValue.barcode[autoValue.barcode.length - 1]);
+      this.formBarcode.setValue(autoValue.barcode[0].id);
     }
 
     this.filterPlayers();
@@ -102,7 +101,6 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   public getAttendees(): void {
     this._attendeesService.getAll().pipe(takeUntil(this._destroyed$)).subscribe((data: Attendee[]) => {
       this._player$ = data;
-      console.log(this._player$);
     });
   }
 
@@ -115,7 +113,12 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   }
 
   public submitMainReg() {
+    const submit: RegSubmit = {
+      id: this.conID.value,
+      barcode: this.formBarcode.value
+    }
 
+    this._attendeesService.postNewReg(submit);
   }
 
   public validBarcode() {
@@ -123,21 +126,18 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
       this.barcode = faBarcode;
       this.barcodeColor = { color: 'white' };
       this.barcodeErr = '';
+    } else {
+      const validAttendee = this._player$.filter((player) => (player.barcode.length > 0) && player.barcode[0].id === this.formBarcode.value);
+
+      if (validAttendee.length === 0 || isEqual(this.filterPlayer, validAttendee[0])) {
+        this.barcode = faCheckCircle;
+        this.barcodeColor = { color: 'limegreen' };
+      } else {
+        this.barcode = faExclamationTriangle;
+        this.barcodeColor = { color: 'gold' };
+        this.barcodeErr = `Barcode registered to ${validAttendee[0].first_name} ${validAttendee[0].last_name} at ${validAttendee[0].barcode[0] ? validAttendee[0].barcode[0].timestamp.substring(0, validAttendee[0].barcode[0].timestamp.length - 10) : 'MISSING TIMESTAMP'}`
+      }
     }
-
-    //NATE YOU ARE FIXING THIS LINE
-    // const validAttendee = this._player$.filter((player) => (player.barcode.length > 0) && player.barcode.filter((barcode) => barcode.id === );
-    // console.log(validAttendee);
-    // console.log(this.filterPlayer);
-
-    // if (validAttendee.length === 0 || isEqual(this.filterPlayer, validAttendee[0])) {
-    //   this.barcode = faCheckCircle;
-    //   this.barcodeColor = { color: 'limegreen' };
-    // } else {
-    //   this.barcode = faExclamationTriangle;
-    //   this.barcodeColor = { color: 'gold' };
-    //   this.barcodeErr = `Barcode registered to ${validAttendee[0].first_name} ${validAttendee[0].last_name} at ${validAttendee[0].barcode ? validAttendee[0].barcode.timestamp : 'MISSING TIMESTAMP'}`
-    // }
   }
 
 

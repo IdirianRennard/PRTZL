@@ -27,8 +27,7 @@
             (optionSelected)="formComplete($event)"
           >
             <mat-option *ngFor="let option of filterPlayer" [value]="option" >
-              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name }}
-              <!-- {{ option.attendee_id + " - " + option.first_name + " " + option.last_name + ( option.barcode != null ? " - " + option.barcode.id : ' ' ) }} -->
+              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name + ( option.barcode.length > 0 ? " - " + option.barcode[0].id : ' ' ) }}
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
@@ -53,8 +52,7 @@
             (optionSelected)="formComplete($event)"
           >
             <mat-option *ngFor="let option of filterPlayer" [value]="option" >
-              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name }}
-              <!-- {{ option.attendee_id + " - " + option.first_name + " " + option.last_name + ( option.barcode != null ? " - " + option.barcode.id : ' ' ) }} -->
+              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name + ( option.barcode.length > 0 ? " - " + option.barcode[0].id : ' ' ) }}
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
@@ -82,8 +80,8 @@
             (optionSelected)="formComplete($event)"
           >
             <mat-option *ngFor="let option of filterPlayer" [value]="option">
-              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name }}
-              <!-- {{ option.attendee_id + " - " + option.first_name + " " + option.last_name + ( option.barcode != null ? " - " + option.barcode.id : ' ' ) }} -->            </mat-option>
+              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name + ( option.barcode.length > 0 ? " - " + option.barcode[0].id : ' ' ) }}
+            </mat-option>
           </mat-autocomplete>
           </mat-form-field>
 
@@ -102,8 +100,7 @@
             (keyup)="filterPlayers()"
           >
             <mat-option *ngFor="let option of filterPlayer" [value]="option">
-              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name }}
-              <!-- {{ option.attendee_id + " - " + option.first_name + " " + option.last_name + ( option.barcode != null ? " - " + option.barcode.id : ' ' ) }} -->
+              {{ option.attendee_id + " - " + option.first_name + " " + option.last_name + ( option.barcode.length > 0 ? " - " + option.barcode[0].id : ' ' ) }}
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
