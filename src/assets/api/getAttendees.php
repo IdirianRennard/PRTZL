@@ -11,6 +11,8 @@ class Attendee {
 
 function mapAttendee ( $obj ) {
 
+  print_r( $obj );
+
   $where = [];
   $where["attendee_id"] = $obj->badge_number;
 
@@ -63,6 +65,6 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
 $attendees = array_map( 'mapAttendee', $tteBadges );
 usort( $attendees, fn( $a, $b) => $a->attendee_id - $b->attendee_id );
 
-json_return( $attendees );
+// json_return( $attendees );
 
 ?>
