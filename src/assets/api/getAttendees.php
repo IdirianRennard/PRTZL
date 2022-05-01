@@ -16,7 +16,7 @@ class Txn {
 function mapTxn ( $arr ) {
   $txn = new Txn ();
   $txn->id = $arr[ 'barcode' ];
-  $txn->timestamp[ 'timestamp' ];
+  $txn->timestamp = $arr[ 'timestamp' ];
 
   return $txn;
 }
