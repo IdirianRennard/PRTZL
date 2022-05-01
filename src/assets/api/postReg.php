@@ -1,6 +1,9 @@
 <?php
 include 'include.php';
 
-print_r( $_POST );
+$fp = fopen( 'php://input', 'r');
+$rawData = stream_get_contents($fp);
+
+print_r( $rawData );
 
 ?>

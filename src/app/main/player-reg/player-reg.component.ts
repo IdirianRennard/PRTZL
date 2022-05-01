@@ -117,6 +117,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
       id: this.conID.value,
       barcode: this.formBarcode.value
     }
+    console.log("NATE >>> \t submitMainReg.submit = ", submit);
 
     this._attendeesService.postNewReg(submit);
   }
