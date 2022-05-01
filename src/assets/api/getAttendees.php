@@ -1,23 +1,24 @@
 <?php
 include 'include.php';
 
-function mapAttendee ( $obj ) {
-  $attendee = new stdClass();
-  $attendee->attendee_id = (int)$obj->badge_number;
-  $attendee->first_name = $obj->firstname;
-  $attendee->last_name = $obj->lastname;
-  $attendee->email = $obj->email;
-  $attendee->badge = null;
-
-  return $attendee;
-}
-
 class Attendee {
   public $attendee_id;
   public $first_name;
   public $last_name;
   public $email;
-  public $badge;
+  public $barcode;
+}
+
+function mapAttendee ( $obj ) {
+  $attendee = new Attendee (
+    (int)$obj->badge_number,
+    $obj->firstname,
+    $obj->lastname,
+    $obj->email,
+    null
+  );
+
+  return $attendee;
 }
 
 //Get the TTE Key
@@ -49,7 +50,7 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
 }
 
 $attendees = array_map( 'mapAttendee', $tteBadges );
-usort( $attendees, fn( $a, $b) => strcmp( $a->attendee_id, $b->attendee_id ) );
+usort( $attendees, fn( $a, $b) => $a->attendee_id - $b->attendee_id );
 
 json_return( $attendees );
 
