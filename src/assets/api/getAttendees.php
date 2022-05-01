@@ -44,38 +44,38 @@ $pages = $badges->result->paging;
 print_r( $badges );
 
 $tteBadges = [];
-array_merge( $tteBadges, $badges->result->items );
+// array_merge( $tteBadges, $badges->result->items );
 
 
-for( $i = 1; $i <= $pages->total_pages ; $i++ ){
-  if( $i === 1 ) {
+// for( $i = 1; $i <= $pages->total_pages ; $i++ ){
+//   if( $i === 1 ) {
 
-  } else {
-    $badgesUrl += "&page=$i";
-    $badges = get_call( $badgesUrl );
-    $badges = json_decode( $badges );
-    array_merge( $tteBadges, $badges->result->items );
-  }
-}
+//   } else {
+//     $badgesUrl += "&page=$i";
+//     $badges = get_call( $badgesUrl );
+//     $badges = json_decode( $badges );
+//     array_merge( $tteBadges, $badges->result->items );
+//   }
+// }
 
-print_r( $tteBadges );
-$attendee = [];
+// print_r( $tteBadges );
+// $attendee = [];
 
-for( $i = 0 ; $i < count( $tteBadges ) ; $i++ ){
+// for( $i = 0 ; $i < count( $tteBadges ) ; $i++ ){
 
-  $scr = new Attendee (
-    $tteBadges[$i]->badge_number,
-    $tteBadges[$i]->firstname,
-    $tteBadges[$i]->lastname,
-    $$tteBadges[$i]->email,
-    null
-  );
+//   $scr = new Attendee (
+//     $tteBadges[$i]->badge_number,
+//     $tteBadges[$i]->firstname,
+//     $tteBadges[$i]->lastname,
+//     $$tteBadges[$i]->email,
+//     null
+//   );
 
 
-  array_push( $attendee, $scr );
-}
+//   array_push( $attendee, $scr );
+// }
 
-json_return( $attendee );
+// json_return( $attendee );
 
 // $sql = "SELECT attendees.attendee_id, attendees.first_name, attendees.last_name, reg_txn.attendee_id AS con_id, reg_txn.badge_id, reg_txn.timestamp
 //         FROM attendees
