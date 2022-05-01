@@ -5,13 +5,10 @@ class Attendee {
   public $attendee_id;
   public $first_name;
   public $last_name;
-  public $email;
   public $barcode;
 }
 
 function mapAttendee ( $obj ) {
-
-  print_r( $obj );
 
   $where = [];
   $where["attendee_id"] = $obj->badge_number;
@@ -28,7 +25,6 @@ function mapAttendee ( $obj ) {
   $attendee->attendee_id  = (int)$obj->badge_number;
   $attendee->first_name   = $obj->firstname;
   $attendee->last_name    = $obj->lastname;
-  $attendee->email        = $obj->email;
   $attendee->barcode      = $txn;
 
   return $attendee;
@@ -65,6 +61,6 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
 $attendees = array_map( 'mapAttendee', $tteBadges );
 usort( $attendees, fn( $a, $b) => $a->attendee_id - $b->attendee_id );
 
-// json_return( $attendees );
+json_return( $attendees );
 
 ?>
