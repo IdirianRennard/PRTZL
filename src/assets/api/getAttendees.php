@@ -23,11 +23,11 @@ function mapAttendee ( $obj ) {
   $txn = select_sql( $select, "reg_txn",  $where );
 
   $attendee = new Attendee ();
-  $attendee->attendee_id = (int)$obj->badge_number;
-  $attendee->first_name = $obj->firstname;
-  $attendee->last_name = $obj->lastname;
-  $attendee->email = $obj->email;
-  $attendee->barcode = $txn;
+  $attendee->attendee_id  = (int)$obj->badge_number;
+  $attendee->first_name   = $obj->firstname;
+  $attendee->last_name    = $obj->lastname;
+  $attendee->email        = $obj->email;
+  $attendee->barcode      = $txn;
 
   return $attendee;
 }
