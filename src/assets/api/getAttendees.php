@@ -41,24 +41,24 @@ $badges = get_call( $badgesUrl );
 $badges = json_decode( $badges );
 $pages = $badges->result->paging;
 
-print_r( $badges );
+// print_r( $badges->result->items );
 
 $tteBadges = [];
-// array_merge( $tteBadges, $badges->result->items );
+array_merge( $tteBadges, $badges->result->items );
 
 
-// for( $i = 1; $i <= $pages->total_pages ; $i++ ){
-//   if( $i === 1 ) {
+for( $i = 1; $i <= $pages->total_pages ; $i++ ){
+  if( $i === 1 ) {
 
-//   } else {
-//     $badgesUrl += "&page=$i";
-//     $badges = get_call( $badgesUrl );
-//     $badges = json_decode( $badges );
-//     array_merge( $tteBadges, $badges->result->items );
-//   }
-// }
+  } else {
+    $badgesUrl += "&page=$i";
+    $badges = get_call( $badgesUrl );
+    $badges = json_decode( $badges );
+    array_merge( $tteBadges, $badges->result->items );
+  }
+}
 
-// print_r( $tteBadges );
+print_r( $tteBadges );
 // $attendee = [];
 
 // for( $i = 0 ; $i < count( $tteBadges ) ; $i++ ){
