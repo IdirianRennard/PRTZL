@@ -48,6 +48,9 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
   }
 }
 
-json_return( array_map( 'mapAttendee', $tteBadges ));
+$attendees = array_map( 'mapAttendee', $tteBadges );
+usort( $attendees, fn( $a, $b) => strcmp( $a->attendee_id, $b->attendee_id ) );
+
+json_return( $attendees );
 
 ?>
