@@ -33,7 +33,7 @@ function mapAttendee ( $obj ) {
   ];
 
   $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
-  usort( $txn, fn( $a, $b) => $a->attendee_id - $b->attendee_id );
+  usort( $txn, fn( $a, $b) => $b->timestamp - $a->timestamp );
 
   $attendee = new Attendee ();
   $attendee->attendee_id  = (int)$obj->badge_number;
