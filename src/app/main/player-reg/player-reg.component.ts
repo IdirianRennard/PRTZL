@@ -84,12 +84,16 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
   public formComplete(event: MatAutocompleteSelectedEvent) {
     const autoValue = event.option.value;
-    this.conID.setValue(autoValue.attendee_id, { emitEvent: true });
-    this.firstName.setValue(autoValue.first_name, { emitEvent: true });
-    this.lastName.setValue(autoValue.last_name, { emitEvent: true });
+    this.conID.setValue(autoValue.attendee_id);
+    this.firstName.setValue(autoValue.first_name);
+    this.lastName.setValue(autoValue.last_name);
 
-    if (autoValue.badge) {
-      this.formBarcode.setValue(autoValue.badge.id, { emitEvent: true });
+    console.log("NATE >>> \t formComplete.autoValue = ", autoValue);
+
+    if (autoValue.barcode.length > 0) {
+
+
+      this.formBarcode.setValue(autoValue.barcode[autoValue.barcode.length - 1]);
     }
 
     this.filterPlayers();
@@ -98,6 +102,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   public getAttendees(): void {
     this._attendeesService.getAll().pipe(takeUntil(this._destroyed$)).subscribe((data: Attendee[]) => {
       this._player$ = data;
+      console.log(this._player$);
     });
   }
 
@@ -120,18 +125,19 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
       this.barcodeErr = '';
     }
 
-    const validAttendee = this._player$.filter((player) => player.badge != null && player.badge.id.toString().includes(this.formBarcode.value));
-    console.log(validAttendee);
-    console.log(this.filterPlayer);
+    //NATE YOU ARE FIXING THIS LINE
+    // const validAttendee = this._player$.filter((player) => (player.barcode.length > 0) && player.barcode.filter((barcode) => barcode.id === );
+    // console.log(validAttendee);
+    // console.log(this.filterPlayer);
 
-    if (validAttendee.length === 0 || isEqual(this.filterPlayer, validAttendee[0])) {
-      this.barcode = faCheckCircle;
-      this.barcodeColor = { color: 'limegreen' };
-    } else {
-      this.barcode = faExclamationTriangle;
-      this.barcodeColor = { color: 'gold' };
-      this.barcodeErr = `Barcode registered to ${validAttendee[0].first_name} ${validAttendee[0].last_name} at ${validAttendee[0].badge ? validAttendee[0].badge.timestamp : 'MISSING TIMESTAMP'}`
-    }
+    // if (validAttendee.length === 0 || isEqual(this.filterPlayer, validAttendee[0])) {
+    //   this.barcode = faCheckCircle;
+    //   this.barcodeColor = { color: 'limegreen' };
+    // } else {
+    //   this.barcode = faExclamationTriangle;
+    //   this.barcodeColor = { color: 'gold' };
+    //   this.barcodeErr = `Barcode registered to ${validAttendee[0].first_name} ${validAttendee[0].last_name} at ${validAttendee[0].barcode ? validAttendee[0].barcode.timestamp : 'MISSING TIMESTAMP'}`
+    // }
   }
 
 

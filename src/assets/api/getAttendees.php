@@ -8,6 +8,19 @@ class Attendee {
   public $barcode;
 }
 
+class Txn {
+  public $id;
+  public $timestamp;
+}
+
+function mapTxn ( $arr ) {
+  $txn = new Txn ();
+  $txn->id = $arr[ 'barcode' ];
+  $txn->timestamp[ 'timestamp' ];
+
+  return $txn;
+}
+
 function mapAttendee ( $obj ) {
 
   $where = [];
@@ -19,7 +32,8 @@ function mapAttendee ( $obj ) {
     'timestamp',
   ];
 
-  $txn = select_sql( $select, "reg_txn",  $where );
+  $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
+  usort( $txn, fn( $a, $b) => $a->attendee_id - $b->attendee_id );
 
   $attendee = new Attendee ();
   $attendee->attendee_id  = (int)$obj->badge_number;
