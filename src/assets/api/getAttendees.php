@@ -10,13 +10,24 @@ class Attendee {
 }
 
 function mapAttendee ( $obj ) {
-  $attendee = new Attendee (
-    (int)$obj->badge_number,
-    $obj->firstname,
-    $obj->lastname,
-    $obj->email,
-    null
-  );
+
+  $where = [];
+  $where["attendee_id"] = $obj->badge_number;
+
+  $select = [
+    'attendee_id',
+    'barcode',
+    'timestamp',
+  ];
+
+  $txn = select_sql( $select, "reg_txn",  $where );
+
+  $attendee = new Attendee ();
+  $attendee->attendee_id = (int)$obj->badge_number;
+  $attendee->first_name = $obj->firstname;
+  $attendee->last_name = $obj->lastname;
+  $attendee->email = $obj->email;
+  $attendee->barcode = $txn;
 
   return $attendee;
 }
