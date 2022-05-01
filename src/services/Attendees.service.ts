@@ -2,6 +2,7 @@ import { RegSubmit } from './../assets/models/reg';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket'
 import { Attendee } from 'src/assets/models/attendee';
 
 @Injectable({
@@ -13,6 +14,7 @@ export class AttendeesService {
   constructor(private http: HttpClient) { }
 
   public getAll() {
+
     return this.http.get('getAttendees').pipe(
       map((res: any) => {
         return res;
