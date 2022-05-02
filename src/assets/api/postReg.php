@@ -8,7 +8,6 @@ $post = json_decode($post);
 $insert = [
   'attendee_id' =>  $post->id,
   'barcode'     =>  $post->barcode,
-  'timestamp'   =>  $time
 ];
 
 json_return( insert_sql( $insert, 'reg_txn' ));
