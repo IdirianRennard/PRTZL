@@ -6,8 +6,8 @@ $post = stream_get_contents($fp);
 $post = json_decode($post);
 
 $insert = [
-  'attendee_id' =>  $post[ 'id '],
-  'barcode'     =>  $post[ 'barcode' ],
+  'attendee_id' =>  $post->id,
+  'barcode'     =>  $post->barcode,
   'timestamp'   =>  $time
 ];
 
