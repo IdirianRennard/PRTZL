@@ -2,7 +2,7 @@
 include 'include.php';
 
 class Attendee {
-  public $attendee_id;
+  public $id;
   public $first_name;
   public $last_name;
   public $barcode;
@@ -61,10 +61,10 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
     $attendee->last_name  = $v->lastname;
     $attendee->barcode    = $txn;
 
-    $tteBadges[ $attendee->id ] = $attendee;
+    $tteBadges[ (int)$attendee->id ] = $attendee;
   }
 }
 
-json_return( $tteBadges );
+json_return( sort( $tteBadges ) );
 
 ?>
