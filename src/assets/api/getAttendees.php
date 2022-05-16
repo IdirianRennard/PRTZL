@@ -54,9 +54,9 @@ foreach( $badges->result->items as $k => $v ) {
   $attendee->id         = (int)$v->badge_number;
   $attendee->first_name = $v->firstname;
   $attendee->last_name  = $v->lastname;
-  $attendee->barcode    = [];
+  $attendee->barcode    = $txn;
 
-  $tteBadges[ (int)$attendee->id ] = $attendee;
+  $tteBadges[ (int)$v->badge_number ] = $attendee;
 }
 
 for( $i = 1; $i <= $pages->total_pages ; $i++ ){
@@ -83,7 +83,7 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
     $attendee->id         = (int)$v->badge_number;
     $attendee->first_name = $v->firstname;
     $attendee->last_name  = $v->lastname;
-    $attendee->barcode    = [];
+    $attendee->barcode    = $txn;
 
     $tteBadges[ (int)$attendee->id ] = $attendee;
   }
