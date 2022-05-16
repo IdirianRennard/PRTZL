@@ -21,29 +21,6 @@ function mapTxn ( $arr ) {
   return $txn;
 }
 
-function mapAttendee ( $obj ) {
-
-  $where = [];
-  $where["attendee_id"] = $obj->badge_number;
-
-  $select = [
-    'attendee_id',
-    'barcode',
-    'timestamp',
-  ];
-
-  $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
-  usort( $txn, fn( $a, $b) => $b->timestamp - $a->timestamp );
-
-  $attendee = new Attendee ();
-  $attendee->attendee_id  = (int)$obj->badge_number;
-  $attendee->first_name   = $obj->firstname;
-  $attendee->last_name    = $obj->lastname;
-  $attendee->barcode      = $txn;
-
-  return $attendee;
-}
-
 //Get the TTE Key
 $tte = get_call("https://www.houserennard.online/credits/tte.json");
 $tte = json_decode( $tte );
@@ -58,14 +35,34 @@ $pages = $badges->result->paging;
 
 $tteBadges = [];
 
-array_push( $tteBadges, ...$badges->result->items );
 
-for( $i = 2; $i <= $pages->total_pages ; $i++ ){
-    $badgesUrl = "$badgesUrl&page=$i";
-    $badges = get_call( $badgesUrl );
-    $badges = json_decode( $badges );
 
-    array_push( $tteBadges, ...$badges->result->items );
+for( $i = 1; $i <= $pages->total_pages ; $i++ ){
+  $badgesUrl = "$badgesUrl&page=$i";
+  $badges = get_call( $badgesUrl );
+  $badges = json_decode( $badges );
+
+  foreach( $badges->result->items as $k => $v ) {
+
+    $where = [];
+    $where["attendee_id"] = $v->badge_number;
+
+    $select = [
+      'attendee_id',
+      'barcode',
+      'timestamp',
+    ];
+
+    $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
+    usort( $txn, fn( $a, $b) => $b->timestamp - $a->timestamp );
+
+    $attendee = new Attendee();
+
+    $attendee->id         = (int)$v->badge_number;
+    $attendee->first_name = $v->firstname;
+    $attendee->last_name  = $v->lastname;
+    $attendee->barcode    = $txn;
+  }
 }
 
 $attendees = array_map( 'mapAttendee', $tteBadges );
