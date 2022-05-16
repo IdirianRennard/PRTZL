@@ -56,7 +56,7 @@ foreach( $badges->result->items as $k => $v ) {
   $attendee->last_name  = $v->lastname;
   $attendee->barcode    = $txn;
 
-  $tteBadges[ (int)$v->badge_number ] = $attendee;
+  $tteBadges[ $attendee->id ] = $attendee;
 }
 
 for( $i = 1; $i <= $pages->total_pages ; $i++ ){
@@ -85,7 +85,7 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
     $attendee->last_name  = $v->lastname;
     $attendee->barcode    = $txn;
 
-    $tteBadges[ (int)$attendee->id ] = $attendee;
+    $tteBadges[ $attendee->id ] = $attendee;
   }
 }
 json_return( $tteBadges );
