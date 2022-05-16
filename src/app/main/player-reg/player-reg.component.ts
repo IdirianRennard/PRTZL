@@ -62,7 +62,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     let activeFilter: Attendee;
 
     if (this.conID.value.length > 0) {
-      scratchFilter = scratchFilter.filter(player => player.attendee_id.toString().includes(this.conID.value));
+      scratchFilter = scratchFilter.filter(player => player.id.toString().includes(this.conID.value));
     }
 
     if (this.firstName.value.length > 0) {
@@ -85,7 +85,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
   public formComplete(event: MatAutocompleteSelectedEvent) {
     const autoValue = event.option.value;
-    this.conID.setValue(autoValue.attendee_id);
+    this.conID.setValue(autoValue.id);
     this.firstName.setValue(autoValue.first_name);
     this.lastName.setValue(autoValue.last_name);
 
@@ -102,7 +102,6 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     this._attendeesService.getAll().pipe(takeUntil(this._destroyed$)).subscribe((data: Attendee[]) => {
       this._player$ = data;
     });
-    // this._attendeesService.getAll();
   }
 
   public loadFamily() {

@@ -1,6 +1,6 @@
 
 export interface Attendee extends Object {
-  attendee_id: string,
+  id: string,
   first_name: string,
   last_name: string,
   barcode: Badge[],

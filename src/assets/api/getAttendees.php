@@ -51,15 +51,15 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
       'timestamp',
     ];
 
-    $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
-    usort( $txn, fn( $a, $b) => $b->timestamp - $a->timestamp );
+    // $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
+    // usort( $txn, fn( $a, $b) => $b->timestamp - $a->timestamp );
 
     $attendee = new Attendee();
 
     $attendee->id         = (int)$v->badge_number;
     $attendee->first_name = $v->firstname;
     $attendee->last_name  = $v->lastname;
-    $attendee->barcode    = $txn;
+    $attendee->barcode    = [];
 
     $tteBadges[ (int)$attendee->id ] = $attendee;
   }
