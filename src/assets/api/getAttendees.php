@@ -60,16 +60,12 @@ $tteBadges = [];
 
 array_push( $tteBadges, ...$badges->result->items );
 
-for( $i = 1; $i <= $pages->total_pages ; $i++ ){
-  if( $i === 1 ) {
-
-  } else {
+for( $i = 2; $i <= $pages->total_pages ; $i++ ){
     $badgesUrl = "$badgesUrl&page=$i";
     $badges = get_call( $badgesUrl );
     $badges = json_decode( $badges );
 
     array_push( $tteBadges, ...$badges->result->items );
-  }
 }
 
 $attendees = array_map( 'mapAttendee', $tteBadges );
