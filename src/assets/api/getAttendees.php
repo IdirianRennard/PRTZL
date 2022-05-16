@@ -64,7 +64,8 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
     $tteBadges[ (int)$attendee->id ] = $attendee;
   }
 }
+sort( $tteBadges );
 
-json_return( sort( $tteBadges ) );
+json_return( $tteBadges );
 
 ?>
