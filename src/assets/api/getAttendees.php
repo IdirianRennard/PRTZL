@@ -88,5 +88,6 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
     $tteBadges[ $attendee->id ] = $attendee;
   }
 }
+sort( $tteBadges );
 json_return( $tteBadges );
 ?>
