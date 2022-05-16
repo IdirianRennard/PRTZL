@@ -35,12 +35,36 @@ $pages = $badges->result->paging;
 
 $tteBadges = [];
 
-for( $i = 1; $i <= $pages->total_pages ; $i++ ){
-  $badgesUrl = "$badgesUrl&page=$i";
-  $badges = get_call( $badgesUrl );
-  $badges = json_decode( $badges );
+foreach( $badges->result->items as $k => $v ) {
 
-  foreach( $badges->result->items as $k => $v ) {
+  $where = [];
+  $where["attendee_id"] = $v->badge_number;
+
+  $select = [
+    'attendee_id',
+    'barcode',
+    'timestamp',
+  ];
+
+  $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
+  usort( $txn, fn( $a, $b) => $b->timestamp - $a->timestamp );
+
+  $attendee = new Attendee();
+
+  $attendee->id         = (int)$v->badge_number;
+  $attendee->first_name = $v->firstname;
+  $attendee->last_name  = $v->lastname;
+  $attendee->barcode    = [];
+
+  $tteBadges[ (int)$attendee->id ] = $attendee;
+}
+
+for( $i = 1; $i <= $pages->total_pages ; $i++ ){
+  $pagedBadgesUrl = "$badgesUrl&page=$i";
+  $pagedBadges = get_call( $badgesUrl );
+  $pagedBadges = json_decode( $badges );
+
+  foreach( $pagedBadges->result->items as $k => $v ) {
 
     $where = [];
     $where["attendee_id"] = $v->badge_number;
@@ -51,8 +75,8 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
       'timestamp',
     ];
 
-    // $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
-    // usort( $txn, fn( $a, $b) => $b->timestamp - $a->timestamp );
+    $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
+    usort( $txn, fn( $a, $b) => $b->timestamp - $a->timestamp );
 
     $attendee = new Attendee();
 
@@ -64,8 +88,5 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
     $tteBadges[ (int)$attendee->id ] = $attendee;
   }
 }
-sort( $tteBadges );
-
 json_return( $tteBadges );
-
 ?>
