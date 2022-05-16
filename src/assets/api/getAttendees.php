@@ -35,8 +35,6 @@ $pages = $badges->result->paging;
 
 $tteBadges = [];
 
-
-
 for( $i = 1; $i <= $pages->total_pages ; $i++ ){
   $badgesUrl = "$badgesUrl&page=$i";
   $badges = get_call( $badgesUrl );
@@ -62,12 +60,11 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
     $attendee->first_name = $v->firstname;
     $attendee->last_name  = $v->lastname;
     $attendee->barcode    = $txn;
+
+    $tteBadges[ $attendee->id ] = $attendee;
   }
 }
 
-$attendees = array_map( 'mapAttendee', $tteBadges );
-usort( $attendees, fn( $a, $b) => $a->attendee_id - $b->attendee_id );
-
-json_return( $attendees );
+json_return( $tteBadges );
 
 ?>
