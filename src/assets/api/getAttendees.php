@@ -61,8 +61,8 @@ foreach( $badges->result->items as $k => $v ) {
 
 for( $i = 1; $i <= $pages->total_pages ; $i++ ){
   $pagedBadgesUrl = "$badgesUrl&page=$i";
-  $pagedBadges = get_call( $badgesUrl );
-  $pagedBadges = json_decode( $badges );
+  $pagedBadges = get_call( $pagedBadgesUrl );
+  $pagedBadges = json_decode( $pagedBadges );
 
   foreach( $pagedBadges->result->items as $k => $v ) {
 
