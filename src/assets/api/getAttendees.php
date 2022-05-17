@@ -33,9 +33,10 @@ $badges = get_call( $badgesUrl );
 $badges = json_decode( $badges );
 $pages = $badges->result->paging;
 
+$items = $badges->result->items;
 $tteBadges = [];
 
-foreach( $badges->result->items as $k => $v ) {
+foreach( $items as $k => $v ) {
 
   $where = [];
   $where["attendee_id"] = $v->badge_number;
@@ -64,7 +65,9 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
   $pagedBadges = get_call( $pagedBadgesUrl );
   $pagedBadges = json_decode( $pagedBadges );
 
-  foreach( $pagedBadges->result->items as $k => $v ) {
+  $items = $pagedBadges->result->items;
+
+  foreach( $items as $k => $v ) {
 
     $where = [];
     $where["attendee_id"] = $v->badge_number;
