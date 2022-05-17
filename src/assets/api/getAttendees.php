@@ -63,7 +63,6 @@ foreach( $items as $k => $v ) {
 }
 
 for( $i = 2; $i < $totalPages + 1 ; $i++ ){
-  json_echo( "Page $i of $totalPages\n\n" );
   $pagedBadgesUrl = "$badgesUrl&_page_number=$i";
   $pagedBadges = get_call( $pagedBadgesUrl );
   $pagedBadges = json_decode( $pagedBadges );
