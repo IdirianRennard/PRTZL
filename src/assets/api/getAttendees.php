@@ -29,7 +29,7 @@ $conId = $tte->con_key;
 $TTE_URL = "https://tabletop.events/api";
 
 $badgesUrl = "$TTE_URL/convention/$conId/badges?_items_per_page=100&_order_by=badge_number";
-$badges = get_call( $badgesUrl );
+$badges = get_call( "$badgesUrl&page=0" );
 $badges = json_decode( $badges );
 $pages = $badges->result->paging;
 $totalPages = $pages->total_pages;
@@ -37,31 +37,31 @@ $totalPages = $pages->total_pages;
 $items = $badges->result->items;
 $tteBadges = [];
 
-foreach( $items as $k => $v ) {
+// foreach( $items as $k => $v ) {
 
-  $where = [];
-  $where["attendee_id"] = $v->badge_number;
+//   $where = [];
+//   $where["attendee_id"] = $v->badge_number;
 
-  $select = [
-    'attendee_id',
-    'barcode',
-    'timestamp',
-  ];
+//   $select = [
+//     'attendee_id',
+//     'barcode',
+//     'timestamp',
+//   ];
 
-  $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
-  usort( $txn, fn( $a, $b) => $b->timestamp - $a->timestamp );
+//   $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
+//   usort( $txn, fn( $a, $b) => $b->timestamp - $a->timestamp );
 
-  $attendee = new Attendee();
+//   $attendee = new Attendee();
 
-  $attendee->id         = (int)$v->badge_number;
-  $attendee->first_name = $v->firstname;
-  $attendee->last_name  = $v->lastname;
-  $attendee->barcode    = $txn;
+//   $attendee->id         = (int)$v->badge_number;
+//   $attendee->first_name = $v->firstname;
+//   $attendee->last_name  = $v->lastname;
+//   $attendee->barcode    = $txn;
 
-  $tteBadges[ $attendee->id ] = $attendee;
-}
+//   $tteBadges[ $attendee->id ] = $attendee;
+// }
 
-for( $i = 2; $i < $totalPages + 1 ; $i++ ){
+for( $i = 1; $i < $totalPages + 1 ; $i++ ){
   json_echo( "Page $i of $totalPages" );
   $pagedBadgesUrl = "$badgesUrl&page=$i";
   $pagedBadges = get_call( $pagedBadgesUrl );
