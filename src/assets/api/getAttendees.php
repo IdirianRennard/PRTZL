@@ -28,7 +28,7 @@ $conId = $tte->con_key;
 
 $TTE_URL = "https://tabletop.events/api";
 
-$badgesUrl = "$TTE_URL/convention/$conId/badges?_items_per_page=100&_order_by=badge_number";
+$badgesUrl = "$TTE_URL/convention/$conId/badges?_order_by=badge_number";
 $badges = get_call( $badgesUrl );
 $badges = json_decode( $badges );
 $pages = $badges->result->paging;
@@ -91,6 +91,6 @@ for( $i = 1; $i <= $pages->total_pages ; $i++ ){
     $tteBadges[ $attendee->id ] = $attendee;
   }
 }
-sort( $tteBadges );
+
 json_return( $tteBadges );
 ?>
