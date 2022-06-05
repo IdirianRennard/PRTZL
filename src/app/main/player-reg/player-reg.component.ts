@@ -6,7 +6,7 @@ import { faBarcode, faCheckCircle, faEdit, faExclamationTriangle } from '@fortaw
 import { isEqual } from 'lodash';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable, of, ReplaySubject, takeUntil } from 'rxjs';
+import { ReplaySubject, takeUntil } from 'rxjs';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
@@ -61,8 +61,16 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     let scratchFilter = this._player$;
     let activeFilter: Attendee;
 
+    console.log(typeof (scratchFilter));
+    console.log(scratchFilter);
+
     if (this.conID.value.length > 0) {
-      scratchFilter = scratchFilter.filter(player => player.id.toString().includes(this.conID.value));
+      console.log(this.conID.value);
+      scratchFilter = scratchFilter.filter((player: Attendee) => {
+        return player.id.toString().includes(this.conID.value)
+      });
+
+      console.log("scratchFilter : \t", scratchFilter);
     }
 
     if (this.firstName.value.length > 0) {

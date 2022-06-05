@@ -42,14 +42,14 @@ $scr->icon->name = "stop";
 
 $tabs[] = $scr;
 
-$scr = new Tab ();
-$scr->name = "Play to Win";
-$scr->loc = "play_to_win";
-$scr->icon = new Icon ();
-$scr->icon->prefix = "fas";
-$scr->icon->name = "trophy";
+// $scr = new Tab ();
+// $scr->name = "Play to Win";
+// $scr->loc = "play_to_win";
+// $scr->icon = new Icon ();
+// $scr->icon->prefix = "fas";
+// $scr->icon->name = "trophy";
 
-$tabs[] = $scr;
+// $tabs[] = $scr;
 
 $scr = new Tab ();
 $scr->name = "Reports";
