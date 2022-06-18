@@ -1,9 +1,7 @@
 import { RegSubmit } from './../assets/models/reg';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
-import { webSocket, WebSocketSubject } from 'rxjs/webSocket'
-import { Attendee } from 'src/assets/models/attendee';
+import { map, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +20,14 @@ export class AttendeesService {
     )
   }
 
-  public postNewReg(reg: RegSubmit): any {
+  public postNewReg(reg: RegSubmit): void {
     console.log("NATE >>>> \t postNewReg.Reg = ", reg);
     this.http.post<RegSubmit>('postReg', reg).pipe(
+      take(1),
       map((res: any) => {
         console.log(res);
         return res;
       })
-    )
+    );
   }
 }

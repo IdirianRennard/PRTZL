@@ -1,7 +1,7 @@
 <?php
 include 'include.php';
 
-$post = $_POST;
+$post = file_get_contents('php://input');
 
 json_return( $post );
 
