@@ -3,11 +3,13 @@ include 'include.php';
 
 $post = $_POST;
 
-$insert = [
-  'attendee_id' =>  $post['id'],
-  'barcode'     =>  $post['barcode'],
-];
+json_return( $post );
 
-json_return( insert_sql( $insert, 'reg_txn' ));
+// $insert = [
+//   'attendee_id' =>  $post['id'],
+//   'barcode'     =>  $post['barcode'],
+// ];
+
+// json_return( insert_sql( $insert, 'reg_txn' ));
 
 ?>
