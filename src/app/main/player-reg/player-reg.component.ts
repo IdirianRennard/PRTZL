@@ -58,19 +58,11 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   }
 
   public filterPlayers() {
-    let scratchFilter = this._player$;
-    let activeFilter: Attendee;
-
-    console.log(typeof (scratchFilter));
-    console.log(scratchFilter);
+    const originalFilter = this._player$;
+    let scratchFilter: Attendee[] = originalFilter;
 
     if (this.conID.value.length > 0) {
-      console.log(this.conID.value);
-      scratchFilter = scratchFilter.filter((player: Attendee) => {
-        return player.id.toString().includes(this.conID.value)
-      });
-
-      console.log("scratchFilter : \t", scratchFilter);
+      scratchFilter = scratchFilter.filter((player: Attendee) => player.id.toString().match(this.conID.value));
     }
 
     if (this.firstName.value.length > 0) {
@@ -81,14 +73,12 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
       scratchFilter = scratchFilter.filter(player => player.last_name.toLowerCase().includes(this.lastName.value.toLowerCase()));
     }
 
-    this.filterPlayer = scratchFilter.slice(0, 4);
+    this.filterPlayer = scratchFilter.length > 5 ? scratchFilter.slice(0, 4) : scratchFilter;
 
-    this.loadFamily();
+    // this.loadFamily();
     this.validSubmit();
 
-    if (this.filterPlayer.length === 1) {
-      activeFilter = this.filterPlayer[0];
-    }
+    console.log(this.filterPlayer);
   }
 
   public formComplete(event: MatAutocompleteSelectedEvent) {
@@ -108,7 +98,14 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
   public getAttendees(): void {
     this._attendeesService.getAll().pipe(takeUntil(this._destroyed$)).subscribe((data: Attendee[]) => {
-      this._player$ = data;
+      const playerArray: Attendee[] = [];
+      const playerEntries = Object.entries(data);
+
+      for (let i = 0; i < playerEntries.length; i++) {
+        playerArray[playerEntries[i][0] as unknown as number] = playerEntries[i][1];
+      }
+
+      this._player$ = playerArray;
     });
   }
 
@@ -150,6 +147,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
 
   public validSubmit() {
+    console.log(this.SUBMIT_DISABLED);
     this.validBarcode();
 
     if (this.filterPlayer.length === 1 && (this.barcode === faCheckCircle)) {
@@ -157,6 +155,8 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     } else {
       this.SUBMIT_DISABLED = true;
     }
+
+    console.log(this.SUBMIT_DISABLED);
   }
 }
 
