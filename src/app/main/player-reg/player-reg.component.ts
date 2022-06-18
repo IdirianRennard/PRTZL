@@ -6,7 +6,7 @@ import { faBarcode, faCheckCircle, faEdit, faExclamationTriangle } from '@fortaw
 import { isEqual } from 'lodash';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ReplaySubject, takeUntil } from 'rxjs';
+import { ReplaySubject, take, takeUntil } from 'rxjs';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
@@ -123,7 +123,9 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
       barcode: this.formBarcode.value
     }
 
-    this._attendeesService.postNewReg(submit);
+    this._attendeesService.postNewReg(submit).pipe(take(1)).subscribe((response: any) => {
+      console.log(response);
+    });
   }
 
   public validBarcode() {
@@ -147,7 +149,6 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
 
   public validSubmit() {
-    console.log(this.SUBMIT_DISABLED);
     this.validBarcode();
 
     if (this.filterPlayer.length === 1 && (this.barcode === faCheckCircle)) {
@@ -155,8 +156,6 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     } else {
       this.SUBMIT_DISABLED = true;
     }
-
-    console.log(this.SUBMIT_DISABLED);
   }
 }
 

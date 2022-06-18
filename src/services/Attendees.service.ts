@@ -20,10 +20,9 @@ export class AttendeesService {
     )
   }
 
-  public postNewReg(reg: RegSubmit): void {
+  public postNewReg(reg: RegSubmit): any {
     console.log("NATE >>>> \t postNewReg.Reg = ", reg);
-    this.http.post<RegSubmit>('postReg', reg).pipe(
-      take(1),
+    return this.http.post('postReg', reg).pipe(
       map((res: any) => {
         console.log(res);
         return res;
