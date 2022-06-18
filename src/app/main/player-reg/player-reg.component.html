@@ -37,7 +37,7 @@
             <input
               matInput
               [formControl]="formBarcode"
-              (keyup)="filterPlayers()"
+              (keyup)=""
               [matAutocomplete]="formBarcodeAuto"
             >
             <mat-icon matSuffix>
@@ -121,7 +121,7 @@
     >Submit
     </button>
 
-    <button *ngIf="!SUBMIT_DISABLED"
+    <button *ngIf="!(SUBMIT_DISABLED)"
       mat-raised-button
       class="submit-button"
       [disabled]="SUBMIT_DISABLED"

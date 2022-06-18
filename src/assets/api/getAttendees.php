@@ -94,5 +94,5 @@ for( $i = 2; $i < $totalPages + 1 ; $i++ ){
   }
 }
 
-json_return( (array)$tteBadges );
+json_return( $tteBadges );
 ?>
