@@ -1,7 +1,10 @@
 <?php
 	include "../f(x)";
 
-	$call = call( "https://www.houserennard.online/credits/tte.json" );
+  $url = "https://www.houserennard.online/credits/tte.json";
+
+  echo "\nCALLING $url\n";
+	$call = call( $url );
 
   $call = json_decode( $call );
   print_r($call);
