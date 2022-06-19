@@ -23,7 +23,6 @@ function mapTxn ( $arr ) {
 
 //Get the TTE Key
 $tte = get_call("https://www.houserennard.online/credits/tte.json");
-json_echo($tte);
 
 $tte = json_decode( $tte );
 $conId = $tte->con_key;
