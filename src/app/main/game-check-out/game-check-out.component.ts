@@ -1,3 +1,4 @@
+import { GameLibraryDto } from './../../../assets/models/game-lib';
 import { GameLibraryService } from 'src/services/GameLibrary.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -15,7 +16,7 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
 
   private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   private _player$: Attendee[] = [];
-  private _gameList$: any[] = [];
+  private _gameList$: GameLibraryDto[] = [];
 
   public barcode = faBarcode;
   public barcodeColor: FaIconComponent["styles"] = { color: 'white' }
@@ -51,7 +52,10 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
   }
 
   public getLibrary(): any {
-    console.log("I dont do anything yet", this._gameList$, this._libService);
+    this._libService.library$.pipe(takeUntil(this._destroyed$)).subscribe((library: any) => {
+      console.log("NATE >>>> \t library : ", library);
+      this._gameList$ = library;
+    });
   }
 
 }

@@ -1,3 +1,4 @@
+import { API_KEY } from 'ng-google-sheets-db';
 import { QuickPlayToWinComponent } from './main/quick-play-to-win/quick-play-to-win.component';
 import { ReportsComponent } from './main/reports/reports.component';
 import { PlayToWinComponent } from './main/play-to-win/play-to-win.component';
@@ -60,6 +61,10 @@ import { APIInterceptor } from 'src/assets/classes/APIInterceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: APIInterceptor,
       multi: true,
+    },
+    {
+      provide: API_KEY,
+      useValue: "AIzaSyA0xCJqEYpfHe1VYCdTnKcGmzuTK_cLrJ4",
     }
   ],
   bootstrap: [AppComponent]

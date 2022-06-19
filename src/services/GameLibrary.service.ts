@@ -1,19 +1,38 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { GameLibraryDto } from './../assets/models/game-lib';
+import { HttpClient, HttpHeaders, HttpParams, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { take } from 'rxjs';
+import { take, Observable } from 'rxjs';
 import { LibCheckoutTxn } from 'src/assets/models/game-lib';
+import { GoogleSheetsDbService } from 'ng-google-sheets-db';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameLibraryService {
 
-  constructor(private http: HttpClient) { }
+  private _googleSheetId = "1dHLqoKq_Cfe979FCK7e_48oFujrBNMYdSEdlicpcsYY";
+  private _mapping: GameLibraryDto = {
+    title: 'Game',
+    barcode: 'Barcode',
+    goodForKids: 'Good for Kids',
+    goodFor2P: 'Good for 2P',
+    players: 'Players',
+    estTime: 'Est Time',
+    recAge: 'Ages',
+    ptw: 'none',
+    notes: 'Notes'
+  };
+
+  constructor(private http: HttpClient, private _google: GoogleSheetsDbService) { }
 
   public getAllTxns(): any {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
 
     return this.http.get('getLibTxn', { 'headers': headers });
+  }
+
+  public get library$() {
+    return this._google.get(this._googleSheetId, "Permanent Game Library", this._mapping);
   }
 
   public getTxnsByAttendee(barcode: number): LibCheckoutTxn[] {

@@ -3,7 +3,7 @@
 function db_credentials() {
 
     echo "ATTEMPTING TO GET CREDENTIALS";
-    $list = call( './credentials.php' );
+    $list = call( 'credentials.php' );
     print_r( $list );
 
     // **IMPORTANT!!** this line calls a function in a different scripts file
