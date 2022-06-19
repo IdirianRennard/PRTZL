@@ -25,7 +25,7 @@ function db_login() {
     $conn = new mysqli( $creds->host, $creds->user, $creds->pwd, $creds->db );
 
     if ( $conn->connect_error ) {
-        die( "Connection failed: " . $conn->connect_error );
+      die( "Connection failed: " . $conn->connect_error );
     }
 
     return $conn;
@@ -42,13 +42,13 @@ function insert_sql( $array, $table ) {
 
     //loop through array to add to strings
     foreach( $array as $k => $v ) {
-        $return .= $k . ', ';
+        $return .= "$k, ";
         $values .= "'$v'" . ', ';
     }
 
     //trim the comma
     $return = rtrim( $return, ", " );
-    $values = rtrim( $values, ', ');
+    $values = rtrim( $values, ", ");
 
     $return .= ")";
     $values .= ")";
@@ -69,14 +69,14 @@ function select_sql( $select_array, $table, $where ) {
     //is array a wildcard?
     if ( is_string( $select_array ) ) {
 
-        $select .= "$select_array ";
+      $select .= "$select_array ";
 
     } else {
 
-        //loop through array to add to string
-        foreach( $select_array as $item ) {
-            $select .= $item . ', ';
-        }
+      	//loop through array to add to string
+    	foreach( $select_array as $item ) {
+        	$select .= "$item, ";
+      	}
     }
 
     //trim the comma

@@ -2,6 +2,7 @@
 
 //basic curl function
 function call( $url ) {
+  echo "\n$url\n";
   $handle = curl_init();
 
   curl_setopt_array($handle,
@@ -12,6 +13,7 @@ function call( $url ) {
   );
 
   $data = curl_exec($handle);
+  print_r( $data );
   curl_close($handle);
 
   return $data;
