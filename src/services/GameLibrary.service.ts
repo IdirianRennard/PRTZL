@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -5,6 +6,12 @@ import { Injectable } from '@angular/core';
 })
 export class GameLibraryService {
 
-constructor() { }
+  constructor(private http: HttpClient) { }
+
+  public getAllTxns(): any {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+
+    return this.http.get('getLibTxn', { 'headers': headers });
+  }
 
 }

@@ -6,3 +6,4 @@ $where = [
 ];
 
 json_return( select_sql( '*', 'reg_txn', $where) );
+?>

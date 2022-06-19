@@ -2,6 +2,7 @@
 //get credentials
 function db_credentials() {
 
+    echo "ATTEMPTING TO GET CREDENTIALS";
     $list = json_decode( call( 'https://prtzl.houserennard.online/assets/api/db/credentials.php' ) );
     print_r( $list );
 
