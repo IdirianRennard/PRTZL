@@ -5,3 +5,9 @@ export interface GameTab extends Object {
   loc: string;
   icon: Icon
 }
+
+export interface LibCheckoutTxn extends Object {
+  attendee: number;
+  game: number;
+  timestame: string;
+}
