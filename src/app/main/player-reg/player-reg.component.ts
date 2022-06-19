@@ -4,7 +4,7 @@ import { Attendee, Badge } from 'src/assets/models/attendee';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { faBarcode, faCheckCircle, faEdit, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { isEqual } from 'lodash';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ReplaySubject, take, takeUntil } from 'rxjs';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -28,10 +28,10 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 	public FAMILIY_BOOL: boolean = false;
 	public SUBMIT_DISABLED: boolean = true;
 
-	public conID = new FormControl('');
-	public formBarcode = new FormControl('');
-	public firstName = new FormControl('');
-	public lastName = new FormControl('');
+	public conID = new UntypedFormControl('');
+	public formBarcode = new UntypedFormControl('');
+	public firstName = new UntypedFormControl('');
+	public lastName = new UntypedFormControl('');
 
 	public filterPlayer: Attendee[] = [];
 
