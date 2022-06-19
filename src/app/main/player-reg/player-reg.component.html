@@ -36,6 +36,7 @@
             <mat-label>Barcode</mat-label>
             <input
               matInput
+              (keyup)="validBarcode()"
               [formControl]="formBarcode"
               [matAutocomplete]="formBarcodeAuto"
             >

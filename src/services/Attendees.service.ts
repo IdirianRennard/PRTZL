@@ -1,5 +1,5 @@
 import { RegSubmit } from './../assets/models/reg';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, take } from 'rxjs';
 
@@ -20,13 +20,18 @@ export class AttendeesService {
     )
   }
 
+  public getTxns(barcode: string): any {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    const queryBarcode = new HttpParams().append('barcode', barcode);
+
+    return this.http.get('getPlayerRegTxn', { 'params': queryBarcode, 'headers': headers });
+  }
+
   public postNewReg(reg: RegSubmit): any {
-    console.log("NATE >>>> \t postNewReg.Reg = ", reg);
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const body = JSON.stringify(reg);
     return this.http.post('postReg', body, { 'headers': headers }).pipe(
       map((res: any) => {
-        console.log(res);
         return res;
       })
     );

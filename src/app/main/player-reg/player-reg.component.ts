@@ -1,6 +1,6 @@
 import { RegSubmit } from './../../../assets/models/reg';
 import { AttendeesService } from 'src/services/Attendees.service';
-import { Attendee } from 'src/assets/models/attendee';
+import { Attendee, Badge } from 'src/assets/models/attendee';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { faBarcode, faCheckCircle, faEdit, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { isEqual } from 'lodash';
@@ -10,152 +10,160 @@ import { ReplaySubject, take, takeUntil } from 'rxjs';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
-  selector: 'app-player-reg',
-  templateUrl: './player-reg.component.html',
-  styleUrls: ['./player-reg.component.scss']
+	selector: 'app-player-reg',
+	templateUrl: './player-reg.component.html',
+	styleUrls: ['./player-reg.component.scss']
 })
 export class PlayerRegComponent implements OnInit, OnDestroy {
 
-  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
-  private _player$: Attendee[] = [];
+	private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+	private _player$: Attendee[] = [];
 
-  public readonly edit = faEdit;
+	public readonly edit = faEdit;
 
-  public barcode = faBarcode;
-  public barcodeColor: FaIconComponent["styles"] = { color: 'white' }
-  public barcodeErr!: string;
+	public barcode = faBarcode;
+	public barcodeColor: FaIconComponent["styles"] = { color: 'white' }
+	public barcodeErr!: string;
 
-  public FAMILIY_BOOL: boolean = false;
-  public SUBMIT_DISABLED: boolean = true;
+	public FAMILIY_BOOL: boolean = false;
+	public SUBMIT_DISABLED: boolean = true;
 
-  public conID = new FormControl('');
-  public formBarcode = new FormControl('');
-  public firstName = new FormControl('');
-  public lastName = new FormControl('');
+	public conID = new FormControl('');
+	public formBarcode = new FormControl('');
+	public firstName = new FormControl('');
+	public lastName = new FormControl('');
 
-  public filterPlayer: Attendee[] = [];
+	public filterPlayer: Attendee[] = [];
 
-  constructor(private _attendeesService: AttendeesService) { }
+	constructor(private _attendeesService: AttendeesService) { }
 
-  ngOnInit(): void {
-    this.getAttendees();
-  }
+	ngOnInit(): void {
+		this.getAttendees();
+	}
 
-  ngOnDestroy(): void {
-    this._destroyed$.next(true);
-    this._destroyed$.complete();
-  }
+	ngOnDestroy(): void {
+		this._destroyed$.next(true);
+		this._destroyed$.complete();
+	}
 
-  public clearForm() {
-    this.conID.setValue('');
-    this.formBarcode.setValue('');
-    this.firstName.setValue('');
-    this.lastName.setValue('');
-    this.filterPlayers();
-    this.barcode = faBarcode;
-    this.barcodeColor = { color: 'white' };
-    this.barcodeErr = '';
-  }
+	public clearForm() {
+		this.conID.setValue('');
+		this.formBarcode.setValue('');
+		this.firstName.setValue('');
+		this.lastName.setValue('');
+		this.barcodeErr = '';
+		this.filterPlayer = [];
+		this.validSubmit();
+	}
 
-  public filterPlayers() {
-    const originalFilter = this._player$;
-    let scratchFilter: Attendee[] = originalFilter;
+	public filterPlayers() {
+		const originalFilter = this._player$;
+		let scratchFilter: Attendee[] = originalFilter;
 
-    if (this.conID.value.length > 0) {
-      scratchFilter = scratchFilter.filter((player: Attendee) => player.id.toString().match(this.conID.value));
-    }
+		if (this.conID.value.length > 0) {
+			scratchFilter = scratchFilter.filter((player: Attendee) => player.id.toString().match(this.conID.value));
+		}
 
-    if (this.firstName.value.length > 0) {
-      scratchFilter = scratchFilter.filter(player => player.first_name.toLowerCase().includes(this.firstName.value.toLowerCase()));
-    }
+		if (this.firstName.value.length > 0) {
+			scratchFilter = scratchFilter.filter(player => player.first_name.toLowerCase().includes(this.firstName.value.toLowerCase()));
+		}
 
-    if (this.lastName.value.length > 0) {
-      scratchFilter = scratchFilter.filter(player => player.last_name.toLowerCase().includes(this.lastName.value.toLowerCase()));
-    }
+		if (this.lastName.value.length > 0) {
+			scratchFilter = scratchFilter.filter(player => player.last_name.toLowerCase().includes(this.lastName.value.toLowerCase()));
+		}
 
-    this.filterPlayer = scratchFilter.length > 5 ? scratchFilter.slice(0, 4) : scratchFilter;
+		this.filterPlayer = scratchFilter.length > 5 ? scratchFilter.slice(0, 4) : scratchFilter;
 
-    // this.loadFamily();
-    this.validSubmit();
+		// this.loadFamily();
+		this.validSubmit();
+	}
 
-    console.log(this.filterPlayer);
-  }
+	public formComplete(event: MatAutocompleteSelectedEvent) {
+		const autoValue = event.option.value;
+		this.conID.setValue(autoValue.id);
+		this.firstName.setValue(autoValue.first_name);
+		this.lastName.setValue(autoValue.last_name);
 
-  public formComplete(event: MatAutocompleteSelectedEvent) {
-    const autoValue = event.option.value;
-    this.conID.setValue(autoValue.id);
-    this.firstName.setValue(autoValue.first_name);
-    this.lastName.setValue(autoValue.last_name);
+		console.log("NATE >>> \t formComplete.autoValue = ", autoValue);
 
-    console.log("NATE >>> \t formComplete.autoValue = ", autoValue);
+		if (autoValue.barcode.length > 0) {
+			this.formBarcode.setValue(autoValue.barcode[0].id);
+		}
 
-    if (autoValue.barcode.length > 0) {
-      this.formBarcode.setValue(autoValue.barcode[0].id);
-    }
+		this.filterPlayers();
+	}
 
-    this.filterPlayers();
-  }
+	public getAttendees(): void {
+		this._attendeesService.getAll().pipe(takeUntil(this._destroyed$)).subscribe((data: Attendee[]) => {
+			const playerArray: Attendee[] = [];
+			const playerEntries = Object.entries(data);
 
-  public getAttendees(): void {
-    this._attendeesService.getAll().pipe(takeUntil(this._destroyed$)).subscribe((data: Attendee[]) => {
-      const playerArray: Attendee[] = [];
-      const playerEntries = Object.entries(data);
+			for (let i = 0; i < playerEntries.length; i++) {
+				playerArray[playerEntries[i][0] as unknown as number] = playerEntries[i][1];
+			}
 
-      for (let i = 0; i < playerEntries.length; i++) {
-        playerArray[playerEntries[i][0] as unknown as number] = playerEntries[i][1];
-      }
+			this._player$ = playerArray;
+		});
+	}
 
-      this._player$ = playerArray;
-    });
-  }
+	public loadFamily() {
+		if (this.filterPlayer.length === 1) {
+			this.FAMILIY_BOOL = true;
+		} else {
+			this.FAMILIY_BOOL = false;
+		}
+	}
 
-  public loadFamily() {
-    if (this.filterPlayer.length === 1) {
-      this.FAMILIY_BOOL = true;
-    } else {
-      this.FAMILIY_BOOL = false;
-    }
-  }
+	public submitMainReg() {
+		const submit: RegSubmit = {
+			id: this.conID.value,
+			barcode: this.formBarcode.value
+		}
 
-  public submitMainReg() {
-    const submit: RegSubmit = {
-      id: this.conID.value,
-      barcode: this.formBarcode.value
-    }
+		this._attendeesService.postNewReg(submit).pipe(take(1)).subscribe((response: any) => {
+			if (typeof response === 'boolean' && response) {
+				this.clearForm();
+			}
+		});
+	}
 
-    this._attendeesService.postNewReg(submit).pipe(take(1)).subscribe((response: any) => {
-      console.log(response);
-    });
-  }
+	public validBarcode() {
+		if (this.formBarcode.value.length === 0) {
+			this.barcode = faBarcode;
+			this.barcodeColor = { color: 'white' };
+			this.barcodeErr = '';
+		} else {
+			let barcodeTxns: Badge[] = []
+			this._attendeesService
+				.getTxns(this.formBarcode.value)
+				.pipe(takeUntil(this._destroyed$))
+				.subscribe((txns: Badge) => {
+					console.log("NATE >>>> \t txns :", txns);
+					barcodeTxns.push(txns);
+				});
 
-  public validBarcode() {
-    if (this.formBarcode.value.length === 0) {
-      this.barcode = faBarcode;
-      this.barcodeColor = { color: 'white' };
-      this.barcodeErr = '';
-    } else {
-      const validAttendee = this._player$.filter((player) => (player.barcode.length > 0) && player.barcode[0].id === this.formBarcode.value);
+			const validAttendee = this._player$.filter((player) => (player.barcode.length > 0) && player.barcode[0].id === this.formBarcode.value);
 
-      if (validAttendee.length === 0 || isEqual(this.filterPlayer, validAttendee[0])) {
-        this.barcode = faCheckCircle;
-        this.barcodeColor = { color: 'limegreen' };
-      } else {
-        this.barcode = faExclamationTriangle;
-        this.barcodeColor = { color: 'gold' };
-        this.barcodeErr = `Barcode registered to ${validAttendee[0].first_name} ${validAttendee[0].last_name} at ${validAttendee[0].barcode[0] ? validAttendee[0].barcode[0].timestamp.substring(0, validAttendee[0].barcode[0].timestamp.length - 10) : 'MISSING TIMESTAMP'}`
-      }
-    }
-  }
+			if (validAttendee.length === 0 || isEqual(this.filterPlayer, validAttendee[0])) {
+				this.barcode = faCheckCircle;
+				this.barcodeColor = { color: 'limegreen' };
+			} else {
+				this.barcode = faExclamationTriangle;
+				this.barcodeColor = { color: 'gold' };
+				this.barcodeErr = `Barcode registered to ${validAttendee[0].first_name} ${validAttendee[0].last_name} at ${validAttendee[0].barcode[0] ? validAttendee[0].barcode[0].timestamp.substring(0, validAttendee[0].barcode[0].timestamp.length - 10) : 'MISSING TIMESTAMP'}`
+			}
+		}
+	}
 
 
-  public validSubmit() {
-    this.validBarcode();
+	public validSubmit() {
+		this.validBarcode();
 
-    if (this.filterPlayer.length === 1 && (this.barcode === faCheckCircle)) {
-      this.SUBMIT_DISABLED = false;
-    } else {
-      this.SUBMIT_DISABLED = true;
-    }
-  }
+		if (this.filterPlayer.length === 1 && (this.barcode === faCheckCircle)) {
+			this.SUBMIT_DISABLED = false;
+		} else {
+			this.SUBMIT_DISABLED = true;
+		}
+	}
 }
 
