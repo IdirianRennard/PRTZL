@@ -1,8 +1,15 @@
 <?php
+	include "../f(x)";
 
-$db = 'db687177883';
-$host = 'db687177883.db.1and1.com:3306';
-$user = 'dbo687177883';
-$pwd = 'A31!05th3R!53nPF#1';
+	$call = json_decode( call( "https://www.houserennard.online/credits/tte.json") );
+	class db_creds {
+    public $db;
+    public $host;
+    public $user;
+    public $pwd;
+  }
 
+  $creds = new db_creds( $db = $call->db, $host = $call->host, $user = $call->user, $pwd = $call->pwd );
+
+  json_return( $creds );
 ?>

@@ -1,11 +1,9 @@
 <?php
-
 //get credentials
 function db_credentials() {
 
-    include 'credentials.php';
-
-    $list = get_defined_vars();
+    $list = json_decode( call( './credentials.php' ) );
+    print_r( $list );
 
     // **IMPORTANT!!** this line calls a function in a different scripts file
     //please ensure the other file is also included in your page
