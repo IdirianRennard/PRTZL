@@ -1,3 +1,4 @@
+import { GameLibraryService } from './../../../services/GameLibrary.service';
 import { Component, OnInit } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faBarcode } from '@fortawesome/free-solid-svg-icons';
@@ -13,7 +14,10 @@ export class GameCheckOutComponent implements OnInit {
   public barcodeColor: FaIconComponent["styles"] = { color: 'white' }
   public barcodeErr!: string;
 
-  constructor() { }
+  constructor(
+    private _attendeesService: AttendeesService,
+    private _libService: GameLibraryService
+  ) { }
 
   ngOnInit() {
   }
