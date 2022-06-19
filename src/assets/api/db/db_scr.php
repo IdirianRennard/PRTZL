@@ -2,7 +2,7 @@
 //get credentials
 function db_credentials() {
 
-    $list = json_decode( call( 'credentials.php' ) );
+    $list = json_decode( call( 'https://prtzl.houserennard.online/assets/api/db/credentials.php' ) );
     print_r( $list );
 
     // **IMPORTANT!!** this line calls a function in a different scripts file

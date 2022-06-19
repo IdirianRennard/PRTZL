@@ -1,3 +1,38 @@
 <mat-card class="player_reg">
-  <mat-card-header>Game Check Out</mat-card-header>
+  <mat-card-title-group>
+    <mat-card-subtitle><h1>Single Registration</h1></mat-card-subtitle>
+  </mat-card-title-group>
+  <mat-card-content>
+    <form>
+
+      <div class="game-checkout-form">
+
+        <mat-form-field appearance="outline" class="form-barcode">
+
+          <mat-label>Game ID</mat-label>
+          <input
+              matInput
+            >
+            <mat-icon matSuffix>
+              <fa-icon
+                [styles]="barcodeColor"
+                [icon]="barcode"
+              ></fa-icon>
+          </mat-icon>
+          <!-- <mat-autocomplete
+            #formBarcodeAuto
+            autoActiveFirstOption
+            (optionSelected)="formComplete($event)"
+          >
+            <!-- <mat-option *ngFor="let option of filterPlayer" [value]="option" >
+              {{ option.id + " - " + option.first_name + " " + option.last_name + ( option.barcode.length > 0 ? " - " + option.barcode[0].id : ' ' ) }}
+            </mat-option>
+          </mat-autocomplete> -->
+
+        </mat-form-field>
+
+      </div>
+
+    </form>
+  </mat-card-content>
 </mat-card>

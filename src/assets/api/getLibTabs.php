@@ -42,15 +42,6 @@ $scr->icon->name = "stop";
 
 $tabs[] = $scr;
 
-$scr = new Tab ();
-$scr->name = "Reports";
-$scr->loc = "reports";
-$scr->icon = new Icon ();
-$scr->icon->prefix = "fas";
-$scr->icon->name = "file";
-
-$tabs[] = $scr;
-
 json_return( $tabs );
 
 ?>
