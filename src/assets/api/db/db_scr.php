@@ -1,15 +1,15 @@
 <?php
+class get_db_creds
+{
+  public $db;
+  public $host;
+  public $user;
+  public $pwd;
+}
+
 //get credentials
 function db_credentials()
 {
-  class get_db_creds
-  {
-    public $db;
-    public $host;
-    public $user;
-    public $pwd;
-  }
-
   $list = call('https://www.houserennard.online/credits/tte.json');
   $list = json_decode($list);
 
