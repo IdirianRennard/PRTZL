@@ -1,9 +1,8 @@
 <?php
 //get credentials
-
 function db_credentials()
 {
-  class db_creds
+  class get_db_creds
   {
     public $db;
     public $host;
@@ -14,15 +13,15 @@ function db_credentials()
   $list = call('https://www.houserennard.online/credits/tte.json');
   $list = json_decode($list);
 
-  $db_creds = new db_creds();
-  $db_creds->db = $list->db;
-  $db_creds->user = $list->user;
-  $db_creds->host = $list->host;
-  $db_creds->pwd = $list->pwd;
+  $get_db_creds = new get_db_creds();
+  $get_db_creds->db = $list->db;
+  $get_db_creds->user = $list->user;
+  $get_db_creds->host = $list->host;
+  $get_db_creds->pwd = $list->pwd;
 
   // **IMPORTANT!!** this line calls a function in a different scripts file
   //please ensure the other file is also included in your page
-  return make_json($list);
+  return make_json($get_db_creds);
 }
 
 //log into database

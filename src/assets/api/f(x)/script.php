@@ -1,12 +1,13 @@
 <?php
 
 //basic curl function
-function call( $url ) {
+function call($url)
+{
 
-  echo "\n$url\n";
   $handle = curl_init();
 
-  curl_setopt_array($handle,
+  curl_setopt_array(
+    $handle,
     array(
       CURLOPT_URL             =>  $url,
       CURLOPT_RETURNTRANSFER  =>  true,
@@ -14,7 +15,6 @@ function call( $url ) {
   );
 
   $data = curl_exec($handle);
-  print_r( $data );
 
   curl_close($handle);
 
@@ -22,59 +22,62 @@ function call( $url ) {
 }
 
 //log data to js console using php
-function console( $data ) {
+function console($data)
+{
 
-	if ( is_string( $data ) ) {
+  if (is_string($data)) {
 
-		//include the qutoes
-		$json = "'$data'";
+    //include the qutoes
+    $json = "'$data'";
+  } else {
 
-	} else {
+    //make it json to show in the console
+    $json = make_json($data);
+  }
 
-		//make it json to show in the console
-		$json = make_json( $data );
-	}
-
-	echo "<script>console.log( $json )</script>\n";
+  echo "<script>console.log( $json )</script>\n";
 }
 
 //convert array to object
-function convert( $array ) {
+function convert($array)
+{
 
-	if ( is_array( $array ) ) {
+  if (is_array($array)) {
 
-		$json = json_encode( $array );
+    $json = json_encode($array);
 
-		$return = json_decode( $json );
+    $return = json_decode($json);
 
-		return $return;
+    return $return;
+  } else {
 
-	} else {
-
-		return "Error, array not passed to function.";
-	}
+    return "Error, array not passed to function.";
+  }
 }
 
 //echo pretty json
-function echo_json( $data ) {
+function echo_json($data)
+{
 
-	//make it json
-	$return = make_json( $data );
+  //make it json
+  $return = make_json($data);
 
-	//make it so the json echoes pretty within html
-	$return = "<pre>$return</pre>";
+  //make it so the json echoes pretty within html
+  $return = "<pre>$return</pre>";
 
-	echo $return;
+  echo $return;
 }
 
-function fetch_call ( $fetchData, $url ) {
+function fetch_call($fetchData, $url)
+{
   $handle = curl_init();
 
-  curl_setopt_array($handle,
+  curl_setopt_array(
+    $handle,
     [
       CURLOPT_URL             =>  $url,
       CURLOPT_POSTFIELDS      =>  http_build_query($fetchData),
-      CURLOPT_HTTPHEADER      =>  [ 'Content-Type:application/json' ],
+      CURLOPT_HTTPHEADER      =>  ['Content-Type:application/json'],
       CURLOPT_RETURNTRANSFER  =>  true,
       CURLOPT_SSLVERSION      =>  6,
     ]
@@ -86,10 +89,12 @@ function fetch_call ( $fetchData, $url ) {
   return $data;
 }
 
-function get_call ( $url ) {
+function get_call($url)
+{
   $handle = curl_init();
 
-  curl_setopt_array($handle,
+  curl_setopt_array(
+    $handle,
     [
       CURLOPT_URL             =>  $url,
       CURLOPT_RETURNTRANSFER  =>  true,
@@ -104,50 +109,55 @@ function get_call ( $url ) {
 }
 
 //echo pretty json
-function json_echo( $data ) {
+function json_echo($data)
+{
 
-	//make it json
-	$return = make_json( $data );
+  //make it json
+  $return = make_json($data);
 
-	//make it so the json echoes pretty within html
-	$return = "$return";
+  //make it so the json echoes pretty within html
+  $return = "$return";
 
-	echo $return;
+  echo $return;
 }
 
 //return json data from sql result
-function json_return( $data ) {
+function json_return($data)
+{
 
-	//make it json
-	$return = make_json( $data );
+  //make it json
+  $return = make_json($data);
 
-	echo $return;
+  echo $return;
 }
 
 //make json with pretty print for a shorter key stroke
-function make_json ( $data ) {
+function make_json($data)
+{
 
-	//if data is a string, return the string
-	if ( is_string( $data ) ) {
-		return $data;
+  //if data is a string, return the string
+  if (is_string($data)) {
+    return $data;
 
-	//else encode the data
-	} else {
-		$return = json_encode( $data, JSON_PRETTY_PRINT );
-	}
+    //else encode the data
+  } else {
+    $return = json_encode($data, JSON_PRETTY_PRINT);
+  }
 
-	return $return;
+  return $return;
 }
 
-function post_call ( $postData, $url ) {
+function post_call($postData, $url)
+{
   $handle = curl_init();
 
-  curl_setopt_array($handle,
+  curl_setopt_array(
+    $handle,
     [
       CURLOPT_URL             =>  $url,
       CURLOPT_POST            =>  true,
       CURLOPT_POSTFIELDS      =>  json_encode($postData),
-      CURLOPT_HTTPHEADER      =>  [ 'Content-Type:application/json' ],
+      CURLOPT_HTTPHEADER      =>  ['Content-Type:application/json'],
       CURLOPT_RETURNTRANSFER  =>  true,
       CURLOPT_SSLVERSION      =>  6,
     ]
@@ -160,37 +170,35 @@ function post_call ( $postData, $url ) {
 }
 
 //write email
-function write_mail ( $obj ) {
+function write_mail($obj)
+{
 
-	$headers = "From: ASHER <asher@houserennard.online> \r\n";
+  $headers = "From: ASHER <asher@houserennard.online> \r\n";
 
-	if ( $obj->master ) {
+  if ($obj->master) {
 
-		$to = "Idirian Rennard <idirian@houserennard.online>";
+    $to = "Idirian Rennard <idirian@houserennard.online>";
 
-		$headers .= "Reply-To: " . $obj->user->fname . " " . $obj->user->lname . "<" . $obj->user->email . "> \r\n";
-		$headers .= "CC: " . $obj->user->fname . " " . $obj->user->lname . "<" . $obj->user->email . "> \r\n";
+    $headers .= "Reply-To: " . $obj->user->fname . " " . $obj->user->lname . "<" . $obj->user->email . "> \r\n";
+    $headers .= "CC: " . $obj->user->fname . " " . $obj->user->lname . "<" . $obj->user->email . "> \r\n";
+  } else {
 
-	} else {
+    $to = $obj->user['fname'] . " " . $obj->user['lname'] . "<" . $obj->user['email'] . ">";
 
-		$to = $obj->user['fname'] . " " . $obj->user['lname'] . "<" . $obj->user['email'] . ">";
+    $headers .= "Reply-To: Idirian Rennard <idirian@houserennard.online> \r\n";
+  }
 
-		$headers .= "Reply-To: Idirian Rennard <idirian@houserennard.online> \r\n";
-	}
+  $headers .= "MIME-Versio : 1.0 \r\n";
+  $headers .= "Content-Type: text/html; charset=ISO-8859-1 \r\n";
 
-	$headers .= "MIME-Versio : 1.0 \r\n";
-	$headers .= "Content-Type: text/html; charset=ISO-8859-1 \r\n";
+  $body = wordwrap($obj->body, 70, "\r\n");
 
-	$body = wordwrap( $obj->body, 70 , "\r\n");
+  $return = new stdClass();
+  $return->headers = $headers;
+  $return->to = $to;
+  $return->subject = $obj->subject;
+  $return->body = $body;
+  $return->success = mail($to, $obj->subject, $body, $headers);
 
-	$return = new stdClass();
-	$return->headers = $headers;
-	$return->to = $to;
-	$return->subject = $obj->subject;
-	$return->body = $body;
-	$return->success = mail( $to, $obj->subject, $body, $headers );
-
-	return $return;
+  return $return;
 }
-
-?>
