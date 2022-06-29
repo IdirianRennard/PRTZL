@@ -33,7 +33,6 @@ function db_login()
 
   //translate credentials to be used
   $creds = json_decode($creds);
-  print_r($creds);
 
   //modified from host for php connection to database
   $conn = new mysqli($creds->host, $creds->user, $creds->pwd, $creds->db);
