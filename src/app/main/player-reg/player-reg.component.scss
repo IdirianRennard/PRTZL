@@ -54,6 +54,14 @@
     width: 85%;
   }
 
+  .spinner {
+    width: 100%;
+
+    mat-spinner {
+      margin: 0  15rem;
+    }
+  }
+
 
   .submit-button {
     background-color: limegreen;

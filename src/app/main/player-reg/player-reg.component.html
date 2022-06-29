@@ -10,15 +10,19 @@
     </button>
   </mat-card-title-group>
     <mat-card-content>
-      <form>
+      <div *ngIf="LOADING" class="spinner">
+          <mat-spinner></mat-spinner>
+      </div>
+
+      <form *ngIf="!LOADING" [formGroup]="playerRegForm">
 
         <div class="reg_form">
 
-          <mat-form-field appearance="fill" class="form-input">
+          <mat-form-field appearance="fill" class="form-input" >
             <mat-label>Con ID</mat-label>
             <input
               matInput
-              [formControl]="conID"
+              formControlName="conID"
               (keyup)="filterPlayers()"
               [matAutocomplete]="conIDAuto" >
             <mat-icon matSuffix>search</mat-icon>
@@ -37,7 +41,7 @@
             <input
               matInput
               (keyup)="validBarcode()"
-              [formControl]="formBarcode"
+              formControlName="formBarcode"
               [matAutocomplete]="formBarcodeAuto"
             >
             <mat-icon matSuffix>
@@ -70,7 +74,7 @@
             <mat-label>First Name</mat-label>
             <input
               matInput
-              [formControl]="firstName"
+              formControlName="firstName"
               (keyup)="filterPlayers()"
               [matAutocomplete]="fNameAuto"
             >
@@ -89,7 +93,7 @@
             <mat-label>Last Name</mat-label>
             <input
               matInput
-              [formControl]="lastName"
+              formControlName="lastName"
               (keyup)="filterPlayers()"
               [matAutocomplete]="lNameAuto"
             >

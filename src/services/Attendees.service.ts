@@ -20,7 +20,7 @@ export class AttendeesService {
     )
   }
 
-  public getTxns(barcode: string): any {
+  public getRegTxns(barcode: string): any {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const queryBarcode = new HttpParams().append('barcode', barcode);
 

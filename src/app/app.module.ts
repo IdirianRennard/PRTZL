@@ -23,6 +23,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GemboxComponent } from './main/gembox/gembox.component';
 import { APIInterceptor } from 'src/assets/classes/APIInterceptor';
@@ -52,6 +53,7 @@ import { APIInterceptor } from 'src/assets/classes/APIInterceptor';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     MatTabsModule,
     MatToolbarModule,
     ReactiveFormsModule
