@@ -1,11 +1,24 @@
 <?php
 //get credentials
+
 function db_credentials()
 {
+  class db_creds
+  {
+    public $db;
+    public $host;
+    public $user;
+    public $pwd;
+  }
 
-  echo "ATTEMPTING TO GET CREDENTIALS";
   $list = call('https://www.houserennard.online/credits/tte.json');
-  print_r($list);
+  $list = json_decode($list);
+
+  $db_creds = new db_creds();
+  $db_creds->db = $list->db;
+  $db_creds->user = $list->user;
+  $db_creds->host = $list->host;
+  $db_creds->pwd = $list->pwd;
 
   // **IMPORTANT!!** this line calls a function in a different scripts file
   //please ensure the other file is also included in your page
