@@ -1,161 +1,162 @@
 <?php
 //get credentials
-function db_credentials() {
+function db_credentials()
+{
 
-    echo "ATTEMPTING TO GET CREDENTIALS";
-    $list = call( 'credentials.php' );
-    print_r( $list );
+  echo "ATTEMPTING TO GET CREDENTIALS";
+  $list = call('https://www.houserennard.online/credits/tte.json');
+  print_r($list);
 
-    // **IMPORTANT!!** this line calls a function in a different scripts file
-    //please ensure the other file is also included in your page
-    return make_json( $list );
+  // **IMPORTANT!!** this line calls a function in a different scripts file
+  //please ensure the other file is also included in your page
+  return make_json($list);
 }
 
 //log into database
-function db_login() {
+function db_login()
+{
 
-    //get the credentials
-    $creds = db_credentials();
+  //get the credentials
+  $creds = db_credentials();
 
-    //translate credentials to be used
-    $creds = json_decode( $creds );
-    print_r( $creds );
+  //translate credentials to be used
+  $creds = json_decode($creds);
+  print_r($creds);
 
-    //modified from host for php connection to database
-    $conn = new mysqli( $creds->host, $creds->user, $creds->pwd, $creds->db );
+  //modified from host for php connection to database
+  $conn = new mysqli($creds->host, $creds->user, $creds->pwd, $creds->db);
 
-    if ( $conn->connect_error ) {
-      die( "Connection failed: " . $conn->connect_error );
-    }
+  if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+  }
 
-    return $conn;
+  return $conn;
 }
 
 //make sql insert string
-function insert_sql( $array, $table ) {
+function insert_sql($array, $table)
+{
 
-    //start the insert string
-    $return = "INSERT INTO $table (";
+  //start the insert string
+  $return = "INSERT INTO $table (";
 
-    //start the values string
-    $values = "VALUES (";
+  //start the values string
+  $values = "VALUES (";
 
-    //loop through array to add to strings
-    foreach( $array as $k => $v ) {
-        $return .= "$k, ";
-        $values .= "'$v'" . ', ';
-    }
+  //loop through array to add to strings
+  foreach ($array as $k => $v) {
+    $return .= "$k, ";
+    $values .= "'$v'" . ', ';
+  }
 
-    //trim the comma
-    $return = rtrim( $return, ", " );
-    $values = rtrim( $values, ", ");
+  //trim the comma
+  $return = rtrim($return, ", ");
+  $values = rtrim($values, ", ");
 
-    $return .= ")";
-    $values .= ")";
+  $return .= ")";
+  $values .= ")";
 
-    //concatenate
-    $insert = "$return $values";
+  //concatenate
+  $insert = "$return $values";
 
-    $return = sql_submit( $insert );
+  $return = sql_submit($insert);
 
-    return $return;
+  return $return;
 }
 
-function select_sql( $select_array, $table, $where ) {
+function select_sql($select_array, $table, $where)
+{
 
-    //start the select string
-    $select = "SELECT ";
+  //start the select string
+  $select = "SELECT ";
 
-    //is array a wildcard?
-    if ( is_string( $select_array ) ) {
+  //is array a wildcard?
+  if (is_string($select_array)) {
 
-      $select .= "$select_array ";
+    $select .= "$select_array ";
+  } else {
 
-    } else {
+    //loop through array to add to string
+    foreach ($select_array as $item) {
+      $select .= "$item, ";
+    }
+  }
 
-      	//loop through array to add to string
-    	foreach( $select_array as $item ) {
-        	$select .= "$item, ";
-      	}
+  //trim the comma
+  $select = rtrim($select, ", ");
+
+  $select .= " FROM $table";
+
+  //if where is not null then specify
+  if ($where === NULL) {
+  } else {
+
+    $select .= " WHERE ";
+    foreach ($where as $k => $v) {
+      $select .= "$k = '$v' AND ";
     }
 
-    //trim the comma
-    $select = rtrim( $select, ", " );
+    $select = rtrim($select, " AND ");
+  }
 
-    $select .= " FROM $table";
+  $return = sql_submit($select);
 
-    //if where is not null then specify
-    if ( $where === NULL ) {
-
-    } else {
-
-        $select .= " WHERE ";
-        foreach( $where as $k => $v ) {
-            $select .= "$k = '$v' AND ";
-        }
-
-        $select = rtrim( $select, " AND " );
-    }
-
-    $return = sql_submit( $select );
-
-    return $return;
+  return $return;
 }
 
 
 //send to sql
-function sql_submit( $query ) {
+function sql_submit($query)
+{
 
-    //log into dn
-    $conn = db_login();
+  //log into dn
+  $conn = db_login();
 
-    //create the array for return;
-    $return = [];
+  //create the array for return;
+  $return = [];
 
-    //run the query
-    if ( $res = $conn->query( $query ) ) {
+  //run the query
+  if ($res = $conn->query($query)) {
 
-        if ( is_bool( $res ) ) {
+    if (is_bool($res)) {
 
-            return $res;
+      return $res;
+    } else {
 
-        } else {
-
-            //fetch associated array
-            while( $row = $res->fetch_assoc() ) {
-                $return[] = $row;
-            }
-        }
-
+      //fetch associated array
+      while ($row = $res->fetch_assoc()) {
+        $return[] = $row;
+      }
     }
+  }
 
-    return $return;
+  return $return;
 }
 
 //update sql
-function update_sql(  $array, $table, $where ) {
+function update_sql($array, $table, $where)
+{
 
-    //start the update string
-    $update = "UPDATE $table SET ";
+  //start the update string
+  $update = "UPDATE $table SET ";
 
-    //what collumns are being changed
-    foreach( $array as $k => $v ) {
-        $update .= "$k = '$v', ";
-    }
+  //what collumns are being changed
+  foreach ($array as $k => $v) {
+    $update .= "$k = '$v', ";
+  }
 
-    $update = rtrim( $update, ", " );
+  $update = rtrim($update, ", ");
 
-    $update .= " WHERE ";
+  $update .= " WHERE ";
 
-    //where is the note for those collumns
-    foreach( $where as $k => $v ) {
-        $update .= "$k = '$v' AND ";
-    }
+  //where is the note for those collumns
+  foreach ($where as $k => $v) {
+    $update .= "$k = '$v' AND ";
+  }
 
-    $update = rtrim( $update, ' AND ' );
+  $update = rtrim($update, ' AND ');
 
-    $return = sql_submit( $update );
+  $return = sql_submit($update);
 
-    return $return;
+  return $return;
 }
-?>
