@@ -49,14 +49,14 @@ $select = [
 ];
 
 $attendees = select_sql($select, 'attendees', null);
-$idList = array_column($attendees, 'attendee_id');
+$attendeeIdList = array_column($attendees, 'attendee_id');
 
 echo "Preloaded Attendees: ";
 print_r($attendees);
 echo "\n\n";
 
 echo "Id List: ";
-print_r($idList);
+print_r($attendeeIdList);
 echo "\n\n";
 
 
@@ -70,27 +70,14 @@ if ((int)$totalItems > (int)Count($attendees)) {
     }
 
     $items = $badges->result->items;
-    print_r($items);
     $itemId = array_column($items, 'badge_number');
 
-    echo "Badge Number List: ";
-    print_r($itemId);
-    echo "\n\n";
-
     foreach ($itemId as $k => $v) {
-      echo "Specific Entry: ";
-      print_r($items[$k]);
-      echo "\n\n";
-
-      // echo "Search Array:";
-      // print_r(array_search($v->badge_number, $idList));
-      // echo "\n\n";
-
       if (!array_search($v->badge_number, $idList)) {
         $insert = [
-          'attendee_id' => $v->badge_number,
-          'first_name' => $v->firstname,
-          'last_name' => $v->lastname,
+          'attendee_id' => $items[$k]->badge_number,
+          'first_name' => $items[$k]->firstname,
+          'last_name' => $items[$k]->lastname,
           'barcode' => null,
         ];
 
@@ -102,9 +89,9 @@ if ((int)$totalItems > (int)Count($attendees)) {
   $attendees = select_sql($select, 'attendees', null);
 };
 
-// echo "Attendees :";
-// print_r($attendees);
-// echo "\n\n";
+echo "Attendees Post-Loop: ";
+print_r($attendees);
+echo "\n\n";
 
 $select = [
   'attendee_id',
@@ -112,26 +99,28 @@ $select = [
   'timestamp',
 ];
 
+
+$attendeeIdList = array_column($attendees, 'attendee_id');
+
 $regTxnList = select_sql($select, 'reg_txn', null);
 $regIdList = array_column($regTxnList, 'attendee_id');
 
-foreach ($attendees as $k => $v) {
-  $attendee = new Attendee(
-    $id = $v->attendee_id,
-    $first_name = $v->firstname,
-    $last_name = $v->last_name,
+foreach ($attendeeIdList as $k => $v) {
+  $scratchAttendee = new Attendee(
+    $id = $attendees[$k]->attendee_id,
+    $first_name = $attendees[$k]->firstname,
+    $last_name = $attendees[$k]->last_name,
     $barcode = [],
   );
 
-  $where = ['attendee_id' => $v->badge_number];
 
-  if (array_search($v->attendee_id, $regIdList)) {
+  // if (array_search($v->attendee_id, $regIdList)) {
 
-    $txn = array_map('mapTxn', select_sql($select, "reg_txn",  $where));
-    usort($txn, fn ($a, $b) => $b->timestamp - $a->timestamp);
+  //   $txn = array_map('mapTxn', select_sql($select, "reg_txn",  $where));
+  //   usort($txn, fn ($a, $b) => $b->timestamp - $a->timestamp);
 
-    array_push($attendee->barcode, $txn);
-  }
+  //   array_push($attendee->barcode, $txn);
+  // }
 
   $tteBadges[(int)$v->badge_number] = $attendee;
 }
