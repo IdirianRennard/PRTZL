@@ -67,13 +67,13 @@ if ((int)$totalItems > (int)count($attendeeIdList)) {
 
     foreach ($itemId as $k => $v) {
       if (!array_search($v, $attendeeIdList)) {
-        echo "Key: $k \t Value: $v\n";
         $insert = [
           'attendee_id' => $items[$k]->badge_number,
           'first_name' => $items[$k]->firstname,
           'last_name' => $items[$k]->lastname,
           'barcode' => null,
         ];
+        echo "Key: $k \t\t Value: $v \t $insert\n";
 
         insert_sql($insert, 'attendees');
       }
