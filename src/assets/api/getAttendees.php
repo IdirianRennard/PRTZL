@@ -44,16 +44,9 @@ $tteBadges = [];
 
 $select = [
   'attendee_id',
-  'first_name',
-  'last_name',
 ];
 
-$attendees = select_sql($select, 'attendees', null);
-$attendeeIdList = array_column($attendees, 'attendee_id');
-
-echo "Preloaded Attendees: ";
-print_r($attendees);
-echo "\n\n";
+$attendeeIdList = select_sql($select, 'attendees', null);
 
 echo "Id List: ";
 print_r($attendeeIdList);
@@ -72,7 +65,12 @@ if ((int)$totalItems > (int)Count($attendees)) {
     $items = $badges->result->items;
     $itemId = array_column($items, 'badge_number');
 
+    echo "Badge Number List :";
+    print_r($itemId);
+    echo "\n\n";
+
     foreach ($itemId as $k => $v) {
+      echo "Key: $k \t Value: $v";
       if (!array_search($v, $attendeeIdList)) {
         $insert = [
           'attendee_id' => $items[$k]->badge_number,
@@ -85,9 +83,15 @@ if ((int)$totalItems > (int)Count($attendees)) {
       }
     };
   }
-
-  $attendees = select_sql($select, 'attendees', null);
 };
+
+$select = [
+  'attendee_id',
+  'first_name',
+  'last_name'
+];
+
+$attendees = select_sql($select, 'attendees', null);
 
 echo "Attendees Post-Loop: ";
 print_r($attendees);
