@@ -51,11 +51,11 @@ $select = [
 $attendees = select_sql($select, 'attendees', null);
 $idList = array_column($attendees, 'attendee_id');
 
-echo "Preloaded Attendees:";
+echo "Preloaded Attendees: ";
 print_r($attendees);
 echo "\n\n";
 
-echo "Id List:";
+echo "Id List: ";
 print_r($idList);
 echo "\n\n";
 
@@ -66,19 +66,21 @@ if ((int)$totalItems > (int)Count($attendees)) {
     if ($i !== 1) {
       $pagedBadgesUrl = "$badgesUrl&_page_number=$i";
       $badges = get_call($pagedBadgesUrl);
+      $badges = json_decode($badges);
     }
 
     $items = $badges->result->items;
+    print_r($items);
     $itemId = array_column($items, 'badge_number');
 
     echo "Badge Number List: ";
     print_r($itemId);
     echo "\n\n";
 
-    foreach ($items as $k => $v) {
-      // echo "Specific Entry:";
-      // print_r($v);
-      // echo "\n\n";
+    foreach ($itemId as $k => $v) {
+      echo "Specific Entry: ";
+      print_r($items[$k]);
+      echo "\n\n";
 
       // echo "Search Array:";
       // print_r(array_search($v->badge_number, $idList));
