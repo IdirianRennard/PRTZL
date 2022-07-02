@@ -78,7 +78,7 @@ if ((int)$totalItems > (int)Count($attendees)) {
       echo "\n\n";
 
       echo "Search Array:";
-      echo array_search($v->badge_number, $idList);
+      print_r(array_search($v->badge_number, $idList));
       echo "\n\n";
 
       if (!array_search($v->badge_number, $idList)) {
