@@ -40,6 +40,7 @@ $pages = $badges->result->paging;
 $totalPages = $pages->total_pages;
 $totalItems = $pages->total_items;
 
+echo "$totalItems \n\n";
 
 $tteBadges = [];
 
@@ -50,6 +51,13 @@ $select = [
 ];
 
 $attendees = select_sql($select, 'attendees', null);
+$idList = array_column($attendees, 'attendee_id');
+
+print_r($attendees);
+echo "\n\n";
+print_r($idList);
+echo "\n\n";
+
 
 if ((int)$totalItems > (int)Count($attendees)) {
 
@@ -60,8 +68,14 @@ if ((int)$totalItems > (int)Count($attendees)) {
     }
 
     $items = $badges->result->items;
-    $idList = array_column($attendees, 'attendee_id');
+
     foreach ($items as $k => $v) {
+      print_r($v);
+      echo "\n\n";
+
+      echo array_search($v->badge_number, $idList);
+      echo "\n\n";
+
       if (!array_search($v->badge_number, $idList)) {
         $insert = [
           'attendee_id' => $v->badge_number,

@@ -103,6 +103,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
       });
 
       this.LOADING = false;
+      console.log(this._player$);
 
       this.cdr.markForCheck();
     });
