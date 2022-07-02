@@ -73,7 +73,7 @@ if ((int)$totalItems > (int)Count($attendees)) {
     $itemId = array_column($items, 'badge_number');
 
     foreach ($itemId as $k => $v) {
-      if (!array_search($v->badge_number, $idList)) {
+      if (!array_search($v, $attendeeIdList)) {
         $insert = [
           'attendee_id' => $items[$k]->badge_number,
           'first_name' => $items[$k]->firstname,
