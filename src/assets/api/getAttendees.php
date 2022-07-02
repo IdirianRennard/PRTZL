@@ -65,13 +65,9 @@ if ((int)$totalItems > (int)count($attendeeIdList)) {
     $items = $badges->result->items;
     $itemId = array_column($items, 'badge_number');
 
-    echo "Badge Number List :";
-    print_r($itemId);
-    echo "\n\n";
-
     foreach ($itemId as $k => $v) {
-      echo "Key: $k \t Value: $v";
       if (!array_search($v, $attendeeIdList)) {
+        echo "Key: $k \t Value: $v\n";
         $insert = [
           'attendee_id' => $items[$k]->badge_number,
           'first_name' => $items[$k]->firstname,
