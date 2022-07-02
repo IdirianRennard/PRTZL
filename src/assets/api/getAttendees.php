@@ -53,7 +53,7 @@ print_r($attendeeIdList);
 echo "\n\n";
 
 
-if ((int)$totalItems > (int)Count($attendees)) {
+if ((int)$totalItems > (int)count($attendeeIdList)) {
 
   for ($i = 1; $i < $totalPages + 1; $i++) {
     if ($i !== 1) {
