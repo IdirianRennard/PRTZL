@@ -1,5 +1,5 @@
 <mat-card class="player_reg">
-  <mat-card-title-group>
+  <mat-card-title-group  *ngIf="!LOADING">
     <mat-card-subtitle><h1>Single Registration</h1></mat-card-subtitle>
     <button mat-icon-button class="edit-button">
       <fa-icon
@@ -115,7 +115,7 @@
 
   </mat-card-content>
 
-  <mat-card-actions align="end">
+  <mat-card-actions align="end"  *ngIf="!LOADING">
     <button mat-raised-button class="clear-button" (click)="clearForm()">Clear</button>
     <button *ngIf="SUBMIT_DISABLED"
       mat-raised-button

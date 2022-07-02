@@ -1,22 +1,25 @@
 <?php
 include 'include.php';
 
-class Attendee {
+class Attendee
+{
   public $id;
   public $first_name;
   public $last_name;
   public $barcode;
 }
 
-class Txn {
+class Txn
+{
   public $id;
   public $timestamp;
 }
 
-function mapTxn ( $arr ) {
-  $txn = new Txn ();
-  $txn->id = $arr[ 'barcode' ];
-  $txn->timestamp = $arr[ 'timestamp' ];
+function mapTxn($arr)
+{
+  $txn = new Txn();
+  $txn->id = $arr['barcode'];
+  $txn->timestamp = $arr['timestamp'];
 
   return $txn;
 }
@@ -24,76 +27,85 @@ function mapTxn ( $arr ) {
 //Get the TTE Key
 $tte = get_call("https://www.houserennard.online/credits/tte.json");
 
-$tte = json_decode( $tte );
+$tte = json_decode($tte);
 $conId = $tte->con_key;
 
 $TTE_URL = "https://tabletop.events/api";
 
 $badgesUrl = "$TTE_URL/convention/$conId/badges?_items_per_page=100&_order_by=badge_number";
-$badges = get_call( "$badgesUrl&page=0" );
-$badges = json_decode( $badges );
+
+$badges = get_call("$badgesUrl&page=0");
+$badges = json_decode($badges);
 $pages = $badges->result->paging;
 $totalPages = $pages->total_pages;
 $totalItems = $pages->total_items;
 
-$items = $badges->result->items;
+
 $tteBadges = [];
 
-foreach( $items as $k => $v ) {
+$select = [
+  'attendee_id',
+  'first_name',
+  'last_name',
+];
 
-  $where = [];
-  $where["attendee_id"] = $v->badge_number;
+$attendees = select_sql($select, 'attendees', null);
 
-  $select = [
-    'attendee_id',
-    'barcode',
-    'timestamp',
-  ];
+if ((int)$totalItems > (int)Count($attendees)) {
 
-  $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
-  usort( $txn, fn( $a, $b) => $b->timestamp - $a->timestamp );
+  for ($i = 1; $i < $totalPages + 1; $i++) {
+    if ($i !== 1) {
+      $pagedBadgesUrl = "$badgesUrl&_page_number=$i";
+      $badges = get_call($pagedBadgesUrl);
+    }
 
-  $attendee = new Attendee();
+    $items = $badges->result->items;
+    $idList = array_column($attendees, 'attendee_id');
+    foreach ($items as $k => $v) {
+      if (!array_search($v->badge_number, $idList)) {
+        $insert = [
+          'attendee_id' => $v->badge_number,
+          'first_name' => $v->firstname,
+          'last_name' => $v->lastname,
+          'barcode' => null,
+        ];
 
-  $attendee->id         = (int)$v->badge_number;
-  $attendee->first_name = $v->firstname;
-  $attendee->last_name  = $v->lastname;
-  $attendee->barcode    = $txn;
-
-  $tteBadges[ $attendee->id ] = $attendee;
-}
-
-for( $i = 2; $i < $totalPages + 1 ; $i++ ){
-  $pagedBadgesUrl = "$badgesUrl&_page_number=$i";
-  $pagedBadges = get_call( $pagedBadgesUrl );
-  $pagedBadges = json_decode( $pagedBadges );
-
-  $items = $pagedBadges->result->items;
-
-  foreach( $items as $k => $v ) {
-
-    $where = [];
-    $where["attendee_id"] = $v->badge_number;
-
-    $select = [
-      'attendee_id',
-      'barcode',
-      'timestamp',
-    ];
-
-    $txn = array_map( 'mapTxn', select_sql( $select, "reg_txn",  $where ) );
-    usort( $txn, fn( $a, $b ) => $b->timestamp - $a->timestamp );
-
-    $attendee = new Attendee();
-
-    $attendee->id         = (int)$v->badge_number;
-    $attendee->first_name = $v->firstname;
-    $attendee->last_name  = $v->lastname;
-    $attendee->barcode    = $txn;
-
-    $tteBadges[ $attendee->id ] = $attendee;
+        insert_sql($insert, 'attendees');
+      }
+    };
   }
+
+  $attendees = select_sql($select, 'attendees', null);
+};
+
+$select = [
+  'attendee_id',
+  'barcode',
+  'timestamp',
+];
+
+$regTxnList = select_sql($select, 'reg_txn', null);
+$regIdList = array_column($regTxnList, 'attendee_id');
+
+foreach ($attendees as $k => $v) {
+  $attendee = new Attendee(
+    $id = $v->attendee_id,
+    $first_name = $v->firstname,
+    $last_name = $v->last_name,
+    $barcode = [],
+  );
+
+  $where = ['attendee_id' => $v->badge_number];
+
+  if (array_search($v->attendee_id, $regIdList)) {
+
+    $txn = array_map('mapTxn', select_sql($select, "reg_txn",  $where));
+    usort($txn, fn ($a, $b) => $b->timestamp - $a->timestamp);
+
+    array_push($attendee->barcode, $txn);
+  }
+
+  $tteBadges[(int)$v->badge_number] = $attendee;
 }
 
-json_return( $tteBadges );
-?>
+json_return($tteBadges);

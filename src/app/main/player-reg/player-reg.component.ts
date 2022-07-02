@@ -1,13 +1,14 @@
 import { RegSubmit } from './../../../assets/models/reg';
 import { AttendeesService } from 'src/services/Attendees.service';
 import { Attendee, Badge } from 'src/assets/models/attendee';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { faBarcode, faCheckCircle, faEdit, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { isEqual } from 'lodash';
 import { FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ReplaySubject, take, takeUntil } from 'rxjs';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-player-reg',
@@ -116,16 +117,16 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   }
 
   public submitMainReg() {
-    // const submit: RegSubmit = {
-    //   // id: this.conID.value,
-    //   // barcode: this.formBarcode.value
-    // }
+    const submit: RegSubmit = {
+      id: this.playerRegForm.controls['conID'].value as string,
+      barcode: this.playerRegForm.controls['formBarcode'].value as string
+    }
 
-    // this._attendeesService.postNewReg(submit).pipe(take(1)).subscribe((response: any) => {
-    //   if (typeof response === 'boolean' && response) {
-    //     this.clearForm();
-    //   }
-    // });
+    this._attendeesService.postNewReg(submit).pipe(take(1)).subscribe((response: any) => {
+      if (typeof response === 'boolean' && response) {
+        this.clearForm();
+      }
+    });
   }
 
   public validBarcode() {
@@ -144,7 +145,6 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
           const validAttendee = this._player$.filter((player) => (player.barcode.length > 0) && player.barcode[0].id === barcode);
 
-          console.log("NATE >>>> \t txns :", txns);
           barcodeTxns.push(txns);
 
           if (validAttendee.length === 0 || isEqual(this.filterPlayer, validAttendee[0])) {

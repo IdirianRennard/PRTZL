@@ -9,6 +9,6 @@ export interface Reg extends Player {
 }
 
 export interface RegSubmit extends Object {
-  id: number,
-  barcode: number,
+  id: string,
+  barcode: string,
 }

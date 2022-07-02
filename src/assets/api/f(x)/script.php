@@ -89,6 +89,16 @@ function fetch_call($fetchData, $url)
   return $data;
 }
 
+function findObjectById($id, $arr)
+{
+  foreach ($arr as $e) {
+    if ($id === $e->id) {
+      return $e;
+    }
+  }
+  return false;
+}
+
 function get_call($url)
 {
   $handle = curl_init();

@@ -56,10 +56,9 @@
 
   .spinner {
     width: 100%;
-
-    mat-spinner {
-      margin: 0  15rem;
-    }
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
   }
 
 
