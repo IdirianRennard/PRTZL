@@ -94,7 +94,7 @@ $regIdList = array_column($regTxnList, 'attendee_id');
 
 
 foreach ($attendeeIdList as $k => $v) {
-  echo "Key: \t $k \t Val: \t $v \t Attendee Key: \t " . $attendes[$k]->firstname . "\n";
+  echo "Key: \t $k \t Val: \t $v \t Attendee Key: \t " . $attendees[$k]->firstname . "\n";
 
   $scratchAttendee = new Attendee(
     $id = $attendees[$k]->attendee_id,
