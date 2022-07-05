@@ -48,11 +48,6 @@ $select = [
 
 $attendeeIdList = select_sql($select, 'attendees', null);
 
-echo "Id List: ";
-print_r($attendeeIdList);
-echo "\n\n";
-
-
 if ((int)$totalItems > (int)count($attendeeIdList)) {
 
   for ($i = 1; $i < $totalPages + 1; $i++) {
@@ -72,8 +67,6 @@ if ((int)$totalItems > (int)count($attendeeIdList)) {
           'first_name' => $items[$k]->firstname,
           'last_name' => $items[$k]->lastname,
         ];
-        echo "Key: $k \t Value: $v \t";
-        print_r($insert);
 
         insert_sql($insert, 'attendees');
       }
@@ -88,10 +81,7 @@ $select = [
 ];
 
 $attendees = select_sql($select, 'attendees', null);
-
-echo "\n\nAttendees Post-Loop: ";
-print_r($attendees);
-echo "\n\n";
+$attendeeIdList = array_column($attendees, 'attendee_id');
 
 $select = [
   'attendee_id',
@@ -99,11 +89,11 @@ $select = [
   'timestamp',
 ];
 
-
-$attendeeIdList = array_column($attendees, 'attendee_id');
-
 $regTxnList = select_sql($select, 'reg_txn', null);
 $regIdList = array_column($regTxnList, 'attendee_id');
+
+print_r($regTxnList);
+print_r($regIdList);
 
 foreach ($attendeeIdList as $k => $v) {
   $scratchAttendee = new Attendee(
