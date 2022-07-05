@@ -98,12 +98,13 @@ foreach ($attendeeIdList as $k => $v) {
 
   print_r($attendee[$k]);
 
-  $scratchAttendee = new Attendee(
-    $id = $attendees[$k]['attendee_id'],
-    $first_name = $attendees[$k]['first_name'],
-    $last_name = $attendees[$k]['last_name'],
-    $barcode = [],
-  );
+  echo "\n\n";
+
+  $scratchAttendee = new Attendee();
+  $scratchAttendee->id = $attendees[$k]['attendee_id'];
+  $scratchAttendee->first_name = $attendees[$k]['first_name'];
+  $scratchAttendee->last_name = $attendees[$k]['last_name'];
+  $scratchAttendee->barcode = [];
 
   print_r($scratchAttendee);
 
