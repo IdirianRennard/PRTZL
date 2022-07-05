@@ -94,7 +94,7 @@ $regIdList = array_column($regTxnList, 'attendee_id');
 
 
 foreach ($attendeeIdList as $k => $v) {
-  echo "Key: \t $k \t Val: \t $v \n";
+  echo "Key: \t $k \t Val: \t $v \t Attendee Key: \t " . $attendes[$k]->firstname;
   $scratchAttendee = new Attendee(
     $id = $attendees[$k]->attendee_id,
     $first_name = $attendees[$k]->firstname,
@@ -111,7 +111,7 @@ foreach ($attendeeIdList as $k => $v) {
   //   array_push($attendee->barcode, $txn);
   // }
 
-  $tteBadges[(int)$v->badge_number] = $attendee;
+  $tteBadges[(int)$v->badge_number] = $scratchAttendee;
 }
 
 json_return($tteBadges);
