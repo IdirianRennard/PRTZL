@@ -15,13 +15,9 @@ class Txn
   public $timestamp;
 }
 
-function mapTxn($arr)
+function mapTxn($array, $attendee)
 {
-  $txn = new Txn();
-  $txn->id = $arr['barcode'];
-  $txn->timestamp = $arr['timestamp'];
-
-  return $txn;
+  return
 }
 
 //Get the TTE Key
@@ -92,31 +88,16 @@ $select = [
 $regTxnList = select_sql($select, 'reg_txn', null);
 $regIdList = array_column($regTxnList, 'attendee_id');
 
-
 foreach ($attendeeIdList as $k => $v) {
-  echo "Key: \t $k \t Val: \t $v \t Attendee Key: \t " . $attendees[$k]['attendee_id'] . "\n";
-
-  print_r($attendee[$k]);
-
-  echo "\n\n";
 
   $scratchAttendee = new Attendee();
   $scratchAttendee->id = $attendees[$k]['attendee_id'];
   $scratchAttendee->first_name = $attendees[$k]['first_name'];
   $scratchAttendee->last_name = $attendees[$k]['last_name'];
-  $scratchAttendee->barcode = [];
 
-  print_r($scratchAttendee);
+  $scratchAttendee->barcode = array_filter( $regTxnList, fn($txn) => $txn['attendee_is'] === $attendees[$k]['attendee_id'] );
 
-  echo "\n\n";
 
-  // if (array_search($v->attendee_id, $regIdList)) {
-
-  //   $txn = array_map('mapTxn', select_sql($select, "reg_txn",  $where));
-  //   usort($txn, fn ($a, $b) => $b->timestamp - $a->timestamp);
-
-  //   array_push($attendee->barcode, $txn);
-  // }
 
   $tteBadges[(int)$v] = $scratchAttendee;
 }
