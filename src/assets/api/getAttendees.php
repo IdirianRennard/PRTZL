@@ -94,14 +94,14 @@ $regIdList = array_column($regTxnList, 'attendee_id');
 
 
 foreach ($attendeeIdList as $k => $v) {
-  echo "Key: \t $k \t Val: \t $v \t Attendee Key: \t " . $attendees[$k]->firstname . "\n";
+  echo "Key: \t $k \t Val: \t $v \t Attendee Key: \t " . $attendees[$k]['attendee_id'] . "\n";
 
-  print_r($attendees[$k]);
+  print_r($attendee[$k]);
 
   $scratchAttendee = new Attendee(
-    $id = $attendees[$k]->attendee_id,
-    $first_name = $attendees[$k]->firstname,
-    $last_name = $attendees[$k]->last_name,
+    $id = $attendees[$k]['attendee_id'],
+    $first_name = $attendees[$k]['first_name'],
+    $last_name = $attendees[$k]['last_name'],
     $barcode = [],
   );
 
