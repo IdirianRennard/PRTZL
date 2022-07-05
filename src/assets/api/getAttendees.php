@@ -71,7 +71,6 @@ if ((int)$totalItems > (int)count($attendeeIdList)) {
           'attendee_id' => $items[$k]->badge_number,
           'first_name' => $items[$k]->firstname,
           'last_name' => $items[$k]->lastname,
-          'barcode' => null,
         ];
         echo "Key: $k \t Value: $v \t";
         print_r($insert);
