@@ -57,7 +57,14 @@ function insert_sql($array, $table)
   //loop through array to add to strings
   foreach ($array as $k => $v) {
     $return .= "$k, ";
-    $values .= "'$v'" . ', ';
+
+    if (is_string($v)) {
+      $values .= "'$v'";
+    } else {
+      $values .= "$v";
+    }
+
+    $values .=  ', ';
   }
 
   //trim the comma
