@@ -73,7 +73,8 @@ if ((int)$totalItems > (int)count($attendeeIdList)) {
           'last_name' => $items[$k]->lastname,
           'barcode' => null,
         ];
-        echo "Key: $k \t\t Value: $v \t $insert\n";
+        echo "Key: $k \t Value: $v \t";
+        print_r($insert);
 
         insert_sql($insert, 'attendees');
       }
@@ -89,7 +90,7 @@ $select = [
 
 $attendees = select_sql($select, 'attendees', null);
 
-echo "Attendees Post-Loop: ";
+echo "\n\nAttendees Post-Loop: ";
 print_r($attendees);
 echo "\n\n";
 

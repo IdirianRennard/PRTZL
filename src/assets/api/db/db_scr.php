@@ -56,7 +56,7 @@ function insert_sql($array, $table)
 
   //loop through array to add to strings
   foreach ($array as $k => $v) {
-    $return .= "$k, ";
+    $return .= "'$k', ";
     $values .= "'$v'" . ', ';
   }
 
