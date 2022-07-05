@@ -92,10 +92,9 @@ $select = [
 $regTxnList = select_sql($select, 'reg_txn', null);
 $regIdList = array_column($regTxnList, 'attendee_id');
 
-print_r($regTxnList);
-print_r($regIdList);
 
 foreach ($attendeeIdList as $k => $v) {
+  echo "Key: \t $k \t Val: \t $v \n";
   $scratchAttendee = new Attendee(
     $id = $attendees[$k]->attendee_id,
     $first_name = $attendees[$k]->firstname,
