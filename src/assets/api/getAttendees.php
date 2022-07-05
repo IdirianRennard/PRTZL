@@ -15,10 +15,6 @@ class Txn
   public $timestamp;
 }
 
-function mapTxn($array, $attendee)
-{
-  return
-}
 
 //Get the TTE Key
 $tte = get_call("https://www.houserennard.online/credits/tte.json");
@@ -94,10 +90,7 @@ foreach ($attendeeIdList as $k => $v) {
   $scratchAttendee->id = $attendees[$k]['attendee_id'];
   $scratchAttendee->first_name = $attendees[$k]['first_name'];
   $scratchAttendee->last_name = $attendees[$k]['last_name'];
-
-  $scratchAttendee->barcode = array_filter( $regTxnList, fn($txn) => $txn['attendee_is'] === $attendees[$k]['attendee_id'] );
-
-
+  $scratchAttendee->barcode = array_filter($regTxnList, fn ($txn) => $txn['attendee_id'] === $attendees[$k]['attendee_id']);
 
   $tteBadges[(int)$v] = $scratchAttendee;
 }
