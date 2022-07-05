@@ -57,7 +57,7 @@ function insert_sql($array, $table)
   //loop through array to add to strings
   foreach ($array as $k => $v) {
     $return .= "$k, ";
-    $values .= "$v" . ', ';
+    $values .= "'$v'" . ', ';
   }
 
   //trim the comma
@@ -74,9 +74,7 @@ function insert_sql($array, $table)
 
   $return = sql_submit($insert);
 
-  echo "\t\t";
   print_r($return);
-  echo "\n\n";
 
   return $return;
 }
