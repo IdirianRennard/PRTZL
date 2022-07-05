@@ -74,7 +74,9 @@ function insert_sql($array, $table)
 
   $return = sql_submit($insert);
 
-  echo "\t\t$return\n\n";
+  echo "\t\t";
+  print_r($return);
+  echo "\n\n";
 
   return $return;
 }
