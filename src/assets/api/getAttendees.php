@@ -16,6 +16,8 @@ class Txn
 }
 
 
+$length = 6;
+
 //Get the TTE Key
 $tte = get_call("https://www.houserennard.online/credits/tte.json");
 
@@ -53,6 +55,9 @@ if ((int)$totalItems > (int)count($attendeeIdList)) {
     $itemId = array_column($items, 'badge_number');
 
     foreach ($itemId as $k => $v) {
+
+      echo $items[$k];
+
       if (!array_search($v, $attendeeIdList)) {
         $insert = [
           'attendee_id' => $items[$k]->badge_number,
