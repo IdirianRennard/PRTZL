@@ -56,7 +56,7 @@ if ((int)$totalItems > (int)count($attendeeIdList)) {
 
     foreach ($itemId as $k => $v) {
 
-      echo $items[$k];
+      print_r($items[$k]);
 
       if (!array_search($v, $attendeeIdList)) {
         $insert = [
