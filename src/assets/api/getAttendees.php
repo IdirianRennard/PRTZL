@@ -16,7 +16,7 @@ class Txn
 }
 
 
-$length = 6;
+$length = 8;
 
 //Get the TTE Key
 $tte = get_call("https://www.houserennard.online/credits/tte.json");
@@ -92,7 +92,7 @@ $regIdList = array_column($regTxnList, 'attendee_id');
 foreach ($attendeeIdList as $k => $v) {
 
   $scratchAttendee = new Attendee();
-  $scratchAttendee->id = $attendees[$k]['attendee_id'];
+  $scratchAttendee->id = (string)substr((str_repeat(0, $length) . $v), -$length);
   $scratchAttendee->first_name = $attendees[$k]['first_name'];
   $scratchAttendee->last_name = $attendees[$k]['last_name'];
   $scratchAttendee->barcode = array_filter($regTxnList, fn ($txn) => $txn['attendee_id'] === $attendees[$k]['attendee_id']);
