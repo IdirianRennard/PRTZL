@@ -71,11 +71,11 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
     }
 
     if ((this.playerRegForm.controls['firstName'].value as string).length > 0) {
-      scratchFilter = scratchFilter.filter((player: Attendee) => player.id.toString().match(this.playerRegForm.controls['firstName'].value as string));
+      scratchFilter = scratchFilter.filter((player: Attendee) => player.first_name.toString().match(this.playerRegForm.controls['firstName'].value as string));
     }
 
     if ((this.playerRegForm.controls['lastName'].value as string).length > 0) {
-      scratchFilter = scratchFilter.filter((player: Attendee) => player.id.toString().match(this.playerRegForm.controls['lastName'].value as string));
+      scratchFilter = scratchFilter.filter((player: Attendee) => player.last_name.toString().match(this.playerRegForm.controls['lastName'].value as string));
     }
 
     this.filterPlayer = scratchFilter.length > 5 ? scratchFilter.slice(0, 4) : scratchFilter;
