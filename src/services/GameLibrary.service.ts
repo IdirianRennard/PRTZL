@@ -1,7 +1,7 @@
 import { GameLibraryDto } from './../assets/models/game-lib';
-import { HttpClient, HttpHeaders, HttpParams, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { take, Observable } from 'rxjs';
+import { take } from 'rxjs';
 import { LibCheckoutTxn } from 'src/assets/models/game-lib';
 import { GoogleSheetsDbService } from 'ng-google-sheets-db';
 
@@ -32,7 +32,11 @@ export class GameLibraryService {
   }
 
   public get library$() {
-    return this._google.get(this._googleSheetId, "Permanent Game Library", this._mapping);
+    return this._google.get<GameLibraryDto>(this._googleSheetId, "Permanent Game Library", this._mapping);
+  };
+
+  public get pTWLibrary$() {
+    return this._google.get<GameLibraryDto>(this._googleSheetId, "Play\/Win", this._mapping);
   }
 
   public getTxnsByAttendee(barcode: number): LibCheckoutTxn[] {

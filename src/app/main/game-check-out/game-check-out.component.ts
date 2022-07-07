@@ -3,7 +3,7 @@ import { GameLibraryService } from 'src/services/GameLibrary.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faBarcode } from '@fortawesome/free-solid-svg-icons';
-import { ReplaySubject, takeUntil } from 'rxjs';
+import { ReplaySubject, takeUntil, take } from 'rxjs';
 import { Attendee } from 'src/assets/models/attendee';
 import { AttendeesService } from 'src/services/Attendees.service';
 
@@ -52,10 +52,13 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
   }
 
   public getLibrary(): any {
-    this._libService.library$.pipe(takeUntil(this._destroyed$)).subscribe((library: any) => {
-      console.log("NATE >>>> \t library : ", library);
+    this._libService.library$.pipe(take(1)).subscribe((library: GameLibraryDto[]) => {
       this._gameList$ = library;
     });
+
+    this._libService.pTWLibrary$.pipe(take(1)).subscribe((library: GameLibraryDto[]) => {
+      this._gameList$ = this._gameList$.concat(library);
+    })
   }
 
 }
