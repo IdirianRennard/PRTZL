@@ -61,7 +61,11 @@ function insert_sql($array, $table)
     if (is_string($v)) {
       $values .= "'$v'";
     } else {
-      $values .= "$v";
+      if (is_null($v)) {
+        $values .= ' ';
+      } else {
+        $values .= "$v";
+      }
     }
 
     $values .=  ', ';
