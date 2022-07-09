@@ -77,9 +77,10 @@ function insert_sql($array, $table)
   //concatenate
   $insert = "$return $values";
 
+  echo $insert;
+
   $return = sql_submit($insert);
 
-  echo $return;
 
   return $return;
 }
