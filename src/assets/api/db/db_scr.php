@@ -79,6 +79,8 @@ function insert_sql($array, $table)
 
   $return = sql_submit($insert);
 
+  echo $return;
+
   return $return;
 }
 
