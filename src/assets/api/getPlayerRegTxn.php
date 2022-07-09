@@ -1,9 +1,14 @@
 <?php
 include 'include.php';
 
+$select = [
+  'attendee_id',
+  'barcode',
+  'timestamp',
+];
+
 $where = [
   "barcode"  => $_GET['barcode']
 ];
 
-json_return( select_sql( '*', 'reg_txn', $where) );
-?>
+json_return(select_sql($select, 'reg_txn', $where));
