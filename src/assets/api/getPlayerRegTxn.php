@@ -8,7 +8,7 @@ $select = [
 ];
 
 $where = [
-  "barcode"  => $_GET['barcode']
+  "barcode"  => "LIKE %" . $_GET['barcode'] . "%"
 ];
 
 json_return(select_sql($select, 'reg_txn', $where));
