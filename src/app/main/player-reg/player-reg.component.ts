@@ -60,6 +60,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
       lastName: ''
     });
     this.validSubmit();
+    this.filterPlayer = [];
   }
 
   public filterPlayers() {
@@ -118,12 +119,10 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   }
 
   public submitMainReg() {
-    const submit: RegSubmit = {
-      id: this.playerRegForm.controls['conID'].value as string,
-      barcode: this.playerRegForm.controls['formBarcode'].value as string
-    }
+    const formData = this.playerRegForm.value;
 
-    this._attendeesService.postNewReg(submit).pipe(take(1)).subscribe((response: any) => {
+    console.log(formData);
+    this._attendeesService.postNewReg(formData).pipe(take(1)).subscribe((response: any) => {
       if (typeof response === 'boolean' && response) {
         this.clearForm();
       }

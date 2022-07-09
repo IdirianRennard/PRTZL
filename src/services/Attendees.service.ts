@@ -27,10 +27,11 @@ export class AttendeesService {
     return this.http.get('getPlayerRegTxn', { 'params': queryBarcode, 'headers': headers });
   }
 
-  public postNewReg(reg: RegSubmit): any {
+  public postNewReg(reg: any): any {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const body = JSON.stringify(reg);
-    return this.http.post('postReg', body, { 'headers': headers }).pipe(
+    console.log(reg);
+    return this.http.post('postReg', reg, { 'headers': headers }).pipe(
       map((res: any) => {
         return res;
       })
