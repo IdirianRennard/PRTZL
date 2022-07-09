@@ -121,6 +121,8 @@ function select_sql($select_array, $table, $where)
     $select = rtrim($select, " AND ");
   }
 
+  print_r($select);
+
   $return = sql_submit($select);
 
   return $return;
