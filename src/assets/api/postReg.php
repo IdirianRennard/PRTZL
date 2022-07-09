@@ -13,4 +13,4 @@ $insert = [
 
 print_r($insert);
 
-insert_sql($insert, 'reg_txn');
+json_return(insert_sql($insert, 'reg_txn'));

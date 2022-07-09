@@ -62,7 +62,7 @@ function insert_sql($array, $table)
       $values .= "'$v'";
     } else {
       if (is_null($v)) {
-        $values .= ' ';
+        $values .= 'NULL';
       } else {
         $values .= "$v";
       }
@@ -84,7 +84,6 @@ function insert_sql($array, $table)
   echo $insert;
 
   $return = sql_submit($insert);
-
 
   return $return;
 }
