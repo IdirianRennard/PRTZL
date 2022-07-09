@@ -11,6 +11,4 @@ $insert = [
   'txn_key'     =>  null,
 ];
 
-print_r($insert);
-
 json_return(insert_sql($insert, 'reg_txn'));
