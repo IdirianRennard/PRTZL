@@ -86,6 +86,85 @@ function insert_sql($array, $table)
   return $return;
 }
 
+function select_contains_sql($array, $table, $where)
+{
+
+  //start the select string
+  $select = "SELECT DISTINCT ";
+
+  //array specified
+  if (is_string($array)) {
+
+    $select .= "$array ";
+    $order = "ORDER BY $array";
+  } else {
+
+    //loop through array to add to string
+    foreach ($array as $item) {
+      $select .= $item . ', ';
+    }
+  }
+
+  //trim the comma
+  $select = rtrim($select, ", ");
+
+  $select .= " FROM $table";
+
+  //if where is not null then specify
+  if ($where === NULL) {
+  } else {
+
+    $select .= " WHERE (";
+    foreach ($where as $k => $v) {
+      $select .= "$k LIKE '%$v%' AND ";
+    }
+
+    $select = rtrim($select, " AND ");
+    $select .= ")";
+  }
+
+  $select .= " $order";
+
+  $return = sql_submit($select);
+
+  return $return;
+}
+
+//select specific rows and non-duplicate data
+function select_distinct_sql($rows, $table, $where)
+{
+
+  //start the select string
+  $select = "SELECT DISTINCT ";
+
+  //loop through array to add to string
+  foreach ($rows as $item) {
+    $select .= $item . ', ';
+  }
+
+  //trim the comma
+  $select = rtrim($select, ", ");
+
+  $select .= " FROM $table";
+
+  //if where is not null then specify
+  if ($where === NULL) {
+  } else {
+
+    $select .= " WHERE ";
+
+    foreach ($where as $k => $v) {
+      $select .= "$k = '$v' AND ";
+    }
+
+    $select = rtrim($select, " AND ");
+  }
+
+  $return = sql_submit($select);
+
+  return $return;
+}
+
 function select_sql($select_array, $table, $where)
 {
 
