@@ -12,5 +12,3 @@ $where = [
 ];
 
 json_return(select_contains_sql($select, 'reg_txn', $where));
-
-// json_return(select_sql($select, 'reg_txn', $where));
