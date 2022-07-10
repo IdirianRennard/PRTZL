@@ -15,6 +15,10 @@ class Txn
   public $timestamp;
 }
 
+function getRegTxns($attendeeID, $regTxnList)
+{
+  return array_filter($regTxnList, fn ($txn) => $txn['attendee_id'] === $attendeeID);
+}
 
 $length = 8;
 
@@ -85,7 +89,6 @@ $select = [
 ];
 
 $regTxnList = select_sql($select, 'reg_txn', null);
-$regIdList = array_column($regTxnList, 'attendee_id');
 
 foreach ($attendeeIdList as $k => $v) {
 
@@ -93,7 +96,7 @@ foreach ($attendeeIdList as $k => $v) {
   $scratchAttendee->id = (string)substr((str_repeat(0, $length) . $v), -$length);
   $scratchAttendee->first_name = $attendees[$k]['first_name'];
   $scratchAttendee->last_name = $attendees[$k]['last_name'];
-  $scratchAttendee->barcode = array_filter($regTxnList, fn ($txn) => $txn['attendee_id'] === $attendees[$k]['attendee_id']);
+  $scratchAttendee->barcode = getRegTxns($attendees[$k]['attendee_id'], $regTxnList);
 
   $tteBadges[(int)$v] = $scratchAttendee;
 }
