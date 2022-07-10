@@ -17,9 +17,6 @@ class Txn
 
 function getRegTxns($attendeeID, $regTxnList)
 {
-  echo $attendeeID . "\n\n";
-  print_r($regTxnList);
-
   return array_filter($regTxnList, fn ($txn) => $txn['attendee_id'] === $attendeeID);
 }
 

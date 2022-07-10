@@ -36,7 +36,7 @@ export class GameLibraryService {
   };
 
   public get pTWLibrary$() {
-    return this._google.get<GameLibraryDto>(this._googleSheetId, "Play\/Win", this._mapping);
+    return this._google.get<GameLibraryDto>(this._googleSheetId, "Play to Win", this._mapping);
   }
 
   public getTxnsByAttendee(barcode: number): LibCheckoutTxn[] {
