@@ -1,17 +1,20 @@
-<mat-card class="player_reg">
+<mat-card class="game_checkout">
   <mat-card-title-group>
     <mat-card-subtitle><h1>Game Check-Out</h1></mat-card-subtitle>
   </mat-card-title-group>
   <mat-card-content>
-    <form>
+    <form [formGroup]="gameCheckoutForm">
 
       <div class="game-checkout-form">
 
         <mat-form-field appearance="outline" class="form-barcode">
 
-          <mat-label>Game ID</mat-label>
+          <mat-label>Scan Game</mat-label>
           <input
               matInput
+              formControlName="gameBarcode"
+              (keyup)="filterLibrary()"
+              [matAutocomplete]="gameBarcodeAuto"
             >
             <mat-icon matSuffix>
               <fa-icon
@@ -19,20 +22,104 @@
                 [icon]="barcode"
               ></fa-icon>
           </mat-icon>
-          <!-- <mat-autocomplete
-            #formBarcodeAuto
+          <mat-autocomplete
+            #gameBarcodeAuto
             autoActiveFirstOption
-            (optionSelected)="formComplete($event)"
+            (optionSelected)="scanner($event)"
           >
-            <!-- <mat-option *ngFor="let option of filterPlayer" [value]="option" >
-              {{ option.id + " - " + option.first_name + " " + option.last_name + ( option.barcode.length > 0 ? " - " + option.barcode[0].id : ' ' ) }}
+            <mat-option *ngFor="let game of filterGameList" [value]="game.barcode" >
+              {{ game.title }}
             </mat-option>
-          </mat-autocomplete> -->
+          </mat-autocomplete>
 
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-barcode">
+          <mat-label>Scan Player</mat-label>
+          <input
+            matInput
+            formControlName="playerBarcode"
+            (keyup)="filterPlayer()"
+            [matAutocomplete]="playerBarcodeAuto"
+          >
+          <mat-icon matSuffix>
+            <fa-icon
+              [styles]="barcodeColor"
+              [icon]="barcode"
+            ></fa-icon>
+          </mat-icon>
+          <mat-autocomplete
+            #playerBarcodeAuto
+            autoActiveFirstOption
+            (optionSelected)="scanner($event)"
+          >
+            <mat-option *ngFor="let player of filterPlayerList" [value]="player.id">
+              {{ player.id + " - " + player.first_name + " " + player.last_name }}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
 
       </div>
 
     </form>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button mat-raised-button class="clear-button" (click)="clearForm()">Clear</button>
+    <button *ngIf="SUBMIT_DISABLED"
+      mat-raised-button
+      class="submit-button-disabled"
+      [disabled]="SUBMIT_DISABLED"
+      (click)="submitGameXO()"
+    >Submit
+    </button>
+
+    <button *ngIf="!(SUBMIT_DISABLED)"
+      mat-raised-button
+      class="submit-button"
+      [disabled]="SUBMIT_DISABLED"
+      (click)="submitGameXO()"
+    >Submit
+    </button>
+  </mat-card-actions>
+</mat-card>
+
+<mat-card class="checkout_info">
+  <mat-card-content class="game_info">
+    <form [formGroup]="gameInfoForm">
+      <div class="game_info_row">
+        <mat-form-field appearance="outline" disabled>
+          <input
+            matInput
+            formControlName="title"
+          >
+          <mat-label>Title</mat-label>
+        </mat-form-field>
+        <span class="checkboxes">
+          <mat-checkbox formControlName="ptw">Play to Win</mat-checkbox>
+          <mat-checkbox formControlName="for2p">Good for 2 Players</mat-checkbox>
+          <mat-checkbox formControlName="forKids">Good for Kids</mat-checkbox>
+        </span>
+      </div>
+      <div class="game_info_row">
+        <mat-form-field appearance="outline" disabled>
+          <input
+            matInput
+            formControlName="playerTotal"
+          >
+          <mat-label>Number of Players</mat-label>
+        </mat-form-field>
+        <mat-form-field appearance="outline" disabled>
+          <input
+            matInput
+            formControlName="recAge"
+          >
+          <mat-label>Recommended Age</mat-label>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-content class="player_info">
+
   </mat-card-content>
 </mat-card>

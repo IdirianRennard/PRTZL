@@ -1,7 +1,7 @@
 import { GameLibraryDto } from './../assets/models/game-lib';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { LibCheckoutTxn } from 'src/assets/models/game-lib';
 import { GoogleSheetsDbService } from 'ng-google-sheets-db';
 
@@ -23,20 +23,32 @@ export class GameLibraryService {
     notes: 'Notes'
   };
 
+  public emptyGame: GameLibraryDto = {
+    title: "",
+    barcode: "",
+    goodForKids: "",
+    goodFor2P: "",
+    players: "",
+    estTime: "",
+    recAge: "",
+    ptw: false,
+    notes: ""
+  }
+
+
+  public get library$(): Observable<GameLibraryDto[]> {
+    return this._google.get<GameLibraryDto>(this._googleSheetId, "Permanent Game Library", this._mapping);
+  }
+  public get ptwLibrary$(): Observable<GameLibraryDto[]> {
+    return this._google.get<GameLibraryDto>(this._googleSheetId, "Play to Win", this._mapping);
+  }
+
   constructor(private http: HttpClient, private _google: GoogleSheetsDbService) { }
 
   public getAllTxns(): any {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
 
     return this.http.get('getLibTxn', { 'headers': headers });
-  }
-
-  public get library$() {
-    return this._google.get<GameLibraryDto>(this._googleSheetId, "Permanent Game Library", this._mapping);
-  };
-
-  public get pTWLibrary$() {
-    return this._google.get<GameLibraryDto>(this._googleSheetId, "Play to Win", this._mapping);
   }
 
   public getTxnsByAttendee(barcode: number): LibCheckoutTxn[] {

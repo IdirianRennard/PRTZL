@@ -3,10 +3,80 @@
   left: 0;
   width: 75%;
   height: calc(100vh - 7.5rem);
+  display: flex;
+  flex-direction: row;
 
-  .player_reg {
+  .form-input {
+    width: 15rem;
+    padding: 0.5rem;
+  }
+
+  .form-barcode {
+    width: 15rem;
+    padding: 0.5rem;
+  }
+
+  .game_checkout {
     border-radius: 10px;
     margin: 2rem;
     height: max-content;
+    width: 55%;
+  }
+
+  .game_checkout_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+
+  .game_info {
+    width: 100%;
+  }
+
+  .game_info_row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: top;
+
+    .checkboxes {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    &.notes {
+      width: 200%;
+    }
+  }
+
+  .checkout_info {
+    border-radius: 10px;
+    margin: 2rem;
+    height: 50%;
+    width: 35%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .clear-button {
+    background-color: black;
+    color: white;
+  }
+
+  .submit-button {
+    background-color: limegreen;
+    color: black;
+  }
+
+  .submit-button-disabled {
+    background-color: grey;
+    color: darkgrey;
+  }
+
+  mat-card-content {
+    margin: 1rem 0;
   }
 }

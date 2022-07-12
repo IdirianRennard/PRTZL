@@ -4,9 +4,12 @@
   width: 75%;
   height: calc(100vh - 7.5rem);
 
-  .player_reg {
-    border-radius: 10px;
-    margin: 2rem;
-    height: max-content;
+  .clear-button {
+    background-color: black;
+    color: white;
+  }
+
+  mat-card-content {
+    margin: 1rem 0;
   }
 }

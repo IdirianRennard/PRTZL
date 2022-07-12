@@ -104,8 +104,6 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
       });
 
       this.LOADING = false;
-      console.log(this._player$);
-
       this.cdr.markForCheck();
     });
   }
@@ -121,7 +119,6 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   public submitMainReg() {
     const formData = this.playerRegForm.value;
 
-    console.log(formData);
     this._attendeesService.postNewReg(formData).pipe(take(1)).subscribe((response: any) => {
       if (typeof response === 'boolean' && response) {
         this.clearForm();
