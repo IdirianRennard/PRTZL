@@ -67,13 +67,16 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
   }
 
   public clearForm() {
+
     this.gameCheckoutForm.setValue({
       gameBarcode: '',
       playerBarcode: '',
     });
+
     this.filterGameList = [];
     this.filterPlayerList = [];
     this.selectedGame = this._libService.emptyGame;
+
     this.gameInfoForm.setValue({
       title: '',
       ptw: false,
@@ -81,7 +84,14 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
       forKids: false,
       playerTotal: '',
       recAge: '',
+    });
+
+    this.playerInfoForm.setValue({
+      badge: '',
+      playerName: '',
     })
+
+    this.validateSubmit();
   }
 
   public filterLibrary() {
@@ -106,7 +116,11 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
         playerTotal: this.selectedGame.players,
         recAge: this.selectedGame.recAge,
       })
+    } else {
+      this.filterGameList = [];
     }
+
+    this.validateSubmit();
   }
 
   public filterPlayer() {
@@ -118,7 +132,15 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
         playerId = txns[0].attendee_id
 
         this.filterPlayerList = this._attendeesService.getAttendeeById(playerId);
+
+        this.playerInfoForm.setValue({
+          badge: this.filterPlayerList[0].id,
+          playerName: this.filterPlayerList[0].first_name + " " + this.filterPlayerList[0].last_name
+        });
+      } else {
+        this.filterPlayerList = [];
       }
+      this.validateSubmit();
     });
   }
 
@@ -165,7 +187,24 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
   }
 
   public submitGameXO() {
+    this._libService.postGameXO(this.gameCheckoutForm.value).pipe(take(1)).subscribe((response: any) => {
+      if (typeof response === 'boolean' && response) {
+        this.clearForm();
+      }
+    });
+  }
 
+  public validateSubmit() {
+    const gameBarcode = this.gameCheckoutForm.controls['gameBarcode'].value as string;
+    const playerBarcode = this.gameCheckoutForm.controls['playerBarcode'].value as string;
+
+    if (this.filterGameList.length === 1 && this.filterPlayerList.length === 1) {
+      this.SUBMIT_DISABLED = false;
+    } else {
+      this.SUBMIT_DISABLED = true;
+    }
+
+    this._cdr.markForCheck();
   }
 
 }

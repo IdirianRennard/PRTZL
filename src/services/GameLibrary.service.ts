@@ -77,4 +77,13 @@ export class GameLibraryService {
     return libTxns;
   }
 
+  public postGameXO(reg: any): any {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    return this.http.post('postGameXO', reg, { 'headers': headers }).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
 }
