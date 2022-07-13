@@ -95,8 +95,6 @@ foreach ($attendeeIdList as $k => $v) {
   $updatedID = (string)substr((str_repeat(0, $length) . $v), -$length);
   $updatedBarcode = array_values(getRegTxns($updatedID, $regTxnList));
 
-  print_r($updatedBarcode);
-
   $scratchAttendee = new Attendee();
   $scratchAttendee->id = $updatedID;
   $scratchAttendee->first_name = $attendees[$k]['first_name'];
