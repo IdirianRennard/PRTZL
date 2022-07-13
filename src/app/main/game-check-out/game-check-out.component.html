@@ -25,7 +25,6 @@
           <mat-autocomplete
             #gameBarcodeAuto
             autoActiveFirstOption
-            (optionSelected)="scanner($event)"
           >
             <mat-option *ngFor="let game of filterGameList" [value]="game.barcode" >
               {{ game.title }}
@@ -51,9 +50,8 @@
           <mat-autocomplete
             #playerBarcodeAuto
             autoActiveFirstOption
-            (optionSelected)="scanner($event)"
           >
-            <mat-option *ngFor="let player of filterPlayerList" [value]="player.id">
+            <mat-option *ngFor="let player of filterPlayerList" [value]="player.barcode[0].barcode">
               {{ player.id + " - " + player.first_name + " " + player.last_name }}
             </mat-option>
           </mat-autocomplete>
@@ -68,7 +66,7 @@
     <button mat-raised-button class="clear-button" (click)="clearForm()">Clear</button>
     <button *ngIf="SUBMIT_DISABLED"
       mat-raised-button
-      class="submit-button-disabled"
+      class="submit-button-"
       [disabled]="SUBMIT_DISABLED"
       (click)="submitGameXO()"
     >Submit
@@ -88,7 +86,7 @@
   <mat-card-content class="game_info">
     <form [formGroup]="gameInfoForm">
       <div class="game_info_row">
-        <mat-form-field appearance="outline" disabled>
+        <mat-form-field appearance="outline" >
           <input
             matInput
             formControlName="title"
@@ -102,14 +100,14 @@
         </span>
       </div>
       <div class="game_info_row">
-        <mat-form-field appearance="outline" disabled>
+        <mat-form-field appearance="outline" >
           <input
             matInput
             formControlName="playerTotal"
           >
           <mat-label>Number of Players</mat-label>
         </mat-form-field>
-        <mat-form-field appearance="outline" disabled>
+        <mat-form-field appearance="outline" >
           <input
             matInput
             formControlName="recAge"
@@ -120,6 +118,23 @@
     </form>
   </mat-card-content>
   <mat-card-content class="player_info">
-
+    <form [formGroup]="playerInfoForm">
+      <div class="game_info_row">
+        <mat-form-field appearance="outline" >
+          <input
+            matInput
+            formControlName="badge"
+          >
+          <mat-label>Badge Number</mat-label>
+        </mat-form-field>
+        <mat-form-field appearance="outline" >
+          <input
+            matInput
+            formControlName="playerName"
+          >
+          <mat-label>Player Name</mat-label>
+        </mat-form-field>
+      </div>
+    </form>
   </mat-card-content>
 </mat-card>

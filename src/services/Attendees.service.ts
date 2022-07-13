@@ -24,6 +24,8 @@ export class AttendeesService {
         this.allAttendees = Object.keys(res).map((key) => {
           return res[key];
         });
+        console.log(this.allAttendees);
+        console.log(res);
         return res;
       })
     )

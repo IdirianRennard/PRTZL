@@ -7,6 +7,7 @@ export interface Attendee extends Object {
 }
 
 export interface Badge extends Object {
-  id: string,
-  timestamp: string
+  attendee_id: string,
+  barcode: string,
+  timestamp: string,
 }

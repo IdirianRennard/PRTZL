@@ -94,6 +94,8 @@ foreach ($attendeeIdList as $k => $v) {
 
   $updatedID = (string)substr((str_repeat(0, $length) . $v), -$length);
 
+  print_r(getRegTxns($updatedID, $regTxnList));
+
   $scratchAttendee = new Attendee();
   $scratchAttendee->id = $updatedID;
   $scratchAttendee->first_name = $attendees[$k]['first_name'];

@@ -91,7 +91,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
       conID: autoValue.id,
       firstName: autoValue.first_name,
       lastName: autoValue.last_name,
-      formBarcode: autoValue.barcode.length > 0 ? autoValue.barcode[0].id : null,
+      formBarcode: autoValue.barcode.length > 0 ? autoValue.barcode[0].attendee_id : null,
     });
 
     this.filterPlayers();
@@ -140,7 +140,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this._destroyed$))
         .subscribe((txns: Badge) => {
 
-          const validAttendee = this._player$.filter((player) => (player.barcode.length > 0) && player.barcode[0].id === barcode);
+          const validAttendee = this._player$.filter((player) => (player.barcode.length > 0) && player.barcode[0].attendee_id === barcode);
 
           barcodeTxns.push(txns);
 
@@ -158,7 +158,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
               conID: chosenOne.id,
               firstName: chosenOne.first_name,
               lastName: chosenOne.last_name,
-              formBarcode: chosenOne.barcode[0].id,
+              formBarcode: chosenOne.barcode[0].attendee_id,
             });
           }
         });

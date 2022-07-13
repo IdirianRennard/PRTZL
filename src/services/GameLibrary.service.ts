@@ -1,7 +1,7 @@
 import { GameLibraryDto } from './../assets/models/game-lib';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, take } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import { LibCheckoutTxn } from 'src/assets/models/game-lib';
 import { GoogleSheetsDbService } from 'ng-google-sheets-db';
 
@@ -35,6 +35,7 @@ export class GameLibraryService {
     notes: ""
   }
 
+  public fullLibrary: GameLibraryDto[] = [];
 
   public get library$(): Observable<GameLibraryDto[]> {
     return this._google.get<GameLibraryDto>(this._googleSheetId, "Permanent Game Library", this._mapping);
@@ -43,7 +44,8 @@ export class GameLibraryService {
     return this._google.get<GameLibraryDto>(this._googleSheetId, "Play to Win", this._mapping);
   }
 
-  constructor(private http: HttpClient, private _google: GoogleSheetsDbService) { }
+  constructor(private http: HttpClient, private _google: GoogleSheetsDbService) {
+  }
 
   public getAllTxns(): any {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });

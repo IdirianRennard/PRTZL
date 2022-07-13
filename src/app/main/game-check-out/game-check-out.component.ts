@@ -4,7 +4,7 @@ import { GameLibraryService } from 'src/services/GameLibrary.service';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faBarcode } from '@fortawesome/free-solid-svg-icons';
-import { ReplaySubject, takeUntil, take } from 'rxjs';
+import { map, ReplaySubject, takeUntil, take } from 'rxjs';
 import { Attendee } from 'src/assets/models/attendee';
 import { AttendeesService } from 'src/services/Attendees.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -43,6 +43,11 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
     forKids: new FormControl({ value: false, disabled: true }),
     playerTotal: new FormControl({ value: '', disabled: true }),
     recAge: new FormControl({ value: '', disabled: true }),
+  });
+
+  public playerInfoForm = new FormGroup({
+    badge: new FormControl({ value: '', disabled: true }),
+    playerName: new FormControl({ value: '', disabled: true })
   });
 
   constructor(
@@ -117,15 +122,6 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
     });
   }
 
-  public scanner(event: MatAutocompleteSelectedEvent) {
-    const autoValue = event.option.value;
-    console.log(autoValue);
-    this.gameCheckoutForm.setValue({
-      gameBarcode: autoValue.gameBarcode,
-      playerBarcode: autoValue.playerBarcode,
-    });
-  }
-
   public getAttendees(): void {
     this._attendeesService.getAll().pipe(takeUntil(this._destroyed$)).subscribe((data) => {
       this._player$ = Object.keys(data).map((key) => {
@@ -137,15 +133,24 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
   }
 
   public getLibrary() {
-    this._libService.library$.pipe(take(1)).subscribe((library: GameLibraryDto[]) => {
-      this._gameList$ = this.setPtWForLibrary(library, false);
-      this._libService.ptwLibrary$.pipe(take(1)).subscribe((ptwLibrary: GameLibraryDto[]) => {
-        this._gameList$ = [
-          ...this._gameList$,
-          ...this.setPtWForLibrary(ptwLibrary, true),
-        ];
+    this._libService.ptwLibrary$.pipe(take(1)).subscribe((ptwLibrary: GameLibraryDto[]) => {
+      this._gameList$ = this.setPtWForLibrary(ptwLibrary, true);
 
-        this._cdr.markForCheck();
+      this._libService.library$.pipe(take(1)).subscribe((gameLibrary: GameLibraryDto[]) => {
+        gameLibrary.forEach((key, val) => {
+          const ptwFilter = this._gameList$.filter((game) => game.title === key.title)
+
+          if (ptwFilter.length > 0) {
+            key.ptw = true
+          } else {
+            key.ptw = false
+          }
+
+          this._gameList$ = [
+            ...this._gameList$,
+            key
+          ];
+        })
       });
     });
   }

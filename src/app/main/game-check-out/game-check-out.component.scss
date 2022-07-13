@@ -34,6 +34,10 @@
     width: 100%;
   }
 
+  .player_info {
+    width: 100%;
+  }
+
   .game_info_row {
     width: 100%;
     display: flex;
@@ -58,7 +62,7 @@
     height: 50%;
     width: 35%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
   }
 
   .clear-button {
