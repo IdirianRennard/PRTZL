@@ -93,14 +93,15 @@ $regTxnList = select_sql($select, 'reg_txn', null);
 foreach ($attendeeIdList as $k => $v) {
 
   $updatedID = (string)substr((str_repeat(0, $length) . $v), -$length);
+  $updatedBarcode = array_values(getRegTxns($updatedID, $regTxnList));
 
-  print_r(getRegTxns($updatedID, $regTxnList));
+  print_r($updatedBarcode);
 
   $scratchAttendee = new Attendee();
   $scratchAttendee->id = $updatedID;
   $scratchAttendee->first_name = $attendees[$k]['first_name'];
   $scratchAttendee->last_name = $attendees[$k]['last_name'];
-  $scratchAttendee->barcode = getRegTxns($updatedID, $regTxnList);
+  $scratchAttendee->barcode = $updatedBarcode;
 
   $tteBadges[(int)$v] = $scratchAttendee;
 }
