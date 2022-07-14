@@ -12,4 +12,19 @@
   mat-card-content {
     margin: 1rem 0;
   }
+
+  .game_checkin {
+    border-radius: 10px;
+    margin: 2rem;
+    padding: 1rem;
+    height: max-content;
+    width: 50%;
+  }
+
+    .game_info {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
 }
