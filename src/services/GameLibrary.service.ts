@@ -47,16 +47,16 @@ export class GameLibraryService {
   constructor(private http: HttpClient, private _google: GoogleSheetsDbService) {
   }
 
-  public getAllTxns(): any {
+  public getAllXOTxns(): any {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
 
-    return this.http.get('getLibTxn', { 'headers': headers });
+    return this.http.get('getLibXOTxn', { 'headers': headers });
   }
 
   public getTxnsByAttendee(barcode: number): LibCheckoutTxn[] {
     let libTxns: LibCheckoutTxn[] = []
 
-    this.getAllTxns().pipe(take(1)).subscribe((txns: LibCheckoutTxn[]) => {
+    this.getAllXOTxns().pipe(take(1)).subscribe((txns: LibCheckoutTxn[]) => {
       libTxns = txns.filter((txn: LibCheckoutTxn) => {
         return txn.attendee === barcode;
       });
@@ -68,7 +68,7 @@ export class GameLibraryService {
   public getTxnsByGame(barcode: number): LibCheckoutTxn[] {
     let libTxns: LibCheckoutTxn[] = []
 
-    this.getAllTxns().pipe(take(1)).subscribe((txns: LibCheckoutTxn[]) => {
+    this.getAllXOTxns().pipe(take(1)).subscribe((txns: LibCheckoutTxn[]) => {
       libTxns = txns.filter((txn: LibCheckoutTxn) => {
         return txn.game === barcode;
       });
