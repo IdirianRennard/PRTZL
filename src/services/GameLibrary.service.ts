@@ -71,25 +71,14 @@ export class GameLibraryService {
     return this.http.get('getLibXOTxn/?barcode=' + barcode, { 'headers': headers });
   }
 
-  // public getTxnsByGame(barcode: string): LibCheckoutTxn[] {
-  //   let libTxns: LibCheckoutTxn[] = []
-
-  //   this.getAllXOTxns().pipe(take(1)).subscribe((txns: LibCheckoutTxn[]) => {
-  //     libTxns = txns.filter((txn: LibCheckoutTxn) => {
-  //       return txn.game === barcode;
-  //     });
-  //   });
-
-  //   return libTxns;
-  // }
+  public postGameXIn(reg: any): any {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    return this.http.post('postGameXIn', reg, { 'headers': headers });
+  }
 
   public postGameXO(reg: any): any {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
-    return this.http.post('postGameXO', reg, { 'headers': headers }).pipe(
-      map((res: any) => {
-        return res;
-      })
-    );
+    return this.http.post('postGameXO', reg, { 'headers': headers });
   }
 
 }

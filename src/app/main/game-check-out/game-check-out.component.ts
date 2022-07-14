@@ -194,8 +194,6 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
   }
 
   public validateSubmit() {
-    const gameBarcode = this.gameCheckoutForm.controls['gameBarcode'].value as string;
-    const playerBarcode = this.gameCheckoutForm.controls['playerBarcode'].value as string;
 
     if (this.filterGameList.length === 1 && this.filterPlayerList.length === 1) {
       this.SUBMIT_DISABLED = false;

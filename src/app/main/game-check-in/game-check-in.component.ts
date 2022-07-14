@@ -1,4 +1,3 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -44,10 +43,13 @@ export class GameCheckInComponent implements OnInit {
     timestamp: new FormControl({ value: '', disabled: true })
   })
 
-
-  constructor(private _attendeesService: AttendeesService, private _cdr: ChangeDetectorRef, private _libService: GameLibraryService) {
-    this.getLibrary();
+  constructor(
+    private _attendeesService: AttendeesService,
+    private _cdr: ChangeDetectorRef,
+    private _libService: GameLibraryService
+  ) {
     this.getAttendees();
+    this.getLibrary();
   }
 
   ngOnInit() {
@@ -140,7 +142,6 @@ export class GameCheckInComponent implements OnInit {
 
           if (playerTxn.length === 1) {
             this.filterPlayerList = this._attendeesService.getAttendeeById(playerTxn[0].attendee_id);
-            console.log(this.filterPlayerList);
 
             this.gameCheckInInfo.setValue({
               gameName: this.selectedGame.title,
@@ -176,6 +177,11 @@ export class GameCheckInComponent implements OnInit {
 
   public submitGameXIn() {
 
+    this._libService.postGameXIn(this.gameCheckInForm.value).pipe(take(1)).subscribe((response: any) => {
+      if (typeof response === 'boolean' && response && this.selectedGame.ptw) {
+        this.clearForm();
+      }
+    });
   }
 
   public submitPtwEntries() {
