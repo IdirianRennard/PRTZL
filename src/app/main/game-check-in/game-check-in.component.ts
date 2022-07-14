@@ -28,6 +28,7 @@ export class GameCheckInComponent implements OnInit {
 
   public selectedGame: GameLibraryDto = this._libService.emptyGame;
   public playerCheckedOut!: Attendee;
+  public ptwEntries!: any;
 
   public SUBMIT_DISABLED: boolean = true;
   public PTW_SUBMIT_DISABLED: boolean = true;
@@ -39,9 +40,10 @@ export class GameCheckInComponent implements OnInit {
 
   public gameCheckInInfo = new FormGroup({
     gameName: new FormControl({ value: '', disabled: true }),
-    playerName: new FormControl({ value: '', disabled: true }),
     timestamp: new FormControl({ value: '', disabled: true })
   })
+
+  public ptwEntriesForm = new FormGroup({});
 
   constructor(
     private _attendeesService: AttendeesService,
@@ -60,7 +62,6 @@ export class GameCheckInComponent implements OnInit {
     this.gameCheckInForm.setValue({ gameBarcode: '' });
     this.gameCheckInInfo.setValue({
       gameName: '',
-      playerName: '',
       timestamp: ''
     });
 
@@ -95,6 +96,18 @@ export class GameCheckInComponent implements OnInit {
     }
 
     this.validateSubmit();
+  }
+
+  public filterPtwEntry(index: number) {
+    const nextControlName = "player" + (index + 1);
+    const ptwFormEntriesKeys = Object.entries(this.ptwEntriesForm.value);
+
+    const controlValue = ptwFormEntriesKeys[index + 1][1] as string;
+
+    if (ptwFormEntriesKeys.length < 11 && (ptwFormEntriesKeys.length - 2) === index && controlValue.length > 0) {
+      this.ptwEntriesForm.addControl(nextControlName, new FormControl(''))
+      this.ptwEntries.push(nextControlName);
+    }
   }
 
   public getAttendees(): void {
@@ -138,30 +151,24 @@ export class GameCheckInComponent implements OnInit {
       xOTxn.sort((a: LibCheckoutTxn, b: LibCheckoutTxn) => (a.timestamp > b.timestamp) ? -1 : 1);
 
       if (xOTxn.length > 0) {
-        this._attendeesService.getRegTxns(xOTxn[0].attendee_barcode).pipe(take(1)).subscribe((playerTxn: any[]) => {
 
-          if (playerTxn.length === 1) {
-            this.filterPlayerList = this._attendeesService.getAttendeeById(playerTxn[0].attendee_id);
+        this.filterPlayerList = this._attendeesService.getAttendeeById(xOTxn[0].attendee_barcode);
 
-            this.gameCheckInInfo.setValue({
-              gameName: this.selectedGame.title,
-              playerName: this.filterPlayerList[0].first_name + " " + this.filterPlayerList[0].last_name,
-              timestamp: xOTxn[0].timestamp,
-            });
-
-          } else {
-            this.filterPlayerList = [];
-
-            this.gameCheckInInfo.setValue({
-              gameName: '',
-              playerName: '',
-              timestamp: '',
-            });
-          }
-
-          this.validateSubmit();
+        this.gameCheckInInfo.setValue({
+          gameName: this.selectedGame.title,
+          timestamp: xOTxn[0].timestamp,
         });
+
+      } else {
+        this.filterPlayerList = [];
+
+        this.gameCheckInInfo.setValue({
+          gameName: '',
+          timestamp: '',
+        });
+
       }
+      this.validateSubmit();
     });
   }
 
@@ -178,7 +185,7 @@ export class GameCheckInComponent implements OnInit {
   public submitGameXIn() {
 
     this._libService.postGameXIn(this.gameCheckInForm.value).pipe(take(1)).subscribe((response: any) => {
-      if (typeof response === 'boolean' && response && this.selectedGame.ptw) {
+      if (typeof response === 'boolean' && response && !this.selectedGame.ptw) {
         this.clearForm();
       }
     });
@@ -190,14 +197,19 @@ export class GameCheckInComponent implements OnInit {
 
   public validateSubmit() {
     const gameName = this.gameCheckInInfo.controls['gameName'].value as string;
-    const playerName = this.gameCheckInInfo.controls['playerName'].value as string;
     const timestamp = this.gameCheckInInfo.controls['timestamp'].value as string;
 
-    console.log(this.gameCheckInInfo.value);
-
-    if (gameName.length > 0 && playerName.length > 0 && timestamp.length > 0) {
+    if (gameName.length > 0 && timestamp.length > 0) {
       this.SUBMIT_DISABLED = false;
       this.PTW_SELECTED = this.selectedGame.ptw ? true : false;
+
+      if (this.PTW_SELECTED) {
+        this.ptwEntriesForm.addControl('loops', new FormControl(''));
+        this.ptwEntriesForm.addControl('player0', new FormControl(''));
+        this.ptwEntries = [
+          "player0"
+        ]
+      }
 
     } else {
       this.SUBMIT_DISABLED = true;

@@ -49,6 +49,13 @@
     padding: 1rem;
     height: max-content;
     width: 90%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .ptw_entries {
+    display: flex;
+    flex-direction: column;
   }
 
   mat-form-field {

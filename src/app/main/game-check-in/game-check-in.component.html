@@ -23,7 +23,7 @@
                     [styles]="barcodeColor"
                     [icon]="barcode"
                   ></fa-icon>
-              </mat-icon>
+                </mat-icon>
               <mat-autocomplete
                 #gameBarcodeAuto
                 autoActiveFirstOption
@@ -73,13 +73,6 @@
             <mat-form-field appearance="outline" >
               <input
                 matInput
-                formControlName="playerName"
-              >
-              <mat-label>Checked Out By</mat-label>
-            </mat-form-field>
-            <mat-form-field appearance="outline" >
-              <input
-                matInput
                 formControlName="timestamp"
               >
               <mat-label>Checked Out Time</mat-label>
@@ -95,7 +88,35 @@
         <mat-card-subtitle><h1>Play to Win Submissions</h1></mat-card-subtitle>
       </mat-card-title-group>
       <mat-card-content>
-
+        <form [formGroup]="ptwEntriesForm" class="ptw_form">
+          <div class="ptw_entries">
+            <span *ngFor="let entry of ptwEntries; let i = index">
+              <mat-form-field appearance="outline" class="form-barcode">
+                <input
+                  matInput
+                  [formControlName]=entry
+                  (keyup)=filterPtwEntry(i)
+                >
+                  <mat-icon matSuffix>
+                    <fa-icon
+                      [styles]="barcodeColor"
+                      [icon]="barcode"
+                    ></fa-icon>
+                  </mat-icon>
+                <mat-label>Player {{ i + 1 }}</mat-label>
+              </mat-form-field>
+            </span>
+          </div>
+          <div class="ptw_loops">
+            <mat-form-field appearance="fill">
+              <input
+                matInput
+                formControlName="loops"
+              >
+              <mat-label>How many games?</mat-label>
+            </mat-form-field>
+          </div>
+        </form>
       </mat-card-content>
       <mat-card-actions align="end">
         <button mat-raised-button class="clear-button" (click)="clearPtwForm()">Clear</button>
