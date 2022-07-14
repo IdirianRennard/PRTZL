@@ -1,5 +1,5 @@
 import { GameLibraryDto } from './../assets/models/game-lib';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, take } from 'rxjs';
 import { LibCheckoutTxn } from 'src/assets/models/game-lib';
@@ -53,7 +53,7 @@ export class GameLibraryService {
     return this.http.get('getLibXOTxn', { 'headers': headers });
   }
 
-  public getTxnsByAttendee(barcode: number): LibCheckoutTxn[] {
+  public getTxnsByAttendee(barcode: string): LibCheckoutTxn[] {
     let libTxns: LibCheckoutTxn[] = []
 
     this.getAllXOTxns().pipe(take(1)).subscribe((txns: LibCheckoutTxn[]) => {
@@ -65,17 +65,23 @@ export class GameLibraryService {
     return libTxns;
   }
 
-  public getTxnsByGame(barcode: number): LibCheckoutTxn[] {
-    let libTxns: LibCheckoutTxn[] = []
+  public getGameXOTxn(barcode: string): any {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
 
-    this.getAllXOTxns().pipe(take(1)).subscribe((txns: LibCheckoutTxn[]) => {
-      libTxns = txns.filter((txn: LibCheckoutTxn) => {
-        return txn.game === barcode;
-      });
-    });
-
-    return libTxns;
+    return this.http.get('getLibXOTxn/?barcode=' + barcode, { 'headers': headers });
   }
+
+  // public getTxnsByGame(barcode: string): LibCheckoutTxn[] {
+  //   let libTxns: LibCheckoutTxn[] = []
+
+  //   this.getAllXOTxns().pipe(take(1)).subscribe((txns: LibCheckoutTxn[]) => {
+  //     libTxns = txns.filter((txn: LibCheckoutTxn) => {
+  //       return txn.game === barcode;
+  //     });
+  //   });
+
+  //   return libTxns;
+  // }
 
   public postGameXO(reg: any): any {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });

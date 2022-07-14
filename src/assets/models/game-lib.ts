@@ -20,7 +20,7 @@ export interface GameTab extends Object {
 }
 
 export interface LibCheckoutTxn extends Object {
-  attendee: number;
-  game: number;
+  attendee: string;
+  game: string;
   timestame: string;
 }
