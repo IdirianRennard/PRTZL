@@ -9,6 +9,16 @@
     color: white;
   }
 
+  .submit-button {
+    background-color: limegreen;
+    color: black;
+  }
+
+  .submit-button-disabled {
+    background-color: grey;
+    color: darkgrey;
+  }
+
   mat-card-content {
     margin: 1rem 0;
   }
@@ -18,13 +28,31 @@
     margin: 2rem;
     padding: 1rem;
     height: max-content;
-    width: 50%;
+    width: max-content;
   }
 
-    .game_info {
+  .game_info {
+
     width: 100%;
     display: flex;
     justify-content: space-between;
+  }
+
+  .panels {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .ptw_form {
+    border-radius: 10px;
+    margin: 2rem;
+    padding: 1rem;
+    height: max-content;
+    width: 90%;
+  }
+
+  mat-form-field {
+    margin:0 0.75rem;
   }
 
 }

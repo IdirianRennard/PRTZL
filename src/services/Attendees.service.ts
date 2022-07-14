@@ -29,8 +29,8 @@ export class AttendeesService {
     )
   }
 
-  public getAttendeeById(id: string): Attendee[] {
-    return this.allAttendees.filter((player: Attendee) => player.id.toString().match(id))
+  public getAttendeeById(id: string): any[] {
+    return this.allAttendees.filter((player: any) => player.id.toString().match(id));
   }
 
   public getRegTxns(barcode: string): any {

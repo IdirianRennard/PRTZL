@@ -58,7 +58,7 @@ export class GameLibraryService {
 
     this.getAllXOTxns().pipe(take(1)).subscribe((txns: LibCheckoutTxn[]) => {
       libTxns = txns.filter((txn: LibCheckoutTxn) => {
-        return txn.attendee === barcode;
+        return txn.attendee_barcode === barcode;
       });
     });
 

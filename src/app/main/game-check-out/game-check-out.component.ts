@@ -7,7 +7,6 @@ import { faBarcode } from '@fortawesome/free-solid-svg-icons';
 import { map, ReplaySubject, takeUntil, take } from 'rxjs';
 import { Attendee } from 'src/assets/models/attendee';
 import { AttendeesService } from 'src/services/Attendees.service';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-game-check-out',
@@ -17,6 +16,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 export class GameCheckOutComponent implements OnInit, OnDestroy {
 
   private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  private _player$: Attendee[] = [];
   private _gameList$: GameLibraryDto[] = [];
 
   public barcode = faBarcode;
@@ -57,6 +57,7 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getLibrary();
+    this.getAttendees();
   }
 
   ngOnDestroy(): void {
@@ -139,6 +140,16 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
         this.filterPlayerList = [];
       }
       this.validateSubmit();
+    });
+  }
+
+  public getAttendees(): void {
+    this._attendeesService.getAll().pipe(takeUntil(this._destroyed$)).subscribe((data) => {
+      this._player$ = Object.keys(data).map((key) => {
+        return data[key]
+      });
+
+      this._cdr.markForCheck();
     });
   }
 

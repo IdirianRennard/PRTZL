@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -30,6 +31,7 @@ export class GameCheckInComponent implements OnInit {
   public playerCheckedOut!: Attendee;
 
   public SUBMIT_DISABLED: boolean = true;
+  public PTW_SUBMIT_DISABLED: boolean = true;
   public PTW_SELECTED: boolean = false;
 
   public gameCheckInForm = new FormGroup({
@@ -37,14 +39,15 @@ export class GameCheckInComponent implements OnInit {
   })
 
   public gameCheckInInfo = new FormGroup({
-    gameBarcode: new FormControl({ value: '', disabled: true }),
-    player: new FormControl({ value: '', disabled: true }),
+    gameName: new FormControl({ value: '', disabled: true }),
+    playerName: new FormControl({ value: '', disabled: true }),
     timestamp: new FormControl({ value: '', disabled: true })
   })
 
 
   constructor(private _attendeesService: AttendeesService, private _cdr: ChangeDetectorRef, private _libService: GameLibraryService) {
     this.getLibrary();
+    this.getAttendees();
   }
 
   ngOnInit() {
@@ -53,6 +56,20 @@ export class GameCheckInComponent implements OnInit {
 
   public clearForm() {
     this.gameCheckInForm.setValue({ gameBarcode: '' });
+    this.gameCheckInInfo.setValue({
+      gameName: '',
+      playerName: '',
+      timestamp: ''
+    });
+
+    this.filterGameList = [];
+    this.filterPlayerList = [];
+
+    this.PTW_SELECTED = false;
+  }
+
+  public clearPtwForm() {
+
   }
 
   public filterLibrary() {
@@ -67,8 +84,6 @@ export class GameCheckInComponent implements OnInit {
 
     this.filterGameList = scratchFilter.length > 5 ? scratchFilter.slice(0, 4) : scratchFilter;
 
-    console.log(this.filterGameList);
-
     if (this.filterGameList.length === 1) {
       this.selectedGame = this.filterGameList[0];
       this.getXOInfo();
@@ -78,6 +93,16 @@ export class GameCheckInComponent implements OnInit {
     }
 
     this.validateSubmit();
+  }
+
+  public getAttendees(): void {
+    this._attendeesService.getAll().pipe(takeUntil(this._destroyed$)).subscribe((data) => {
+      this._player$ = Object.keys(data).map((key) => {
+        return data[key]
+      });
+
+      this._cdr.markForCheck();
+    });
   }
 
   public getLibrary() {
@@ -107,25 +132,36 @@ export class GameCheckInComponent implements OnInit {
     const gameBarcode = this.selectedGame.barcode as string;
 
     this._libService.getGameXOTxn(gameBarcode).pipe(take(1)).subscribe((xOTxn: LibCheckoutTxn[]) => {
-      console.log(xOTxn)
+
+      xOTxn.sort((a: LibCheckoutTxn, b: LibCheckoutTxn) => (a.timestamp > b.timestamp) ? -1 : 1);
+
+      if (xOTxn.length > 0) {
+        this._attendeesService.getRegTxns(xOTxn[0].attendee_barcode).pipe(take(1)).subscribe((playerTxn: any[]) => {
+
+          if (playerTxn.length === 1) {
+            this.filterPlayerList = this._attendeesService.getAttendeeById(playerTxn[0].attendee_id);
+            console.log(this.filterPlayerList);
+
+            this.gameCheckInInfo.setValue({
+              gameName: this.selectedGame.title,
+              playerName: this.filterPlayerList[0].first_name + " " + this.filterPlayerList[0].last_name,
+              timestamp: xOTxn[0].timestamp,
+            });
+
+          } else {
+            this.filterPlayerList = [];
+
+            this.gameCheckInInfo.setValue({
+              gameName: '',
+              playerName: '',
+              timestamp: '',
+            });
+          }
+
+          this.validateSubmit();
+        });
+      }
     });
-
-
-    // this._attendeesService.getRegTxns(gameInfo.attendee).pipe(take(1)).subscribe((txns: any[]) => {
-    //   if (txns.length === 1) {
-    //     playerId = txns[0].attendee_id
-
-    //     this.filterPlayerList = this._attendeesService.getAttendeeById(playerId);
-
-    //     this.playerInfoForm.setValue({
-    //       badge: this.filterPlayerList[0].id,
-    //       playerName: this.filterPlayerList[0].first_name + " " + this.filterPlayerList[0].last_name
-    //     });
-    //   } else {
-    //     this.filterPlayerList = [];
-    //   }
-    //   this.validateSubmit();
-    // });
   }
 
   private setPtWForLibrary(library: GameLibraryDto[], ptw: boolean): GameLibraryDto[] {
@@ -142,8 +178,27 @@ export class GameCheckInComponent implements OnInit {
 
   }
 
-  public validateSubmit() {
+  public submitPtwEntries() {
 
+  }
+
+  public validateSubmit() {
+    const gameName = this.gameCheckInInfo.controls['gameName'].value as string;
+    const playerName = this.gameCheckInInfo.controls['playerName'].value as string;
+    const timestamp = this.gameCheckInInfo.controls['timestamp'].value as string;
+
+    console.log(this.gameCheckInInfo.value);
+
+    if (gameName.length > 0 && playerName.length > 0 && timestamp.length > 0) {
+      this.SUBMIT_DISABLED = false;
+      this.PTW_SELECTED = this.selectedGame.ptw ? true : false;
+
+    } else {
+      this.SUBMIT_DISABLED = true;
+      this.PTW_SELECTED = false;
+    }
+
+    this._cdr.markForCheck();
   }
 
 }
