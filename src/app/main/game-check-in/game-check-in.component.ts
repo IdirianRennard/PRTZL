@@ -108,6 +108,8 @@ export class GameCheckInComponent implements OnInit {
       this.ptwEntriesForm.addControl(nextControlName, new FormControl(''))
       this.ptwEntries.push(nextControlName);
     }
+
+    this.validatePtwSubmit();
   }
 
   public getAttendees(): void {
@@ -192,6 +194,27 @@ export class GameCheckInComponent implements OnInit {
   }
 
   public submitPtwEntries() {
+    const gameName = this.gameCheckInInfo.controls['gameName'].value as string;
+    const ptwSubmit = {
+      ...this.ptwEntriesForm.value,
+      gameName
+    };
+
+
+  }
+
+  public validatePtwSubmit() {
+    const ptwForm = Object.entries(this.ptwEntriesForm.value);
+    const loopContent = ptwForm[0][1] as string
+
+    if (ptwForm.length > 2 && loopContent.length > 0) {
+
+      this.PTW_SUBMIT_DISABLED = false;
+
+    } else {
+
+      this.PTW_SUBMIT_DISABLED = true;
+    }
 
   }
 

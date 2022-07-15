@@ -81,4 +81,9 @@ export class GameLibraryService {
     return this.http.post('postGameXO', reg, { 'headers': headers });
   }
 
+  public postPtwEntry(reg: any): any {
+    const headers = new HttpHeaders({ 'content-type': 'application/json' });
+    return this.http.post('postPtwEntry', reg, { 'headers': headers });
+  }
+
 }

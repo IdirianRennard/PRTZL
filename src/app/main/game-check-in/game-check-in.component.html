@@ -112,6 +112,8 @@
               <input
                 matInput
                 formControlName="loops"
+                (keyup)="validatePtwSubmit()"
+                required
               >
               <mat-label>How many games?</mat-label>
             </mat-form-field>
