@@ -12,7 +12,17 @@ unset($post->gameName);
 for ($i = 0; $i < $loop; $i++) {
 
   foreach ($post as $key => $val) {
-    echo "Key : \t $key, \t\t Val : \t $val";
+
+    $select = [
+      'attendee_id',
+      'barcode',
+    ];
+
+    $where = [
+      'barcode' => $val,
+    ];
+
+    $attendee = select_sql($select, 'reg_txn', $where);
   }
 }
 
