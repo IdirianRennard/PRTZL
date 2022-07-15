@@ -14,8 +14,6 @@ $where = [
 
 $reg_txn = select_sql($select, 'reg_txn', $where)[0];
 
-print_r($reg_txn);
-
 $select = [
   'attendee_id',
   'first_name',
@@ -26,7 +24,15 @@ $where = [
   'attendee_id' => (int)$reg_txn['attendee_id'],
 ];
 
+$attendee = select_sql($select, 'attendees', $where)[0];
 
-$attendee = select_sql($select, 'attendees', $where);
+$return = new stdClass();
 
-print_r($attendee);
+$return->id = $attendee->attendee_id;
+$return->first_name = $attendee->first_name;
+$return->last_name = $attendee->last_name;
+$return->barcode = [
+  $reg_txn
+];
+
+json_return($return);
