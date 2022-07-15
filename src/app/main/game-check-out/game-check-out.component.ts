@@ -16,7 +16,6 @@ import { AttendeesService } from 'src/services/Attendees.service';
 export class GameCheckOutComponent implements OnInit, OnDestroy {
 
   private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
-  private _player$: Attendee[] = [];
   private _gameList$: GameLibraryDto[] = [];
 
   public barcode = faBarcode;
@@ -57,7 +56,6 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getLibrary();
-    this.getAttendees();
   }
 
   ngOnDestroy(): void {
@@ -124,32 +122,21 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
 
   public filterPlayer() {
     const formPlayerBarcode = this.gameCheckoutForm.controls['playerBarcode'].value as string;
-    let playerId;
 
-    this._attendeesService.getRegTxns(formPlayerBarcode).pipe(take(1)).subscribe((txns: any[]) => {
-      if (txns.length === 1) {
-        playerId = txns[0].attendee_id
+    this._attendeesService.getAttendeeByBarcode(formPlayerBarcode).pipe(take(1)).subscribe((player: Attendee) => {
 
-        this.filterPlayerList = this._attendeesService.getAttendeeById(playerId);
-
+      if (player.id) {
         this.playerInfoForm.setValue({
-          badge: this.filterPlayerList[0].id,
-          playerName: this.filterPlayerList[0].first_name + " " + this.filterPlayerList[0].last_name
+          badge: player.id,
+          playerName: player.first_name + " " + player.last_name
         });
+
+        this.filterPlayerList.push(player);
       } else {
         this.filterPlayerList = [];
       }
-      this.validateSubmit();
-    });
-  }
 
-  public getAttendees(): void {
-    this._attendeesService.getAll().pipe(takeUntil(this._destroyed$)).subscribe((data) => {
-      this._player$ = Object.keys(data).map((key) => {
-        return data[key]
-      });
-
-      this._cdr.markForCheck();
+      this.validateSubmit()
     });
   }
 

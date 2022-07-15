@@ -15,8 +15,6 @@ import { GameLibraryService } from 'src/services/GameLibrary.service';
 })
 export class GameCheckInComponent implements OnInit {
 
-  private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
-  private _player$: Attendee[] = [];
   private _gameList$: GameLibraryDto[] = [];
 
   public barcode = faBarcode;
@@ -50,7 +48,6 @@ export class GameCheckInComponent implements OnInit {
     private _cdr: ChangeDetectorRef,
     private _libService: GameLibraryService
   ) {
-    this.getAttendees();
     this.getLibrary();
   }
 
@@ -110,16 +107,6 @@ export class GameCheckInComponent implements OnInit {
     }
 
     this.validatePtwSubmit();
-  }
-
-  public getAttendees(): void {
-    this._attendeesService.getAll().pipe(takeUntil(this._destroyed$)).subscribe((data) => {
-      this._player$ = Object.keys(data).map((key) => {
-        return data[key]
-      });
-
-      this._cdr.markForCheck();
-    });
   }
 
   public getLibrary() {
@@ -210,6 +197,8 @@ export class GameCheckInComponent implements OnInit {
           console.log(key);
           this.ptwEntriesForm.removeControl(key)
         });
+
+        this.clearForm();
       }
     })
 

@@ -9,13 +9,15 @@ $game = $post->gameName;
 unset($post->loops);
 unset($post->gameName);
 
+json_return(true);
+
 for ($i = 0; $i < $loop; $i++) {
 
   foreach ($post as $key => $val) {
 
     if (strlen($val) > 0) {
       $player = call("https://prtzl.houserennard.online/assets/api/getRegAttendees.php/?barcode=" . $val);
-      $player = json_decode($player);
+      $player = json_decode($player)[0];
 
       $insert = [
         'game_name' => $game,
@@ -28,5 +30,3 @@ for ($i = 0; $i < $loop; $i++) {
     }
   }
 }
-
-json_return($return);

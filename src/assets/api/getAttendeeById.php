@@ -1,7 +1,10 @@
 <?php
 include 'include.php';
 
-strlen($_GET['barcode']) > 0 ? $barcode = $_GET['barcode'] : $barcode = '00000000';
+strlen($_GET['id']) > 0 ? $id = (int)$_GET['id'] : $id = '00000000';
+
+$length = 8;
+$updatedID = (string)substr((str_repeat(0, $length) . $id), -$length);
 
 $select = [
   'attendee_id',
@@ -10,7 +13,7 @@ $select = [
 ];
 
 $where = [
-  'barcode' => $barcode,
+  'attendee_id' => $updatedID,
 ];
 
 $reg_txn = select_sql($select, 'reg_txn', $where)[0];

@@ -9,7 +9,7 @@ import { map, take } from 'rxjs';
 
 export class AttendeesService {
 
-  private _scratchTxnList: any[] = [];
+  private readonly headers = new HttpHeaders({ 'content-type': 'application/json' });
 
   constructor(private http: HttpClient) {
     this.getAll()
@@ -29,19 +29,23 @@ export class AttendeesService {
     )
   }
 
-  public getAttendeeById(id: string): any[] {
-    return this.allAttendees.filter((player: any) => player.id.toString().match(id));
+  public getAttendeeById(id: string): any {
+    const queryId = new HttpParams().append('id', id);
+    return this.http.get('getAttendeeById', { 'params': queryId, 'headers': this.headers });
+  }
+
+  public getAttendeeByBarcode(barcode: string): any {
+    const queryBarcode = new HttpParams().append('barcode', barcode);
+    return this.http.get('getRegAttendees', { 'params': queryBarcode, 'headers': this.headers });
   }
 
   public getRegTxns(barcode: string): any {
-    const headers = new HttpHeaders({ 'content-type': 'application/json' });
     const queryBarcode = new HttpParams().append('barcode', barcode);
-    return this.http.get('getPlayerRegTxn', { 'params': queryBarcode, 'headers': headers });
+    return this.http.get('getPlayerRegTxn', { 'params': queryBarcode, 'headers': this.headers });
   }
 
   public postNewReg(reg: any): any {
-    const headers = new HttpHeaders({ 'content-type': 'application/json' });
-    return this.http.post('postReg', reg, { 'headers': headers }).pipe(
+    return this.http.post('postReg', reg, { 'headers': this.headers }).pipe(
       map((res: any) => {
         return res;
       })
