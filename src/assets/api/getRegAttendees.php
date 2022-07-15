@@ -12,6 +12,18 @@ $where = [
   'barcode' => $barcode,
 ];
 
-$reg_txn = select_sql($select, 'reg_txn', $where);
+$reg_txn = select_sql($select, 'reg_txn', $where)[0];
 
-print_r($reg_txn);
+$select = [
+  'attendee_id',
+  'first_name',
+  'last_name',
+];
+
+$where = [
+  'attendee_id' => $reg_txn->attendee_id,
+];
+
+$attendee = select_sql($select, 'attendees', $where);
+
+print_r($attendee);
