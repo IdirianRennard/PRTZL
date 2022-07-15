@@ -24,9 +24,9 @@ for ($i = 0; $i < $loop; $i++) {
         'timestamp' => null,
       ];
 
-      insert_sql($insert, 'ptw_txn');
+      $return = insert_sql($insert, 'ptw_txn');
     }
   }
 }
 
-echo true;
+json_return($return);
