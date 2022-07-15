@@ -5,7 +5,8 @@ strlen($_GET['barcode']) > 0 ? $barcode = $_GET['barcode'] : $barcode = '0000000
 
 $select = [
   'attendee_id',
-  'barcode'
+  'barcode',
+  'timestamp',
 ];
 
 $where = [
@@ -28,9 +29,9 @@ $attendee = select_sql($select, 'attendees', $where)[0];
 
 $return = new stdClass();
 
-$return->id = $attendee->attendee_id;
-$return->first_name = $attendee->first_name;
-$return->last_name = $attendee->last_name;
+$return->id = $attendee['attendee_id'];
+$return->first_name = $attendee['first_name'];
+$return->last_name = $attendee['last_name'];
 $return->barcode = [
   $reg_txn
 ];
