@@ -13,17 +13,8 @@ for ($i = 0; $i < $loop; $i++) {
 
   foreach ($post as $key => $val) {
 
-    $select = [
-      'attendee_id',
-      'barcode',
-    ];
+    $player = call("https://prtzl.houserennard.online/assets/api/getRegAttendees.php/?barcode=" . $val);
 
-    $where = [
-      'barcode' => $val,
-    ];
-
-    $attendee = select_sql($select, 'reg_txn', $where);
+    print_r($player);
   }
 }
-
-print_r($post);
