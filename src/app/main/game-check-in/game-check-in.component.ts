@@ -200,6 +200,18 @@ export class GameCheckInComponent implements OnInit {
       gameName
     };
 
+    this._libService.postPtwEntry(ptwSubmit).pipe(take(1)).subscribe((response: any) => {
+      if (typeof response === 'boolean') {
+
+        const ptwForm = Object.keys(this.ptwEntriesForm.value);
+        this.clearForm();
+
+        ptwForm.forEach((key) => {
+          console.log(key);
+          this.ptwEntriesForm.removeControl(key)
+        });
+      }
+    })
 
   }
 
