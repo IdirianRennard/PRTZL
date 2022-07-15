@@ -23,7 +23,7 @@ $select = [
 ];
 
 $where = [
-  'attendee_id' => $reg_txn['attendee_id'],
+  'attendee_id' => (int)$reg_txn['attendee_id'],
 ];
 
 
