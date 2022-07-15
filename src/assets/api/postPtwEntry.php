@@ -13,8 +13,20 @@ for ($i = 0; $i < $loop; $i++) {
 
   foreach ($post as $key => $val) {
 
-    $player = call("https://prtzl.houserennard.online/assets/api/getRegAttendees.php/?barcode=" . $val);
+    if (strlen($val) > 0) {
+      $player = call("https://prtzl.houserennard.online/assets/api/getRegAttendees.php/?barcode=" . $val);
+      $player = json_decode($player);
 
-    print_r($player);
+      $insert = [
+        'game_name' => $game,
+        'attendee_id' => $player->id,
+        'txn_id' => null,
+        'timestamp' => null,
+      ];
+
+      insert_sql($insert, 'ptw_txn');
+    }
   }
 }
+
+echo true;
