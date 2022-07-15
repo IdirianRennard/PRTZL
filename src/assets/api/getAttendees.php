@@ -46,7 +46,7 @@ $select = [
 
 $attendeeIdList = select_sql($select, 'attendees', null);
 
-if ((int)$totalItems > (int)count($attendeeIdList)) {
+if ((int)$totalItems >= (int)count($attendeeIdList)) {
 
   for ($i = 1; $i < $totalPages + 1; $i++) {
     if ($i !== 1) {
