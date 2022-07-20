@@ -198,9 +198,10 @@ export class GameCheckInComponent implements OnInit {
           this.ptwEntriesForm.removeControl(key)
         });
 
-        this.clearForm();
       }
     })
+
+    this.clearForm();
 
   }
 
