@@ -34,7 +34,6 @@ $query = [
   // '_items_per_page' => 100,
   '_max_items' => 2000,
   '_order_by' => 'badge_number',
-  'query' => 'firstname',
 ];
 
 $query = http_build_query($query);
@@ -46,7 +45,7 @@ $badgesUrl = "$TTE_URL/convention/$conId/badges?$query";
 echo $badgesUrl . "\n\n";
 
 // $badges = get_call("$badgesUrl&page=0");
-$badges = get_call("$badgesUrl&");
+$badges = get_call("$badgesUrl");
 $badges = json_decode($badges);
 
 print_r($badges);
