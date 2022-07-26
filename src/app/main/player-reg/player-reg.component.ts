@@ -159,7 +159,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
               conID: chosenOne.id,
               firstName: chosenOne.first_name,
               lastName: chosenOne.last_name,
-              formBarcode: chosenOne.barcode[0].attendee_id,
+              formBarcode: chosenOne.barcode[0].barcode ? chosenOne.barcode[0].barcode : '',
             });
           }
         });
