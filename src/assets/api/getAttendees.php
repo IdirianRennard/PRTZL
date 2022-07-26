@@ -39,9 +39,14 @@ $query = [
 
 $query = http_build_query($query);
 
+echo $query . "\n\n";
+
 $badgesUrl = "$TTE_URL/convention/$conId/badges?$query";
 
+echo $badgesUrl . "\n\n";
+
 // $badges = get_call("$badgesUrl&page=0");
+$badges = get_call("$badgesUrl&");
 $badges = json_decode($badges);
 
 print_r($badges);
