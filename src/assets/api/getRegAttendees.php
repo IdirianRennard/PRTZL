@@ -4,7 +4,7 @@ include 'include.php';
 // strlen($_GET['barcode']) > 0 ? $barcode = $_GET['barcode'] : $barcode = '00000000';
 
 if (strlen($_GET['barcode']) === 0) {
-  echo false;
+  json_return(false);
   exit;
 }
 
@@ -19,6 +19,11 @@ $where = [
 ];
 
 $reg_txn = select_sql($select, 'reg_txn', $where)[0];
+
+if ($reg_txn['attendee_id'] === null) {
+  json_return(false);
+  exit;
+}
 
 $select = [
   'attendee_id',

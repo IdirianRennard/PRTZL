@@ -87,6 +87,8 @@ $select = [
   'last_name'
 ];
 
+$where = [];
+
 $attendees = select_sql($select, 'attendees', null);
 $attendeeIdList = array_column($attendees, 'attendee_id');
 
