@@ -8,7 +8,6 @@ function arrayDelta($arr1, $arr2)
 
   // we don't care about keys anyway + avoids dupes
   foreach ($arr1 as $value) {
-    echo "this should be a value: \n";
     print_r($value);
     $diff[$value] = 1;
   }

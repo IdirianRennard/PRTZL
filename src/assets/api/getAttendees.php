@@ -66,7 +66,6 @@ $select = [
 
 $attendeeIdList = select_sql($select, 'attendees', null);
 $attendeeIdList = array_column($attendeeIdList, "attendee_id");
-print_r($attendeeIdList);
 $time1 = new DateTime();
 $diff = array_diff($attendeeIdList, $tteIdList);
 $time2 = new DateTime();
