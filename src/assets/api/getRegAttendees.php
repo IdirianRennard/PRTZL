@@ -55,7 +55,7 @@ $attendee = select_sql($select, 'attendees', $where)[0];
 
 $return = new stdClass();
 
-$return->id = $reg['attende_id'];
+$return->id = $reg['attendee_id'];
 $return->first_name = $attendee['first_name'];
 $return->last_name = $attendee['last_name'];
 $return->barcode = [

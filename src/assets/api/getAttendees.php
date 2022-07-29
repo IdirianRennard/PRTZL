@@ -64,11 +64,13 @@ for ($i = 2; $i <= $totalPages; $i++) {
 
 $tteIdList = array_column($tteList, "badge_number");
 
-echo "tteIdList: \n";
-print_r($tteIdList);
-echo "\n\n";
-
 $attendeeIdList = select_sql($select, 'attendees', null);
+
+$delta = array_diff($tteIdList, $attendeeIdList);
+
+echo "Delta: \n";
+print_r($delta);
+echo "\n\n";
 
 json_return(false);
 
