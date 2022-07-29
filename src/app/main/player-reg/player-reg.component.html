@@ -1,23 +1,21 @@
 <mat-card class="player_reg">
   <mat-card-title-group  *ngIf="!LOADING">
-    <mat-card-subtitle><h1>Single Registration</h1></mat-card-subtitle>
-    <button mat-mini-fab class="edit-button">
+    <mat-card-subtitle><h1>Library Registration</h1></mat-card-subtitle>
+    <!-- <button mat-mini-fab class="edit-button">
       <fa-icon
         [styles]="{ 'stroke': 'white', 'color': 'black' }"
         [fixedWidth]="true"
-        [icon]="edit">
+        [icon]="menu">
       </fa-icon>
-    </button>
+    </button> -->
   </mat-card-title-group>
     <mat-card-content>
       <div *ngIf="LOADING" class="spinner">
           <mat-spinner></mat-spinner>
       </div>
 
-      <form *ngIf="!LOADING" [formGroup]="playerRegForm">
-
-        <div class="reg_form">
-
+      <div class="reg_form">
+        <form *ngIf="!LOADING" [formGroup]="playerRegForm">
           <!-- <mat-form-field appearance="fill" class="form-input" >
             <mat-label>Badge ID</mat-label>
             <input
@@ -46,6 +44,7 @@
             <mat-label>First Name</mat-label>
             <input
               matInput
+              id="fNameId"
               formControlName="firstName"
               (keyup)="filterPlayers()"
               [matAutocomplete]="fNameAuto"
@@ -80,13 +79,14 @@
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
-
+        </form>
+        <form [formGroup]="formBarcode" *ngIf="!LOADING">
           <mat-form-field appearance="outline" class="form-barcode">
             <mat-label>Barcode</mat-label>
             <input
               matInput
               (keyup)="validBarcode()"
-              formControlName="formBarcode"
+              formControlName="barcode"
               [matAutocomplete]="formBarcodeAuto"
             >
             <mat-icon matSuffix>
@@ -105,10 +105,8 @@
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
-
-        </div>
-
-      </form>
+        </form>
+      </div>
 
   </mat-card-content>
 

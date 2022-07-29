@@ -21,6 +21,7 @@ import { MatDividerModule } from '@angular/material/divider'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from '@angular/material/input';
+import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatButtonModule } from '@angular/material/button';
@@ -56,6 +57,7 @@ import { APIInterceptor } from 'src/assets/classes/APIInterceptor';
     MatIconModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatSidenavModule,
     MatTabsModule,
     MatToolbarModule,
     ReactiveFormsModule

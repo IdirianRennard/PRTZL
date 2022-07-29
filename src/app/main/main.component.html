@@ -1,22 +1,49 @@
 <mat-toolbar class='titlebar'>
-  <button mat-stroked-button class="home-button" >
-    <mat-icon routerLink="/" routerLinkActive="">
-      home
-    </mat-icon>
+  <button
+    mat-stroked-button
+    (click)="toggleUtil()"
+  >
+    <fa-icon
+      class="fa-2x"
+      [icon]="menu"
+    >
+    </fa-icon>
     <span class="title-button">PRTZL M.k. II</span>
   </button>
   <span class="spacer"></span>
   <prtzl-gembox></prtzl-gembox>
 </mat-toolbar>
-<nav mat-tab-nav-bar class="tab-title" [tabPanel]="tabPanel" mat-stretch-tabs>
+<nav
+  mat-tab-nav-bar
+  class="tab-title"
+  [tabPanel]="tabPanel" mat-stretch-tabs
+>
   <a mat-tab-link *ngFor="let tab of gameLibTabs"
     (click)="activeTab = tab"
     [active]="activeTab == tab"
     routerLink="{{ '/' + tab.loc }}"
     routerLinkActive="active-link"
   >
-    <fa-icon class="icon" [icon]="[tab.icon.prefix, tab.icon.name]"></fa-icon>{{ tab.name }}
+    <fa-icon
+      class="icon"
+      [icon]="[tab.icon.prefix, tab.icon.name]"
+    ></fa-icon>{{ tab.name }}
   </a>
 </nav>
-<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
-<prtzl-quick-play-to-win></prtzl-quick-play-to-win>
+
+<mat-sidenav-container [hasBackdrop]="false" class="side-container">
+  <mat-sidenav
+    #utilities
+    class="utilities-menu"
+    mode="over"
+  >Utilities Menu Content
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-tab-nav-panel #tabPanel>
+      <router-outlet></router-outlet>
+    </mat-tab-nav-panel>
+    <prtzl-quick-play-to-win></prtzl-quick-play-to-win>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+

@@ -3,3 +3,22 @@
   background-color: limegreen;
   font-size: x-large;
 }
+
+.infinity:disabled {
+  color: white;
+  border: 0;
+  font-size: larger;
+  font-family: 'Orbitron', sans-serif;
+  line-height: 4vh;
+  padding-left: 1rem;
+}
+
+.gauntlet {
+  background-color: black;
+  border-radius: 10px;
+  height: 4vh;
+}
+
+:host ::ng-deep .infinity .mat-button-ripple {
+  padding: 0;
+}
