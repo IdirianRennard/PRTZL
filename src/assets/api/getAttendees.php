@@ -52,21 +52,19 @@ $select = [
   'attendee_id',
 ];
 
-$tteList = [];
+$tteList = $badges->result->items;
 
 $attendeeIdList = select_sql($select, 'attendees', null);
 echo "attendeeIdList: \n";
 print_r($attendeeIdList);
 echo "\n\n";
 
-for ($i = 1; $i <= $totalPages; $i++) {
-  if ($i != 1) {
-    $pagedBadgesUrl = "$badgesUrl&_page_number=$i";
-    $badges = get_call($pagedBadgesUrl);
-    $badges = json_decode($badges);
-  }
+for ($i = 2; $i <= $totalPages; $i++) {
+  $pagedBadgesUrl = "$badgesUrl&_page_number=$i";
+  $badges = get_call($pagedBadgesUrl);
+  $badges = json_decode($badges);
 
-  array_merge($tteList, $badges->result->items);
+  $tteList = array_merge($tteList, $badges->result->items);
 }
 
 echo "tteList: \n";
