@@ -22,7 +22,7 @@ function getRegTxns($attendeeID, $regTxnList)
 
 function filterById($obj)
 {
-  echo "filterById:" . print_r($GLOBALS['v']) . "\n";
+  echo "filterById:" . print_r($GLOBALS['v']) . "\n\n";
 
   if (isset($obj->barcode) && $obj->barcode === $GLOBALS['v']) {
     return TRUE;
@@ -101,9 +101,9 @@ if (count($delta) > 0) {
 
     $GLOBALS['v'] = $val;
 
-    print_r(
+    echo "foreach filter value: " . print_r(
       array_filter($tteList, 'filterById')
-    );
+    ) . "\n";
   }
 
   $attendeeList = select_sql($select, 'attendees', null);
