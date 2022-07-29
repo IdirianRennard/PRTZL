@@ -62,29 +62,34 @@ $tteIdList = array_column($tteList, "badge_number");
 
 $select = [
   'attendee_id',
+  'first_name',
+  'last_name'
 ];
 
 $attendeeIdList = select_sql($select, 'attendees', null);
 $attendeeIdList = array_column($attendeeIdList, "attendee_id");
-$time1 = new DateTime();
-$diff = array_diff($attendeeIdList, $tteIdList);
-$time2 = new DateTime();
+$delta = array_diff($tteIdList, $attendeeIdList);
 
-echo "diff: \t " . count($diff) . "\n";
-$interval = $time1->diff($time2);
-echo "\ttime: \t" . $interval->f . "\n";
-print_r($delta);
-echo "\n\n";
+if (count($delta) > 0) {
+  foreach ($delta as $val) {
 
-$time1 = new DateTime();
-$delta = arrayDelta($attendeeIdList, $tteIdList);
-$time2 = new DateTime();
+    $GLOBALS['v'] = $val;
 
-echo "delta: \t " . count($delta) . "\n";
-$interval = $time1->diff($time2);
-echo "\ttime: \t" . $interval->f . "\n";
-print_r($delta);
-echo "\n\n";
+    function filterById($obj)
+    {
+      if (isset($obj->barcode) && $obj->barcode === $GLOBALS['v']) {
+        return TRUE;
+      } else {
+        return FALSE;
+      }
+    }
+
+    print_r(
+      array_filter($tteList, 'filterById')
+    );
+  }
+}
+
 
 json_return(false);
 
