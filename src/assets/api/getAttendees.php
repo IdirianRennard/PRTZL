@@ -33,6 +33,10 @@ function filterById($obj)
 
 function mapReturn($obj)
 {
+  echo "mapReturn : \n";
+  print_r($obj);
+  echo "\n\n";
+
   $length = 8;
   $updatedId = (string)substr((str_repeat(0, $length) . $obj->attendee_id), -$length);
 
@@ -94,16 +98,18 @@ $attendeeIdList = array_column($attendeeList, "attendee_id");
 $delta = array_diff($tteIdList, $attendeeIdList);
 
 if (count($delta) > 0) {
-  echo "delta:" . print_r($delta) . "\n";
-  foreach ($delta as $val) {
 
-    echo "foreach delta: " . print_r($val) . "\n";
+  foreach ($delta as $k => $v) {
+    $player = $tteList[$k];
 
-    $GLOBALS['v'] = $val;
+    $insert = [
+      'tte_id' => $player->id,
+      'attendee_id' => $player->badge_number,
+      'first_name' => magicEraser($player->firstname),
+      'last_name' => magicEraser($player->lastname),
+    ];
 
-    echo "foreach filter value: " . print_r(
-      array_filter($tteList, 'filterById')
-    ) . "\n";
+    insert_sql($insert, 'attendees');
   }
 
   $attendeeList = select_sql($select, 'attendees', null);
