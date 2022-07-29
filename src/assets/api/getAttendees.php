@@ -67,21 +67,21 @@ $select = [
 
 $attendeeIdList = select_sql($select, 'attendees', null);
 echo "attendeeIdList: \t" . gettype($attendeeIdList) . "\n";
-$time1 = gmdate('Y-M-d_H:i:s_T');
+$time1 = new DateTime();
 $diff = array_diff($attendeeIdList, $tteIdList);
-$time2 = gmdate('Y-M-d_H:i:s_T');
+$time2 = new DateTime();
 
 echo "diff: \t " . count($diff) . "\n";
-echo "\ttime: \t" . ($time2 - $time1);
+echo "\ttime: \t" . ($time1->diff($time2));
 print_r($delta);
 echo "\n\n";
 
-$time1 = gmdate('Y-M-d_H:i:s_T');
+$time1 = new DateTime();
 $delta = arrayDelta($attendeeIdList, $tteIdList);
-$time2 = gmdate('Y-M-d_H:i:s_T');
+$time2 = new DateTime();
 
 echo "delta: \t " . count($delta) . "\n";
-echo "\ttime: \t" . ($time2 - $time1);
+echo "\ttime: \t" . ($time1->diff($time2));
 print_r($delta);
 echo "\n\n";
 
