@@ -132,15 +132,15 @@ export class GameCheckOutComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this._attendeesService.getAttendeeByBarcode(formPlayerBarcode).pipe(take(1)).subscribe((player: Attendee[]) => {
 
-      console.log(player[0]);
+      
 
-      if (player[0].id) {
+      if (player.length === 1 && player[0]?.id) {
         this.playerInfoForm.setValue({
           badge: player[0].id,
           playerName: player[0].first_name + " " + player[0].last_name
         });
 
-        this.filterPlayerList.push(player[0]);
+        this.filterPlayerList = player;
       } else {
         this.filterPlayerList = [];
       }
