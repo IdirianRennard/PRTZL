@@ -20,31 +20,20 @@ function getRegTxns($attendeeID, $regTxnList)
   return array_filter($regTxnList, fn ($txn) => $txn['attendee_id'] === $attendeeID);
 }
 
-function filterById($obj)
-{
-  echo "filterById:" . print_r($GLOBALS['v']) . "\n\n";
-
-  if (isset($obj->barcode) && $obj->barcode === $GLOBALS['v']) {
-    return TRUE;
-  } else {
-    return FALSE;
-  }
-}
-
 function mapReturn($obj)
 {
-  echo "mapReturn : \n";
-  print_r($obj);
-  echo "\n\n";
-
   $length = 8;
-  $updatedId = (string)substr((str_repeat(0, $length) . $obj->attendee_id), -$length);
+  $updatedId = (string)substr((str_repeat(0, $length) . $obj['attendee_id']), -$length);
 
   $r = new Attendee();
 
   $r->id = $updatedId;
-  $r->first_name = $obj->first_name;
-  $r->last_name = $obj->last_name;
+  $r->first_name = $obj['first_name'];
+  $r->last_name = $obj['last_name'];
+
+  echo "mapReturn : \n";
+  print_r($r);
+  echo "\n\n";
 
   return $r;
 }
@@ -101,6 +90,10 @@ if (count($delta) > 0) {
 
   foreach ($delta as $k => $v) {
     $player = $tteList[$k];
+
+    echo "player: \n";
+    print_r($player);
+    echo "\n\n";
 
     $insert = [
       'tte_id' => $player->id,
