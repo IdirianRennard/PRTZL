@@ -2,9 +2,10 @@
 include 'include.php';
 
 // strlen($_GET['barcode']) > 0 ? $barcode = $_GET['barcode'] : $barcode = '00000000';
+$return_array = [];
 
 if (strlen($_GET['barcode']) === 0) {
-  json_return(false);
+  json_return($return_array);
   exit;
 }
 
@@ -21,7 +22,7 @@ $where = [
 $reg_txn = select_sql($select, 'reg_txn', $where)[0];
 
 if ($reg_txn['attendee_id'] === null) {
-  json_return(false);
+  json_return($return_array);
   exit;
 }
 
@@ -37,7 +38,6 @@ $where = [
 
 $attendee = select_sql($select, 'attendees', $where)[0];
 
-$return_array = [];
 $return = new stdClass();
 
 $return->id = $reg_txn['attendee_id'];

@@ -1,5 +1,5 @@
 <mat-card class="player_reg">
-  <mat-card-title-group  *ngIf="!LOADING">
+  <mat-card-title-group>
     <mat-card-subtitle><h1>Library Registration</h1></mat-card-subtitle>
     <!-- <button mat-mini-fab class="edit-button">
       <fa-icon
@@ -10,12 +10,12 @@
     </button> -->
   </mat-card-title-group>
     <mat-card-content>
-      <div *ngIf="LOADING" class="spinner">
+      <!-- <div *ngIf="LOADING" class="spinner">
           <mat-spinner></mat-spinner>
-      </div>
+      </div> -->
 
       <div class="reg_form">
-        <form *ngIf="!LOADING" [formGroup]="playerRegForm">
+        <form [formGroup]="playerRegForm" class="player-input">
           <!-- <mat-form-field appearance="fill" class="form-input" >
             <mat-label>Badge ID</mat-label>
             <input
@@ -34,22 +34,17 @@
           </mat-autocomplete>
           </mat-form-field> -->
 
-          <div class="reg_form">
-            <div class="error-msg">
-              <span *ngIf="barcodeErr">{{ barcodeErr }}</span>
-            </div>
-          </div>
-
           <mat-form-field appearance="fill" class="form-input">
             <mat-label>First Name</mat-label>
             <input
               matInput
-              id="fNameId"
+              id='fNameId'
               formControlName="firstName"
               (keyup)="filterPlayers()"
               [matAutocomplete]="fNameAuto"
             >
-            <mat-icon matSuffix>search</mat-icon>
+            <mat-spinner *ngIf="LOADING" matSuffix diameter="25"></mat-spinner>
+            <mat-icon *ngIf="!LOADING" matSuffix>search</mat-icon>
           <mat-autocomplete #fNameAuto="matAutocomplete"
             autoActiveFirstOption
             (optionSelected)="formComplete($event)"
@@ -68,7 +63,8 @@
               (keyup)="filterPlayers()"
               [matAutocomplete]="lNameAuto"
             >
-            <mat-icon matSuffix>search</mat-icon>
+            <mat-spinner *ngIf="LOADING" matSuffix diameter="25"></mat-spinner>
+            <mat-icon *ngIf="!LOADING" matSuffix>search</mat-icon>
           <mat-autocomplete #lNameAuto="matAutocomplete"
             autoActiveFirstOption
             (optionSelected)="formComplete($event)"
@@ -80,7 +76,7 @@
           </mat-autocomplete>
           </mat-form-field>
         </form>
-        <form [formGroup]="formBarcode" *ngIf="!LOADING">
+        <form [formGroup]="formBarcode" class="barcode-input">
           <mat-form-field appearance="outline" class="form-barcode">
             <mat-label>Barcode</mat-label>
             <input
@@ -105,12 +101,18 @@
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
+
+          <div class="reg_form">
+            <div class="error-msg">
+              <span *ngIf="barcodeErr">{{ barcodeErr }}</span>
+            </div>
+          </div>
         </form>
       </div>
 
   </mat-card-content>
 
-  <mat-card-actions align="end"  *ngIf="!LOADING">
+  <mat-card-actions align="end">
     <button mat-raised-button class="clear-button" (click)="clearForm()">Clear</button>
     <button *ngIf="SUBMIT_DISABLED"
       mat-raised-button

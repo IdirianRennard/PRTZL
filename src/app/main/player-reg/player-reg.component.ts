@@ -1,8 +1,7 @@
 import { AttendeesService } from 'src/services/Attendees.service';
 import { Attendee, Badge } from 'src/assets/models/attendee';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { faBarcode, faCheckCircle, faExclamationTriangle, faSquareCaretRight } from '@fortawesome/free-solid-svg-icons';
-import { isEqual } from 'lodash';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ReplaySubject, take, takeUntil } from 'rxjs';
@@ -13,7 +12,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
   templateUrl: './player-reg.component.html',
   styleUrls: ['./player-reg.component.scss']
 })
-export class PlayerRegComponent implements OnInit, OnDestroy {
+export class PlayerRegComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   private _player$: Attendee[] = [];
@@ -51,9 +50,38 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
   }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.focusName();
+    }, 1);
+  }
+
   ngOnDestroy(): void {
     this._destroyed$.next(true);
     this._destroyed$.complete();
+  }
+
+  private setBarcodeState(state: string) {
+    switch (state) {
+
+      case 'valid':
+        this.barcode = faCheckCircle;
+        this.barcodeColor = { color: 'limegreen' }
+        this.barcodeErr = '';
+        break;
+
+      case 'error':
+        this.barcode = faExclamationTriangle;
+        this.barcodeColor = { color: 'goldenrod' }
+        this.barcodeErr = 'This Barcode was already registered to this user'
+        break;
+
+      default:
+        this.barcode = faBarcode;
+        this.barcodeColor = { color: 'white' }
+        this.barcodeErr = '';
+        break
+    }
   }
 
   public clearForm() {
@@ -61,6 +89,10 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
       firstName: '',
       lastName: ''
     });
+    this.formBarcode.setValue({
+      barcode: ''
+    });
+    this.barcodeErr = '';
     this.validSubmit();
     this.filterPlayer = [];
   }
@@ -84,6 +116,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   }
 
   public focusName() {
+    console.log(this._render.selectRootElement('#fNameId'));
     this._render.selectRootElement('#fNameId').focus();
   }
 
@@ -93,7 +126,6 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
       firstName: autoValue.first_name,
       lastName: autoValue.last_name,
     });
-
     this.filterPlayers();
   }
 
@@ -105,8 +137,6 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
 
       console.log(this._player$);
       this.LOADING = false;
-      this.cdr.markForCheck();
-
     });
   }
 
@@ -129,15 +159,66 @@ export class PlayerRegComponent implements OnInit, OnDestroy {
   }
 
   public validBarcode() {
-    // const barcode = this.playerRegForm.controls['formBarcode'].value as string;
-    // if (barcode?.length === 0) {
-    //   this.barcode = faBarcode;
-    //   this.barcodeColor = { color: 'white' };
-    //   this.barcodeErr = '';
-    // } else {
+    const barcode = this.formBarcode.controls['barcode'].value as string;
+    if (barcode?.length === 0) {
+      this.setBarcodeState('default')
+    } else {
 
-    //   let barcodeTxns: Badge[] = []
-    //   this._attendeesService
+      this._attendeesService
+        .getAttendeeByBarcode(barcode)
+        .pipe(take(1))
+        .subscribe((txn: Attendee[]) => {
+
+          const fName = this.playerRegForm.controls['firstName'].value as string
+          const lName = this.playerRegForm.controls['lastName'].value as string
+
+          console.log(txn);
+
+          switch (txn.length) {
+            case 1:
+              if (fName?.length > 0 || lName?.length > 0) {
+
+                if (
+                  txn[0].first_name.includes(fName) &&
+                  txn[0].last_name.includes(lName)
+                ) {
+
+                  this.playerRegForm.setValue({
+                    firstName: txn[0].first_name,
+                    lastName: txn[0].last_name,
+                  });
+
+                  this.setBarcodeState('error');
+                }
+              }
+
+              if (fName?.length === 0 && lName?.length === 0) {
+                this.playerRegForm.setValue({
+                  firstName: txn[0].first_name,
+                  lastName: txn[0].last_name,
+                });
+
+                this.setBarcodeState('error');
+              }
+              break;
+
+            case 0:
+              break;
+          }
+          // if (txn.length === 1) {
+          //   const player = txn[0];
+
+          //   if (fName?.length === 0 && lName?.length === 0) {
+          //     this.playerRegForm.setValue({
+          //       firstName: player.first_name,
+          //       lastName: player.last_name,
+          //     });
+
+          //     this.setBarcodeState('valid');
+          //   }
+        });
+    }
+    // this._attendeesService
     //     .getRegTxns(barcode)
     //     .pipe(takeUntil(this._destroyed$))
     //     .subscribe((txns: Badge) => {
