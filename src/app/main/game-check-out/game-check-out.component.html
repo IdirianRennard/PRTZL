@@ -40,7 +40,6 @@
             matInput
             formControlName="playerBarcode"
             (keyup)="filterPlayer()"
-            [matAutocomplete]="playerBarcodeAuto"
           >
           <mat-icon matSuffix>
             <fa-icon
@@ -48,14 +47,14 @@
               [icon]="barcode"
             ></fa-icon>
           </mat-icon>
-          <mat-autocomplete
+          <!-- <mat-autocomplete
             #playerBarcodeAuto
             autoActiveFirstOption
           >
             <mat-option *ngFor="let player of filterPlayerList" [value]="player.barcode[0].barcode">
-              {{ player.id + " - " + player.first_name + " " + player.last_name }}
+              {{ player.first_name + " " + player.last_name }}
             </mat-option>
-          </mat-autocomplete>
+          </mat-autocomplete> -->
         </mat-form-field>
 
       </div>
