@@ -83,10 +83,13 @@
 </mat-card>
 
 <mat-card class="checkout_info">
+  <mat-card-title-group>
+    <mat-card-subtitle><h1>Game Information</h1></mat-card-subtitle>
+  </mat-card-title-group>
   <mat-card-content class="game_info">
     <form [formGroup]="gameInfoForm">
       <div class="game_info_row">
-        <mat-form-field appearance="outline" >
+        <mat-form-field appearance="outline" class="data-field">
           <input
             matInput
             formControlName="title"
@@ -100,14 +103,14 @@
         </span>
       </div>
       <div class="game_info_row">
-        <mat-form-field appearance="outline" >
+        <mat-form-field appearance="outline" class="data-field">
           <input
             matInput
             formControlName="playerTotal"
           >
           <mat-label>Number of Players</mat-label>
         </mat-form-field>
-        <mat-form-field appearance="outline" >
+        <mat-form-field appearance="outline" class="data-field">
           <input
             matInput
             formControlName="recAge"
@@ -116,18 +119,16 @@
         </mat-form-field>
       </div>
     </form>
-  </mat-card-content>
-  <mat-card-content class="player_info">
     <form [formGroup]="playerInfoForm">
       <div class="game_info_row">
-        <mat-form-field appearance="outline" >
+        <mat-form-field appearance="outline" class="data-field">
           <input
             matInput
             formControlName="badge"
           >
           <mat-label>Badge Number</mat-label>
         </mat-form-field>
-        <mat-form-field appearance="outline" >
+        <mat-form-field appearance="outline" class="data-field">
           <input
             matInput
             formControlName="playerName"

@@ -25,28 +25,19 @@
     vertical-align: top;
   }
 
-  .family_reg {
-    border-radius: 10px;
-    margin: 2rem;
-    height: max-content;
-    width: 50%;
-  }
-
   .form-input {
-    width: 15rem;
-    padding: 0.5rem;
+    width: 10rem;
   }
 
   .form-barcode {
-    width: 15rem;
-    padding: 0.5rem;
+    width: 10rem;
   }
 
   .player_reg {
     border-radius: 10px;
-    margin: 2rem;
+    margin: 1rem;
     height: max-content;
-    width: 50%;
+    width: 25%;
   }
 
   .reg_form {
@@ -73,12 +64,6 @@
     background-color: grey;
     color: darkgrey;
   }
-
-
-  mat-card-content {
-    margin: 1rem 0;
-  }
-
 }
 
 

@@ -18,7 +18,7 @@
 
         <div class="reg_form">
 
-          <mat-form-field appearance="fill" class="form-input" >
+          <!-- <mat-form-field appearance="fill" class="form-input" >
             <mat-label>Badge ID</mat-label>
             <input
               matInput
@@ -32,6 +32,51 @@
           >
             <mat-option *ngFor="let option of filterPlayer" [value]="option" >
               {{ option.id + " - " + option.first_name + " " + option.last_name + ( option.barcode.length > 0 ? " - " + option.barcode[0].attendee_id : ' ' ) }}
+            </mat-option>
+          </mat-autocomplete>
+          </mat-form-field> -->
+
+          <div class="reg_form">
+            <div class="error-msg">
+              <span *ngIf="barcodeErr">{{ barcodeErr }}</span>
+            </div>
+          </div>
+
+          <mat-form-field appearance="fill" class="form-input">
+            <mat-label>First Name</mat-label>
+            <input
+              matInput
+              formControlName="firstName"
+              (keyup)="filterPlayers()"
+              [matAutocomplete]="fNameAuto"
+            >
+            <mat-icon matSuffix>search</mat-icon>
+          <mat-autocomplete #fNameAuto="matAutocomplete"
+            autoActiveFirstOption
+            (optionSelected)="formComplete($event)"
+          >
+            <mat-option *ngFor="let option of filterPlayer" [value]="option">
+              {{ option.first_name + " " + option.last_name }}
+            </mat-option>
+          </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="form-input">
+            <mat-label>Last Name</mat-label>
+            <input
+              matInput
+              formControlName="lastName"
+              (keyup)="filterPlayers()"
+              [matAutocomplete]="lNameAuto"
+            >
+            <mat-icon matSuffix>search</mat-icon>
+          <mat-autocomplete #lNameAuto="matAutocomplete"
+            autoActiveFirstOption
+            (optionSelected)="formComplete($event)"
+            (keyup)="filterPlayers()"
+          >
+            <mat-option *ngFor="let option of filterPlayer" [value]="option">
+              {{ option.first_name + " " + option.last_name }}
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
@@ -56,55 +101,7 @@
             (optionSelected)="formComplete($event)"
           >
             <mat-option *ngFor="let option of filterPlayer" [value]="option" >
-              {{ option.id + " - " + option.first_name + " " + option.last_name + ( option.barcode.length > 0 ? " - " + option.barcode[0].attendee_id : ' ' ) }}
-            </mat-option>
-          </mat-autocomplete>
-          </mat-form-field>
-        </div>
-
-        <div class="reg_form">
-          <div class="error-msg">
-            <span *ngIf="barcodeErr">{{ barcodeErr }}</span>
-          </div>
-        </div>
-
-        <div class="reg_form">
-
-          <mat-form-field appearance="fill" class="form-input">
-            <mat-label>First Name</mat-label>
-            <input
-              matInput
-              formControlName="firstName"
-              (keyup)="filterPlayers()"
-              [matAutocomplete]="fNameAuto"
-            >
-            <mat-icon matSuffix>search</mat-icon>
-          <mat-autocomplete #fNameAuto="matAutocomplete"
-            autoActiveFirstOption
-            (optionSelected)="formComplete($event)"
-          >
-            <mat-option *ngFor="let option of filterPlayer" [value]="option">
-              {{ option.id + " - " + option.first_name + " " + option.last_name + ( option.barcode.length > 0 ? " - " + option.barcode[0].attendee_id : ' ' ) }}
-            </mat-option>
-          </mat-autocomplete>
-          </mat-form-field>
-
-          <mat-form-field appearance="fill" class="form-input">
-            <mat-label>Last Name</mat-label>
-            <input
-              matInput
-              formControlName="lastName"
-              (keyup)="filterPlayers()"
-              [matAutocomplete]="lNameAuto"
-            >
-            <mat-icon matSuffix>search</mat-icon>
-          <mat-autocomplete #lNameAuto="matAutocomplete"
-            autoActiveFirstOption
-            (optionSelected)="formComplete($event)"
-            (keyup)="filterPlayers()"
-          >
-            <mat-option *ngFor="let option of filterPlayer" [value]="option">
-              {{ option.id + " - " + option.first_name + " " + option.last_name + ( option.barcode.length > 0 ? " - " + option.barcode[0].attendee_id : ' ' ) }}
+              {{ option.first_name + " " + option.last_name }}
             </mat-option>
           </mat-autocomplete>
           </mat-form-field>
