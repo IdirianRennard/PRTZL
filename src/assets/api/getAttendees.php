@@ -59,20 +59,20 @@ for ($i = 2; $i <= $totalPages; $i++) {
 }
 
 $tteIdList = array_column($tteList, "badge_number");
-echo "tteIdList: \t" . gettype($tteIdList) . "\n";
 
 $select = [
   'attendee_id',
 ];
 
 $attendeeIdList = select_sql($select, 'attendees', null);
-echo "attendeeIdList: \t" . gettype($attendeeIdList) . "\n";
 $time1 = new DateTime();
 $diff = array_diff($attendeeIdList, $tteIdList);
 $time2 = new DateTime();
 
 echo "diff: \t " . count($diff) . "\n";
-echo "\ttime: \t" . ($time1->diff($time2));
+echo "\ttime: \t";
+var_dump($time1->diff($time2));
+echo "\n";
 print_r($delta);
 echo "\n\n";
 
@@ -81,7 +81,9 @@ $delta = arrayDelta($attendeeIdList, $tteIdList);
 $time2 = new DateTime();
 
 echo "delta: \t " . count($delta) . "\n";
-echo "\ttime: \t" . ($time1->diff($time2));
+echo "\ttime: \t";
+var_dump($time1->diff($time2));
+echo "\n";
 print_r($delta);
 echo "\n\n";
 
