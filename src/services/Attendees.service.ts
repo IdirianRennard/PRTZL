@@ -1,7 +1,7 @@
 import { Attendee } from 'src/assets/models/attendee';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, take } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,9 +34,9 @@ export class AttendeesService {
     return this.http.get('getAttendeeById', { 'params': queryId, 'headers': this.headers });
   }
 
-  public getAttendeeByBarcode(barcode: string): any {
+  public getAttendeeByBarcode(barcode: string): Observable<Attendee[]> {
     const queryBarcode = new HttpParams().append('barcode', barcode);
-    return this.http.get('getRegAttendees', { 'params': queryBarcode, 'headers': this.headers });
+    return this.http.get<Attendee[]>('getRegAttendees', { 'params': queryBarcode, 'headers': this.headers });
   }
 
   public getRegTxns(barcode: string): any {

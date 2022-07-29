@@ -81,9 +81,9 @@
             <mat-label>Barcode</mat-label>
             <input
               matInput
+              id='scanPlayer'
               (keyup)="validBarcode()"
               formControlName="barcode"
-              [matAutocomplete]="formBarcodeAuto"
             >
             <mat-icon matSuffix>
               <fa-icon
@@ -91,7 +91,7 @@
                 [icon]="barcode">
               </fa-icon>
           </mat-icon>
-          <mat-autocomplete
+          <!-- <mat-autocomplete
             #formBarcodeAuto
             autoActiveFirstOption
             (optionSelected)="formComplete($event)"
@@ -99,7 +99,7 @@
             <mat-option *ngFor="let option of filterPlayer" [value]="option" >
               {{ option.first_name + " " + option.last_name }}
             </mat-option>
-          </mat-autocomplete>
+          </mat-autocomplete> -->
           </mat-form-field>
 
           <div class="reg_form">
