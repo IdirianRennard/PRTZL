@@ -1,7 +1,12 @@
 <?php
 include 'include.php';
 
-strlen($_GET['barcode']) > 0 ? $barcode = $_GET['barcode'] : $barcode = '00000000';
+// strlen($_GET['barcode']) > 0 ? $barcode = $_GET['barcode'] : $barcode = '00000000';
+
+if (strlen($_GET['barcode']) === 0) {
+  echo false;
+  exit;
+}
 
 $select = [
   'attendee_id',
