@@ -3,7 +3,7 @@
 //array diff that is potentially faster
 function arrayDelta($arr1, $arr2)
 {
-  $diff = [];
+  $diff = array();
 
   // we don't care about keys anyway + avoids dupes
   foreach ($arr1 as $value) {
