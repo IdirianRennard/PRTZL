@@ -34,6 +34,13 @@ if (is_null($reg['attendee_id'])) {
   exit;
 }
 
+if (!is_nan((int)$reg['attendee_id'])) {
+  $pk = (int)$reg['attendee_id'];
+} else {
+  json_return($return_array);
+  exit;
+}
+
 $select = [
   'attendee_id',
   'first_name',
@@ -41,14 +48,14 @@ $select = [
 ];
 
 $where = [
-  'attendee_id' => (int)$reg['attendee_id'],
+  'attendee_id' => $pk,
 ];
 
 $attendee = select_sql($select, 'attendees', $where)[0];
 
 $return = new stdClass();
 
-$return->id = $reg_txn['attendee_id'];
+$return->id = $reg['attende_id'];
 $return->first_name = $attendee['first_name'];
 $return->last_name = $attendee['last_name'];
 $return->barcode = [

@@ -54,11 +54,6 @@ $select = [
 
 $tteList = $badges->result->items;
 
-$attendeeIdList = select_sql($select, 'attendees', null);
-echo "attendeeIdList: \n";
-print_r($attendeeIdList);
-echo "\n\n";
-
 for ($i = 2; $i <= $totalPages; $i++) {
   $pagedBadgesUrl = "$badgesUrl&_page_number=$i";
   $badges = get_call($pagedBadgesUrl);
@@ -67,9 +62,13 @@ for ($i = 2; $i <= $totalPages; $i++) {
   $tteList = array_merge($tteList, $badges->result->items);
 }
 
-echo "tteList: \n";
-print_r($tteList);
+$tteIdList = array_column($tteList, "badge_number");
+
+echo "tteIdList: \n";
+print_r($tteIdList);
 echo "\n\n";
+
+$attendeeIdList = select_sql($select, 'attendees', null);
 
 json_return(false);
 
