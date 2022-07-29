@@ -125,7 +125,6 @@ function select_contains_sql($array, $table, $where)
 
   $select .= " $order";
 
-  echo "SQL statement: \t $select \n\n";
   $return = sql_submit($select);
 
   return $return;

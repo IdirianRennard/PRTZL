@@ -39,7 +39,7 @@ $query = http_build_query($query);
 
 $badgesUrl = "$TTE_URL/convention/$conId/badges?$query";
 
-$badges = get_call("$badgesUrl&page=0");
+$badges = get_call($badgesUrl);
 $badges = json_decode($badges);
 
 $pages = $badges->result->paging;
@@ -52,66 +52,87 @@ $select = [
   'attendee_id',
 ];
 
+$tteList = [];
+
 $attendeeIdList = select_sql($select, 'attendees', null);
+echo "attendeeIdList: \n";
+print_r($attendeeIdList);
+echo "\n\n";
 
-if ((int)$totalItems > (int)count($attendeeIdList)) {
-
-  for ($i = 1; $i < $totalPages + 1; $i++) {
-    if ($i !== 1) {
-      $pagedBadgesUrl = "$badgesUrl&_page_number=$i";
-      $badges = get_call($pagedBadgesUrl);
-      $badges = json_decode($badges);
-    }
-
-    $items = $badges->result->items;
-    $itemId = array_column($items, 'badge_number');
-
-    foreach ($itemId as $k => $v) {
-      if (!array_search($v, $attendeeIdList)) {
-        $insert = [
-          'tte_id' => $items[$k]->id,
-          'attendee_id' => $items[$k]->badge_number,
-          'first_name' => $items[$k]->firstname,
-          'last_name' => $items[$k]->lastname,
-        ];
-
-        insert_sql($insert, 'attendees');
-      }
-    };
+for ($i = 1; $i <= $totalPages; $i++) {
+  if ($i != 1) {
+    $pagedBadgesUrl = "$badgesUrl&_page_number=$i";
+    $badges = get_call($pagedBadgesUrl);
+    $badges = json_decode($badges);
   }
-};
 
-$select = [
-  'attendee_id',
-  'first_name',
-  'last_name'
-];
-
-$where = [];
-
-$attendees = select_sql($select, 'attendees', null);
-$attendeeIdList = array_column($attendees, 'attendee_id');
-
-$select = [
-  'attendee_id',
-  'barcode',
-  'timestamp',
-];
-
-$regTxnList = select_sql($select, 'reg_txn', null);
-
-foreach ($attendeeIdList as $k => $v) {
-
-  $updatedID = (string)substr((str_repeat(0, $length) . $v), -$length);
-  $updatedBarcode = array_values(getRegTxns($updatedID, $regTxnList));
-
-  $scratchAttendee = new Attendee();
-  $scratchAttendee->id = $updatedID;
-  $scratchAttendee->first_name = $attendees[$k]['first_name'];
-  $scratchAttendee->last_name = $attendees[$k]['last_name'];
-  $scratchAttendee->barcode = $updatedBarcode;
-
-  $tteBadges[(int)$v] = $scratchAttendee;
+  array_push($tteList, $badges->result->items);
 }
 
-json_return($tteBadges);
+echo "tteList: \n";
+print_r($tteList);
+echo "\n\n";
+
+json_return(false);
+
+// if ((int)$totalItems !== (int)count($attendeeIdList)) {
+
+//   for ($i = 1; $i < $totalPages + 1; $i++) {
+//     if ($i !== 1) {
+//       $pagedBadgesUrl = "$badgesUrl&_page_number=$i";
+//       $badges = get_call($pagedBadgesUrl);
+//       $badges = json_decode($badges);
+//     }
+
+//     $items = $badges->result->items;
+//     $itemId = array_column($items, 'badge_number');
+
+//     foreach ($itemId as $k => $v) {
+//       if (!array_search($v, $attendeeIdList)) {
+//         $insert = [
+//           'tte_id' => $items[$k]->id,
+//           'attendee_id' => $items[$k]->badge_number,
+//           'first_name' => magicEraser($items[$k]->firstname),
+//           'last_name' => magicEraser($items[$k]->lastname),
+//         ];
+
+//         insert_sql($insert, 'attendees');
+//       }
+//     };
+//   }
+// };
+
+// $select = [
+//   'attendee_id',
+//   'first_name',
+//   'last_name'
+// ];
+
+// $where = [];
+
+// $attendees = select_sql($select, 'attendees', null);
+// $attendeeIdList = array_column($attendees, 'attendee_id');
+
+// $select = [
+//   'attendee_id',
+//   'barcode',
+//   'timestamp',
+// ];
+
+// $regTxnList = select_sql($select, 'reg_txn', null);
+
+// foreach ($attendeeIdList as $k => $v) {
+
+//   $updatedID = (string)substr((str_repeat(0, $length) . $v), -$length);
+//   $updatedBarcode = array_values(getRegTxns($updatedID, $regTxnList));
+
+//   $scratchAttendee = new Attendee();
+//   $scratchAttendee->id = $updatedID;
+//   $scratchAttendee->first_name = $attendees[$k]['first_name'];
+//   $scratchAttendee->last_name = $attendees[$k]['last_name'];
+//   $scratchAttendee->barcode = $updatedBarcode;
+
+//   $tteBadges[(int)$v] = $scratchAttendee;
+// }
+
+// json_return($tteBadges);

@@ -21,6 +21,12 @@ function call($url)
   return $data;
 }
 
+//sanitize string
+function magicEraser($string)
+{
+  return preg_replace("/[^A-Za-z0-8]/", "", $string);
+}
+
 //log data to js console using php
 function console($data)
 {
