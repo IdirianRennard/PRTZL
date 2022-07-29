@@ -15,11 +15,6 @@ class Txn
   public $timestamp;
 }
 
-function getRegTxns($attendeeID, $regTxnList)
-{
-  return array_filter($regTxnList, fn ($txn) => $txn['attendee_id'] === $attendeeID);
-}
-
 function mapReturn($obj)
 {
   $length = 8;
@@ -32,6 +27,11 @@ function mapReturn($obj)
   $r->last_name = $obj['last_name'];
 
   return $r;
+}
+
+function sortById($a, $b)
+{
+  return $a->attendee_id <=> $b->attendee_id;
 }
 
 //Get the TTE Key
@@ -101,5 +101,7 @@ if (count($delta) > 0) {
 }
 
 $returnList = array_map('mapReturn', $attendeeList);
+usort($returnList, 'sortById');
+
 json_return($returnList);
 exit;
