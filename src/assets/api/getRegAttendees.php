@@ -44,10 +44,7 @@ $where = [
   'attendee_id' => (int)$reg['attendee_id'],
 ];
 
-$attendee = select_sql($select, 'attendees', $where);
-echo "attendee: \n";
-print_r($attendee);
-echo "\n\n";
+$attendee = select_sql($select, 'attendees', $where)[0];
 
 $return = new stdClass();
 

@@ -66,7 +66,7 @@ for ($i = 1; $i <= $totalPages; $i++) {
     $badges = json_decode($badges);
   }
 
-  array_push($tteList, $badges->result->items);
+  array_merge($tteList, $badges->result->items);
 }
 
 echo "tteList: \n";
