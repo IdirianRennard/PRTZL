@@ -31,10 +31,6 @@ function mapReturn($obj)
   $r->first_name = $obj['first_name'];
   $r->last_name = $obj['last_name'];
 
-  echo "mapReturn : \n";
-  print_r($r);
-  echo "\n\n";
-
   return $r;
 }
 
@@ -91,10 +87,6 @@ if (count($delta) > 0) {
   foreach ($delta as $k => $v) {
     $player = $tteList[$k];
 
-    echo "player: \n";
-    print_r($player);
-    echo "\n\n";
-
     $insert = [
       'tte_id' => $player->id,
       'attendee_id' => $player->badge_number,
@@ -111,65 +103,3 @@ if (count($delta) > 0) {
 $returnList = array_map('mapReturn', $attendeeList);
 json_return($returnList);
 exit;
-
-// if ((int)$totalItems !== (int)count($attendeeIdList)) {
-
-//   for ($i = 1; $i < $totalPages + 1; $i++) {
-//     if ($i !== 1) {
-//       $pagedBadgesUrl = "$badgesUrl&_page_number=$i";
-//       $badges = get_call($pagedBadgesUrl);
-//       $badges = json_decode($badges);
-//     }
-
-//     $items = $badges->result->items;
-//     $itemId = array_column($items, 'badge_number');
-
-//     foreach ($itemId as $k => $v) {
-//       if (!array_search($v, $attendeeIdList)) {
-//         $insert = [
-//           'tte_id' => $items[$k]->id,
-//           'attendee_id' => $items[$k]->badge_number,
-//           'first_name' => magicEraser($items[$k]->firstname),
-//           'last_name' => magicEraser($items[$k]->lastname),
-//         ];
-
-//         insert_sql($insert, 'attendees');
-//       }
-//     };
-//   }
-// };
-
-// $select = [
-//   'attendee_id',
-//   'first_name',
-//   'last_name'
-// ];
-
-// $where = [];
-
-// $attendees = select_sql($select, 'attendees', null);
-// $attendeeIdList = array_column($attendees, 'attendee_id');
-
-// $select = [
-//   'attendee_id',
-//   'barcode',
-//   'timestamp',
-// ];
-
-// $regTxnList = select_sql($select, 'reg_txn', null);
-
-// foreach ($attendeeIdList as $k => $v) {
-
-//   $updatedID = (string)substr((str_repeat(0, $length) . $v), -$length);
-//   $updatedBarcode = array_values(getRegTxns($updatedID, $regTxnList));
-
-//   $scratchAttendee = new Attendee();
-//   $scratchAttendee->id = $updatedID;
-//   $scratchAttendee->first_name = $attendees[$k]['first_name'];
-//   $scratchAttendee->last_name = $attendees[$k]['last_name'];
-//   $scratchAttendee->barcode = $updatedBarcode;
-
-//   $tteBadges[(int)$v] = $scratchAttendee;
-// }
-
-// json_return($tteBadges);
