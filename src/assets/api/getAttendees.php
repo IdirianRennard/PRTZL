@@ -22,6 +22,7 @@ function getRegTxns($attendeeID, $regTxnList)
 
 function filterById($obj)
 {
+  print_r($GLOBALS['v']);
   if (isset($obj->barcode) && $obj->barcode === $GLOBALS['v']) {
     return TRUE;
   } else {
@@ -75,8 +76,8 @@ $select = [
   'last_name'
 ];
 
-$attendeeIdList = select_sql($select, 'attendees', null);
-$attendeeIdList = array_column($attendeeIdList, "attendee_id");
+$attendeeList = select_sql($select, 'attendees', null);
+$attendeeIdList = array_column($attendeeList, "attendee_id");
 $delta = array_diff($tteIdList, $attendeeIdList);
 
 if (count($delta) > 0) {
@@ -84,6 +85,7 @@ if (count($delta) > 0) {
   foreach ($delta as $val) {
 
     print_r($val);
+    echo "\n\n";
 
     $GLOBALS['v'] = $val;
 
@@ -91,10 +93,11 @@ if (count($delta) > 0) {
       array_filter($tteList, 'filterById')
     );
   }
+} else {
+
+  json_return($attendeeList);
+  exit;
 }
-
-
-json_return(false);
 
 // if ((int)$totalItems !== (int)count($attendeeIdList)) {
 
