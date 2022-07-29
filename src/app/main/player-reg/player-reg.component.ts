@@ -116,7 +116,6 @@ export class PlayerRegComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public focusName() {
-    console.log(this._render.selectRootElement('#fNameId'));
     this._render.selectRootElement('#fNameId').focus();
   }
 

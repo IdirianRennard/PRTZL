@@ -14,6 +14,7 @@
               <mat-label>Scan Game</mat-label>
               <input
                   matInput
+                  id="scanGame"
                   formControlName="gameBarcode"
                   (keyup)="filterLibrary()"
                   [matAutocomplete]="gameBarcodeAuto"

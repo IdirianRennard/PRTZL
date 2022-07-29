@@ -1,7 +1,7 @@
 import { FormGroup, FormControl } from '@angular/forms';
 import { GameLibraryDto } from './../../../assets/models/game-lib';
 import { GameLibraryService } from 'src/services/GameLibrary.service';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, Renderer2, AfterViewInit } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faBarcode } from '@fortawesome/free-solid-svg-icons';
 import { map, ReplaySubject, takeUntil, take } from 'rxjs';
@@ -13,7 +13,7 @@ import { AttendeesService } from 'src/services/Attendees.service';
   templateUrl: './game-check-out.component.html',
   styleUrls: ['./game-check-out.component.scss']
 })
-export class GameCheckOutComponent implements OnInit, OnDestroy {
+export class GameCheckOutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private _destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   private _gameList$: GameLibraryDto[] = [];
@@ -52,6 +52,7 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
     private _attendeesService: AttendeesService,
     private _libService: GameLibraryService,
     private _cdr: ChangeDetectorRef,
+    private _render: Renderer2,
   ) { }
 
   ngOnInit() {
@@ -61,6 +62,12 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._destroyed$.next(true);
     this._destroyed$.complete();
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.focusGame();
+    }, 1);
   }
 
   public clearForm() {
@@ -140,6 +147,10 @@ export class GameCheckOutComponent implements OnInit, OnDestroy {
 
       this.validateSubmit()
     });
+  }
+
+  public focusGame() {
+    this._render.selectRootElement('#scanGame').focus();
   }
 
   public getLibrary() {

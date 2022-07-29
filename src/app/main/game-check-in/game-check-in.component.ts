@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Renderer2, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faBarcode } from '@fortawesome/free-solid-svg-icons';
@@ -13,7 +13,7 @@ import { GameLibraryService } from 'src/services/GameLibrary.service';
   templateUrl: './game-check-in.component.html',
   styleUrls: ['./game-check-in.component.scss']
 })
-export class GameCheckInComponent implements OnInit {
+export class GameCheckInComponent implements OnInit, AfterViewInit {
 
   private _gameList$: GameLibraryDto[] = [];
 
@@ -46,13 +46,20 @@ export class GameCheckInComponent implements OnInit {
   constructor(
     private _attendeesService: AttendeesService,
     private _cdr: ChangeDetectorRef,
-    private _libService: GameLibraryService
+    private _libService: GameLibraryService,
+    private _render: Renderer2,
   ) {
     this.getLibrary();
   }
 
   ngOnInit() {
 
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.focusGame();
+    }, 1);
   }
 
   public clearForm() {
@@ -71,6 +78,8 @@ export class GameCheckInComponent implements OnInit {
   public clearPtwForm() {
 
   }
+
+
 
   public filterLibrary() {
     const originalFilter = this._gameList$;
@@ -107,6 +116,10 @@ export class GameCheckInComponent implements OnInit {
     }
 
     this.validatePtwSubmit();
+  }
+
+  public focusGame() {
+    this._render.selectRootElement('#scanGame').focus();
   }
 
   public getLibrary() {
