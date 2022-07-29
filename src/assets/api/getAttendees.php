@@ -20,6 +20,15 @@ function getRegTxns($attendeeID, $regTxnList)
   return array_filter($regTxnList, fn ($txn) => $txn['attendee_id'] === $attendeeID);
 }
 
+function filterById($obj)
+{
+  if (isset($obj->barcode) && $obj->barcode === $GLOBALS['v']) {
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
 $length = 8;
 
 //Get the TTE Key
@@ -74,15 +83,6 @@ if (count($delta) > 0) {
   foreach ($delta as $val) {
 
     $GLOBALS['v'] = $val;
-
-    function filterById($obj)
-    {
-      if (isset($obj->barcode) && $obj->barcode === $GLOBALS['v']) {
-        return TRUE;
-      } else {
-        return FALSE;
-      }
-    }
 
     print_r(
       array_filter($tteList, 'filterById')
