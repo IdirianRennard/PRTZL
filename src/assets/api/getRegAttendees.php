@@ -1,7 +1,6 @@
 <?php
 include 'include.php';
 
-// strlen($_GET['barcode']) > 0 ? $barcode = $_GET['barcode'] : $barcode = '00000000';
 $return_array = [];
 
 if (strlen($_GET['barcode']) === 0) {
@@ -22,11 +21,15 @@ $where = [
 ];
 
 $reg_txn = select_contains_sql($select, 'reg_txn', $where);
-echo "reg_txn: \n";
-print_r($reg_txn);
-echo "\n\n";
 
-if (is_null($reg_txn[0]['attendee_id'])) {
+if (count($reg_txn) > 1) {
+  json_return($return_array);
+  exit;
+}
+
+$reg = $reg_txn[0];
+
+if (is_null($reg['attendee_id'])) {
   json_return($return_array);
   exit;
 }
@@ -38,7 +41,7 @@ $select = [
 ];
 
 $where = [
-  'attendee_id' => (int)$reg_txn['attendee_id'],
+  'attendee_id' => (int)$reg['attendee_id'],
 ];
 
 $attendee = select_contains_sql($select, 'attendees', $where);
