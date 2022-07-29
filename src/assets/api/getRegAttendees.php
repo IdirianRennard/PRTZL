@@ -2,14 +2,13 @@
 include 'include.php';
 
 // strlen($_GET['barcode']) > 0 ? $barcode = $_GET['barcode'] : $barcode = '00000000';
-echo "get[barcode]: \n";
-print_r($_GET['barcode']);
-echo "\n\n";
 $return_array = [];
 
 if (strlen($_GET['barcode']) === 0) {
   json_return($return_array);
   exit;
+} else {
+  $barcode = $_GET['barcode'];
 }
 
 $select = [
