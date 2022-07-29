@@ -65,14 +65,14 @@ $select = [
 ];
 
 $attendeeIdList = select_sql($select, 'attendees', null);
+print_r($attendeeIdList);
 $time1 = new DateTime();
 $diff = array_diff($attendeeIdList, $tteIdList);
 $time2 = new DateTime();
 
 echo "diff: \t " . count($diff) . "\n";
-echo "\ttime: \t";
-var_dump($time1->diff($time2));
-echo "\n";
+$interval = $time1->diff($time2);
+echo "\ttime: \t" . $interval->f . "\n";
 print_r($delta);
 echo "\n\n";
 
@@ -81,9 +81,8 @@ $delta = arrayDelta($attendeeIdList, $tteIdList);
 $time2 = new DateTime();
 
 echo "delta: \t " . count($delta) . "\n";
-echo "\ttime: \t";
-var_dump($time1->diff($time2));
-echo "\n";
+$interval = $time1->diff($time2);
+echo "\ttime: \t" . $interval->f . "\n";
 print_r($delta);
 echo "\n\n";
 
