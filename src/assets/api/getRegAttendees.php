@@ -44,7 +44,7 @@ $where = [
   'attendee_id' => (int)$reg['attendee_id'],
 ];
 
-$attendee = select_contains_sql($select, 'attendees', $where);
+$attendee = select_sql($select, 'attendees', $where);
 echo "attendee: \n";
 print_r($attendee);
 echo "\n\n";
