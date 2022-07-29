@@ -31,7 +31,7 @@ function mapReturn($obj)
 
 function sortById($a, $b)
 {
-  return $a->attendee_id <=> $b->attendee_id;
+  return strcmp($a->id, $b->id);
 }
 
 //Get the TTE Key
