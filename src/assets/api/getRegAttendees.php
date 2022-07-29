@@ -19,9 +19,10 @@ $where = [
   'barcode' => $barcode,
 ];
 
-$reg_txn = select_sql($select, 'reg_txn', $where)[0];
+$reg_txn = select_sql($select, 'reg_txn', $where);
+print_r($reg_txn);
 
-if ($reg_txn['attendee_id'] === null) {
+if (is_null($reg_txn[0]['attendee_id'])) {
   json_return($return_array);
   exit;
 }
