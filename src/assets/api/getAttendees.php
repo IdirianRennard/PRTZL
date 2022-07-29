@@ -6,7 +6,7 @@ class Attendee
   public $id;
   public $first_name;
   public $last_name;
-  public $barcode;
+  public $barcode = [];
 }
 
 class Txn
@@ -22,7 +22,8 @@ function getRegTxns($attendeeID, $regTxnList)
 
 function filterById($obj)
 {
-  print_r($GLOBALS['v']);
+  echo "filterById:" . print_r($GLOBALS['v']) . "\n";
+
   if (isset($obj->barcode) && $obj->barcode === $GLOBALS['v']) {
     return TRUE;
   } else {
@@ -30,7 +31,19 @@ function filterById($obj)
   }
 }
 
-$length = 8;
+function mapReturn($obj)
+{
+  $length = 8;
+  $updatedId = (string)substr((str_repeat(0, $length) . $obj->attendee_id), -$length);
+
+  $r = new Attendee();
+
+  $r->id = $updatedId;
+  $r->first_name = $obj->first_name;
+  $r->last_name = $obj->last_name;
+
+  return $r;
+}
 
 //Get the TTE Key
 $tte = get_call("https://www.houserennard.online/credits/tte.json");
@@ -81,11 +94,10 @@ $attendeeIdList = array_column($attendeeList, "attendee_id");
 $delta = array_diff($tteIdList, $attendeeIdList);
 
 if (count($delta) > 0) {
-  print_r($delta);
+  echo "delta:" . print_r($delta) . "\n";
   foreach ($delta as $val) {
 
-    print_r($val);
-    echo "\n\n";
+    echo "foreach delta: " . print_r($val) . "\n";
 
     $GLOBALS['v'] = $val;
 
@@ -93,11 +105,13 @@ if (count($delta) > 0) {
       array_filter($tteList, 'filterById')
     );
   }
-} else {
 
-  json_return($attendeeList);
-  exit;
+  $attendeeList = select_sql($select, 'attendees', null);
 }
+
+$returnList = array_map('mapReturn', $attendeeList);
+json_return($returnList);
+exit;
 
 // if ((int)$totalItems !== (int)count($attendeeIdList)) {
 
