@@ -59,14 +59,14 @@ for ($i = 2; $i <= $totalPages; $i++) {
 }
 
 $tteIdList = array_column($tteList, "badge_number");
-echo gettype($tteIdList) . "\n";
+echo "tteIdList: \t" . gettype($tteIdList) . "\n";
 
 $select = [
   'attendee_id',
 ];
 
 $attendeeIdList = select_sql($select, 'attendees', null);
-echo gettype($attendeeIdList) . "\n";
+echo "attendeeIdList: \t" . gettype($attendeeIdList) . "\n";
 $time1 = gmdate('Y-M-d_H:i:s_T');
 $diff = array_diff($attendeeIdList, $tteIdList);
 $time2 = gmdate('Y-M-d_H:i:s_T');
