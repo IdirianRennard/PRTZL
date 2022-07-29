@@ -80,7 +80,10 @@ $attendeeIdList = array_column($attendeeIdList, "attendee_id");
 $delta = array_diff($tteIdList, $attendeeIdList);
 
 if (count($delta) > 0) {
+  print_r($delta);
   foreach ($delta as $val) {
+
+    print_r($val);
 
     $GLOBALS['v'] = $val;
 
