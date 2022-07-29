@@ -3,12 +3,10 @@
 //array diff that is potentially faster
 function arrayDelta($arr1, $arr2)
 {
-  echo "PHP Version: \t" . PHP_VERSION . "\n\n";
-  $diff = array();
+  $diff = [];
 
   // we don't care about keys anyway + avoids dupes
   foreach ($arr1 as $value) {
-    print_r($value);
     $diff[$value] = 1;
   }
 
