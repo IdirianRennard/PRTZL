@@ -1,5 +1,23 @@
 <?php
 
+//array diff that is potentially faster
+function arrayDelta($arr1, $arr2)
+{
+  $diff = [];
+
+  // we don't care about keys anyway + avoids dupes
+  foreach ($arr1 as $value) {
+    $diff[$value] = 1;
+  }
+
+  // unset common values
+  foreach ($arr2 as $value) {
+    unset($diff[$value]);
+  }
+
+  return array_keys($diff);
+}
+
 //basic curl function
 function call($url)
 {
@@ -19,12 +37,6 @@ function call($url)
   curl_close($handle);
 
   return $data;
-}
-
-//sanitize string
-function magicEraser($string)
-{
-  return preg_replace("/[^A-Za-z0-8]/", "", $string);
 }
 
 //log data to js console using php
@@ -145,6 +157,12 @@ function json_return($data)
   $return = make_json($data);
 
   echo $return;
+}
+
+//sanitize string
+function magicEraser($string)
+{
+  return preg_replace("/[^A-Za-z0-8]/", "", $string);
 }
 
 //make json with pretty print for a shorter key stroke

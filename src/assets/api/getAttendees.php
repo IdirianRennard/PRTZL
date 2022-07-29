@@ -48,10 +48,6 @@ $totalItems = $pages->total_items;
 
 $tteBadges = [];
 
-$select = [
-  'attendee_id',
-];
-
 $tteList = $badges->result->items;
 
 for ($i = 2; $i <= $totalPages; $i++) {
@@ -64,9 +60,18 @@ for ($i = 2; $i <= $totalPages; $i++) {
 
 $tteIdList = array_column($tteList, "badge_number");
 
+$select = [
+  'attendee_id',
+];
+
 $attendeeIdList = select_sql($select, 'attendees', null);
 
-$delta = array_diff($tteIdList, $attendeeIdList);
+$diff = array_diff($attendeeIdList, $tteIdList);
+echo "diff: \n";
+print_r($delta);
+echo "\n\n";
+
+$delta = arrayDelta($attendeeIdList, $tteIdList);
 
 echo "Delta: \n";
 print_r($delta);
