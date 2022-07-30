@@ -95,7 +95,7 @@
               <mat-form-field appearance="outline" class="form-barcode">
                 <input
                   matInput
-                  *ngIf="i === 0"
+                  *ngIf="i == 0"
                   id="scanPlayer1"
                   [formControlName]=entry
                   (keyup)=filterPtwEntry(i)
@@ -119,6 +119,9 @@
           <div class="ptw_loops">
             <mat-form-field appearance="fill">
               <input
+                type="number"
+                min="1"
+                max="99"
                 matInput
                 formControlName="loops"
                 (keyup)="validatePtwSubmit()"

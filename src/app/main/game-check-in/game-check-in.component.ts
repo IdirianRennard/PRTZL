@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, Renderer2, AfterViewInit } from '
 import { FormControl, FormGroup } from '@angular/forms';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faBarcode } from '@fortawesome/free-solid-svg-icons';
-import { ReplaySubject, take, takeUntil } from 'rxjs';
+import { take } from 'rxjs';
 import { Attendee } from 'src/assets/models/attendee';
 import { GameLibraryDto, LibCheckoutTxn } from 'src/assets/models/game-lib';
 import { AttendeesService } from 'src/services/Attendees.service';
@@ -117,6 +117,19 @@ export class GameCheckInComponent implements OnInit, AfterViewInit {
     this._render.selectRootElement('#scanGame').focus();
   }
 
+  public focusPlayer1() {
+    try {
+      console.log("Trying this...")
+      this._render.selectRootElement('#scanPlayer1').focus();
+    } catch {
+
+    }
+    // console.log("This does work...");
+    // if (this._render.selectRootElement("#scanplayer1")) {
+    //   this._render.selectRootElement('#scanPlayer1').focus();
+    // }
+  }
+
   public getLibrary() {
     this._libService.ptwLibrary$.pipe(take(1)).subscribe((ptwLibrary: GameLibraryDto[]) => {
       this._gameList$ = this.setPtWForLibrary(ptwLibrary, true);
@@ -217,6 +230,7 @@ export class GameCheckInComponent implements OnInit, AfterViewInit {
     const ptwForm = Object.entries(this.ptwEntriesForm.value);
     const loopContent = ptwForm[0][1] as string
 
+    console.log(ptwForm);
     if (ptwForm.length > 2 && loopContent.length > 0) {
 
       this.PTW_SUBMIT_DISABLED = false;
@@ -237,11 +251,12 @@ export class GameCheckInComponent implements OnInit, AfterViewInit {
       this.PTW_SELECTED = this.selectedGame.ptw ? true : false;
 
       if (this.PTW_SELECTED) {
-        this.ptwEntriesForm.addControl('loops', new FormControl(''));
+        this.ptwEntriesForm.addControl('loops', new FormControl({ value: 1, disabled: false }));
         this.ptwEntriesForm.addControl('player0', new FormControl(''));
         this.ptwEntries = [
           "player0"
-        ]
+        ];
+        this._render.selectRootElement('#scanPlayer1').focus();
       }
 
     } else {
