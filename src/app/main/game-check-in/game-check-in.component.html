@@ -95,6 +95,14 @@
               <mat-form-field appearance="outline" class="form-barcode">
                 <input
                   matInput
+                  *ngIf="i === 0"
+                  id="scanPlayer1"
+                  [formControlName]=entry
+                  (keyup)=filterPtwEntry(i)
+                >
+                <input
+                  matInput
+                  *ngIf="i != 0"
                   [formControlName]=entry
                   (keyup)=filterPtwEntry(i)
                 >
@@ -122,7 +130,7 @@
         </form>
       </mat-card-content>
       <mat-card-actions align="end">
-        <button mat-raised-button class="clear-button" (click)="clearPtwForm()">Clear</button>
+        <button mat-raised-button class="clear-button" (click)="clearForm()">Clear</button>
         <button *ngIf="PTW_SUBMIT_DISABLED"
           mat-raised-button
           class="submit-button-disabled"

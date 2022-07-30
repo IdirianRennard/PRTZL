@@ -107,6 +107,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.filterPlayer = [];
     this.validBarcode();
+    this.focusName();
   }
 
   public filterPlayers() {

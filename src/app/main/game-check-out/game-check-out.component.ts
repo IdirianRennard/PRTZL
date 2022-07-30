@@ -96,6 +96,7 @@ export class GameCheckOutComponent implements OnInit, OnDestroy, AfterViewInit {
     })
 
     this.validateSubmit();
+    this.focusGame();
   }
 
   public filterLibrary() {

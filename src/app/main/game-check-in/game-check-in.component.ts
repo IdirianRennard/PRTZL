@@ -73,13 +73,8 @@ export class GameCheckInComponent implements OnInit, AfterViewInit {
     this.filterPlayerList = [];
 
     this.PTW_SELECTED = false;
+    this.focusGame();
   }
-
-  public clearPtwForm() {
-
-  }
-
-
 
   public filterLibrary() {
     const originalFilter = this._gameList$;
@@ -187,7 +182,7 @@ export class GameCheckInComponent implements OnInit, AfterViewInit {
   public submitGameXIn() {
 
     this._libService.postGameXIn(this.gameCheckInForm.value).pipe(take(1)).subscribe((response: any) => {
-      if (typeof response === 'boolean' && response && !this.selectedGame.ptw) {
+      if (typeof response === 'boolean' && response) {
         this.clearForm();
       }
     });
