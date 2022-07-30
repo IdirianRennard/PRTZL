@@ -4,7 +4,7 @@ import { GameLibraryService } from 'src/services/GameLibrary.service';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, Renderer2, AfterViewInit } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faBarcode } from '@fortawesome/free-solid-svg-icons';
-import { map, ReplaySubject, takeUntil, take } from 'rxjs';
+import { ReplaySubject, take } from 'rxjs';
 import { Attendee } from 'src/assets/models/attendee';
 import { AttendeesService } from 'src/services/Attendees.service';
 
@@ -70,7 +70,8 @@ export class GameCheckOutComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 1);
   }
 
-  public clearForm() {
+  public clearForm(event = false) {
+
 
     this.gameCheckoutForm.setValue({
       gameBarcode: '',

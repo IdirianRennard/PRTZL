@@ -6,6 +6,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ReplaySubject, take, takeUntil } from 'rxjs';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { MatDialog } from '@angular/material/dialog';
+import { ClearFormComponent } from 'src/app/shared/clear-form/clear-form.component';
 
 @Component({
   selector: 'app-player-reg',
@@ -42,6 +44,7 @@ export class PlayerRegComponent implements OnInit, OnDestroy, AfterViewInit {
     private _attendeesService: AttendeesService,
     private cdr: ChangeDetectorRef,
     private _render: Renderer2,
+    public clearDialog: MatDialog,
   ) {
     this.getAttendees();
   }
@@ -97,6 +100,9 @@ export class PlayerRegComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public clearForm() {
+
+    // this.clearDialog.open(ClearFormComponent);
+
     this.playerRegForm.setValue({
       firstName: '',
       lastName: ''

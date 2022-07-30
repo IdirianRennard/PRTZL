@@ -228,10 +228,10 @@ export class GameCheckInComponent implements OnInit, AfterViewInit {
 
   public validatePtwSubmit() {
     const ptwForm = Object.entries(this.ptwEntriesForm.value);
-    const loopContent = ptwForm[0][1] as string
+    const loopContent = ptwForm[0][1] as number;
 
     console.log(ptwForm);
-    if (ptwForm.length > 2 && loopContent.length > 0) {
+    if (ptwForm.length > 2 && loopContent > 0) {
 
       this.PTW_SUBMIT_DISABLED = false;
 
