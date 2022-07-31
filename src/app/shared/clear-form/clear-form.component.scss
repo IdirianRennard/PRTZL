@@ -1,0 +1,11 @@
+:host {
+  border: 3px solid salmon;
+  background-color: unset;
+
+}
+
+::ng-deep .mat-dialog-container {
+  border-radius: 10px;
+  height: min-content;
+  width: 30vw;
+}

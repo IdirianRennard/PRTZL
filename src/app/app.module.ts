@@ -1,3 +1,4 @@
+import { ClearFormComponent } from 'src/app/shared/clear-form/clear-form.component';
 import { API_KEY } from 'ng-google-sheets-db';
 import { QuickPlayToWinComponent } from './main/quick-play-to-win/quick-play-to-win.component';
 import { ReportsComponent } from './main/reports/reports.component';
@@ -30,17 +31,22 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GemboxComponent } from './main/gembox/gembox.component';
 import { APIInterceptor } from 'src/assets/classes/APIInterceptor';
+import { UtilitiesMenuComponent } from './utilities-menu/utilities-menu/utilities-menu.component';
+import { PtwDrawingComponent } from './utilities-menu/ptw-drawing/ptw-drawing.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ClearFormComponent,
     GameCheckInComponent,
     GameCheckOutComponent,
     GemboxComponent,
     MainComponent,
     PlayToWinComponent,
     PlayerRegComponent,
+    PtwDrawingComponent,
     QuickPlayToWinComponent,
+    UtilitiesMenuComponent,
     ReportsComponent,
   ],
   imports: [

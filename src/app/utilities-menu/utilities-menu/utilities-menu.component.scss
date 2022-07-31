@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+  height: 98%;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding-top: 2px;
+
+  .main,
+  .settings {
+    width: 110%;
+    margin: 2px 0 2px -12px;
+
+    & button {
+      display: flex;
+      width: 100%;
+      border: 2px outset limegreen;
+      border-radius: 10px;
+      background-color: black;
+      color: limegreen;
+      font-family: 'Orbitron', sans-serif;
+
+      & fa-icon {
+        padding-left: 1vw;
+        padding-right: 2vw;
+      }
+    }
+  }
+
+  .settings-option {
+    width: 100%;
+  }
+
+  .utilities-option {
+    width: 100%;
+  }
+
+}
