@@ -1,4 +1,4 @@
-import { Attendee } from './../../dist/prtzl/assets/models/attendee';
+import { Attendee } from './../assets/models/attendee';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { take } from 'rxjs';
 import { GameLibraryDto, PtwTxn } from './../assets/models/game-lib';
