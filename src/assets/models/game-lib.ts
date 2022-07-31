@@ -30,3 +30,8 @@ export interface PtwTxn extends Object {
   attendee_id: string;
   timestamp: string;
 }
+
+export interface PtwFullTxn extends PtwTxn {
+  first_name: string;
+  last_name: string;
+}

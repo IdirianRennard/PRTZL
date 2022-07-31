@@ -71,6 +71,10 @@ export class GameLibraryService {
     return this.http.get('getLibXOTxn/?barcode=' + barcode, { 'headers': headers });
   }
 
+  public getPtwLibrary() {
+    return this.ptwLibrary$;
+  }
+
   public postGameXIn(reg: any): any {
     const headers = new HttpHeaders({ 'content-type': 'application/json' });
     return this.http.post('postGameXIn', reg, { 'headers': headers });

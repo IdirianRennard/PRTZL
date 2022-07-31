@@ -1,3 +1,4 @@
+import { AttendeesService } from 'src/services/Attendees.service';
 import { faSquareCaretLeft, faSquareCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -21,7 +22,11 @@ export class MainComponent implements OnInit {
 
   @ViewChild('utilities') public utilities!: MatSidenav;
 
-  constructor(private http: HttpClient, library: FaIconLibrary) {
+  constructor(
+    private http: HttpClient,
+    public library: FaIconLibrary,
+    private _attendeesService: AttendeesService,
+  ) {
     this.http.get('getLibTabs').pipe(take(1)).subscribe((data: any) => {
       this.gameLibTabs = data as GameTab[];
     });
