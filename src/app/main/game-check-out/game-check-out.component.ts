@@ -72,7 +72,6 @@ export class GameCheckOutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public clearForm(event = false) {
 
-
     this.gameCheckoutForm.setValue({
       gameBarcode: '',
       playerBarcode: '',
@@ -172,7 +171,8 @@ export class GameCheckOutComponent implements OnInit, OnDestroy, AfterViewInit {
             ...this._gameList$,
             key
           ];
-        })
+        });
+
       });
     });
   }
