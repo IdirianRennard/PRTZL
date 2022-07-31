@@ -3,10 +3,12 @@ include 'include.php';
 
 function getHash($obj)
 {
-  $obj->hash = hash('sha256', json_encode($obj));
-
   print_r($obj);
-  return $obj;
+  $r = new stdClass($obj);
+  $r->hash = hash('sha256', json_encode($obj));
+
+  print_r($r);
+  return $r;
 }
 
 if (count($_GET) === 0) {
