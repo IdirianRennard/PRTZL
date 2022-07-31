@@ -1,6 +1,12 @@
 <?php
 include 'include.php';
 
+function getHash($obj)
+{
+  $obj->hash = hash('sha256', json_encode($obj));
+  return $obj;
+}
+
 if (count($_GET) === 0) {
   $where = null;
 } else {
@@ -15,4 +21,6 @@ $select = [
 
 $ptwTxnList = select_sql($select, 'ptw_txn', $where);
 
-json_return($ptwTxnList);
+$returnList = array_map('getHash', $ptwTxnList);
+
+json_return($$returnList);

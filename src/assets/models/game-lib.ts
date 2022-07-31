@@ -34,4 +34,5 @@ export interface PtwTxn extends Object {
 export interface PtwFullTxn extends PtwTxn {
   first_name: string;
   last_name: string;
+  hash: string;
 }

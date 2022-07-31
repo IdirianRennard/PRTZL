@@ -4,6 +4,8 @@ import { PtwTxn, PtwFullTxn, GameLibraryDto } from 'src/assets/models/game-lib';
 import { PtwService } from 'src/services/ptw.service';
 import { AttendeesService } from 'src/services/Attendees.service';
 import { Attendee } from 'src/assets/models/attendee';
+import { createHash } from 'crypto';
+
 
 @Component({
   selector: 'app-ptw-drawing',
@@ -61,19 +63,24 @@ export class PtwDrawingComponent implements OnInit {
 
     this.fullTxnList = this.ptwTxnList.map((txn: PtwTxn) => {
       const attendee = this.attendeeList.filter((player: Attendee) => player.id === txn.attendee_id)[0];
-      return {
+      const preRSA = {
         ...txn,
         attendee_id: attendee.id,
         first_name: attendee.first_name,
         last_name: attendee.last_name,
       };
-    }).sort((a: PtwFullTxn, b: PtwFullTxn) => { return a.game_name > b.game_name ? 1 : -1 });
 
-    this.getCounts();
+      return {
+        ...preRSA,
+      }
+
+
+    }).sort((a: PtwFullTxn, b: PtwFullTxn) => { return a.game_name - b.game_name || b.hash - a.hash });
+
+    console.log(this.fullTxnList);
+
+
   }
 
-  public getCounts() {
 
-    console.log("update");
-  }
 }
