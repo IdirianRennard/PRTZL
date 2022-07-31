@@ -20,7 +20,7 @@ $where = [
   'barcode' => $barcode,
 ];
 
-$reg_txn = select_contains_sql($select, 'reg_txn', $where);
+$reg_txn = select_sql($select, 'reg_txn', $where);
 
 if (count($reg_txn) > 1) {
   json_return($return_array);
