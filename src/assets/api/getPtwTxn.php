@@ -38,6 +38,8 @@ $return_array = [];
 
 foreach ($ptwTxnList as $entry) {
 
+  print_r($entry);
+
   $where = [
     'attendee_id' => (int)$entry->attendee_id,
   ];
