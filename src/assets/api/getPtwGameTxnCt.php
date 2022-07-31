@@ -12,5 +12,7 @@ foreach ($gameList as $game) {
 
   $gameCt = sql_submit($sql);
 
-  print_r($gameCt);
+  $return[] = $gameCt;
 }
+
+json_return($return);
