@@ -1,6 +1,6 @@
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
-import { faFlag, faGear } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircle, faFlag, faGear } from '@fortawesome/free-solid-svg-icons';
 import { Utilities } from 'src/assets/models/utilities.enum';
 import { PtwDrawingComponent } from '../ptw-drawing/ptw-drawing.component';
 
@@ -12,7 +12,7 @@ import { PtwDrawingComponent } from '../ptw-drawing/ptw-drawing.component';
 export class UtilitiesMenuComponent implements OnInit {
 
   public readonly settings = faGear;
-  public readonly utilities = faFlag;
+  public readonly utilities = faCircle;
 
   public menuOptions = Object.values(Utilities);
 

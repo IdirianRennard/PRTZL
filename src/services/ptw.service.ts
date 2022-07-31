@@ -1,5 +1,6 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { take } from 'rxjs';
-import { GameLibraryDto } from './../assets/models/game-lib';
+import { GameLibraryDto, PtwTxn } from './../assets/models/game-lib';
 import { Injectable } from '@angular/core';
 import { GameLibraryService } from './GameLibrary.service';
 
@@ -9,14 +10,20 @@ import { GameLibraryService } from './GameLibrary.service';
 export class PtwService {
 
   private _ptwLibrary!: GameLibraryDto[];
+  private _ptwTxn!: PtwTxn[];
 
-  constructor(private _gameService: GameLibraryService) {
+  public readonly headers = new HttpHeaders({ 'content-type': 'application/json' });
+
+  constructor(private _gameService: GameLibraryService, private _http: HttpClient) {
     this.ptwLibrary = [];
-
   }
 
   public get ptwLibrary(): GameLibraryDto[] {
     return this._ptwLibrary;
+  }
+
+  public ptwTxn() {
+    return this._http.get('getPtwTxn', { headers: this.headers });
   }
 
   public set ptwLibrary(library: GameLibraryDto[]) {
@@ -24,5 +31,4 @@ export class PtwService {
       this._ptwLibrary = data;
     });
   }
-
 }

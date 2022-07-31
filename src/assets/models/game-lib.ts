@@ -24,3 +24,9 @@ export interface LibCheckoutTxn extends Object {
   game_barcode: string;
   timestamp: string;
 }
+
+export interface PtwTxn extends Object {
+  game_name: string;
+  attendee_id: string;
+  timestamp: string;
+}
