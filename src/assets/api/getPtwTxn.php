@@ -3,14 +3,12 @@ include 'include.php';
 
 function getHash($obj)
 {
-  print_r($obj);
   $r = new stdClass($obj);
   $r->game_name = $obj['game_name'];
   $r->attendee_id = $obj['attendee_id'];
   $r->timestamp = $obj['timestamp'];
   $r->hash = hash('sha256', json_encode($obj));
 
-  print_r($r);
   return $r;
 }
 
