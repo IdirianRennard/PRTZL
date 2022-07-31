@@ -74,6 +74,6 @@ export class PtwDrawingComponent implements OnInit {
 
   public getCounts() {
 
-
+    console.log("update");
   }
 }
