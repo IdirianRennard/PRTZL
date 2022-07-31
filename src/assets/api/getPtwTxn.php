@@ -6,7 +6,7 @@ include 'include.php';
 //   return (int)$str;
 // }
 
-$sql = "SELECT Ptw.game_name, Attendee.attendee_id, Attendee.first_name, Attendee.last_name, Ptw.timestampFROM ptw_txn INNER JOIN attendees ON Ptw.attendee_id=Attendee.attendee_id";
+$sql = "SELECT Ptw.game_name, Attendee.attendee_id, Attendee.first_name, Attendee.last_name, Ptw.timestampFROM ptw_txn INNER JOIN attendees ON CAST(Ptw.attendee_id AS INT) = Attendee.attendee_id";
 
 json_return(sql_submit($sql));
 
