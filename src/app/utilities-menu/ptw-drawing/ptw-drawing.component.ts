@@ -61,7 +61,6 @@ export class PtwDrawingComponent implements OnInit {
     this.LOADING = false;
 
     this.fullTxnList = this.ptwTxnList.map((txn: PtwTxn) => {
-      console.log(txn);
       const attendee = this.attendeeList.filter((player: Attendee) => player.id === txn.attendee_id)[0];
       return {
         ...txn,
@@ -70,12 +69,10 @@ export class PtwDrawingComponent implements OnInit {
         last_name: attendee.last_name,
       };
 
-    }).sort((a: PtwFullTxn, b: PtwFullTxn) => { return a.game_name > b.game_name ? (a.hash > b.hash ? 1 : -1) : -1 });
+    }).sort((a: PtwFullTxn, b: PtwFullTxn) => { return a.hash > b.hash ? -1 : 1 })
+      .sort((a: PtwFullTxn, b: PtwFullTxn) => { return a.game_name > b.game_name ? 1 : -1 });
 
-    console.log(this.fullTxnList);
 
 
   }
-
-
 }
