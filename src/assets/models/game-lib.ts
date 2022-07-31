@@ -29,10 +29,10 @@ export interface PtwTxn extends Object {
   game_name: string;
   attendee_id: string;
   timestamp: string;
+  hash: string;
 }
 
 export interface PtwFullTxn extends PtwTxn {
   first_name: string;
   last_name: string;
-  hash: string;
 }
