@@ -72,7 +72,7 @@ export class PtwDrawingComponent implements OnInit {
     }).sort((a: PtwFullTxn, b: PtwFullTxn) => { return a.hash > b.hash ? -1 : 1 })
       .sort((a: PtwFullTxn, b: PtwFullTxn) => { return a.game_name > b.game_name ? 1 : -1 });
 
-
+    console.log(this.fullTxnList);
 
   }
 }
