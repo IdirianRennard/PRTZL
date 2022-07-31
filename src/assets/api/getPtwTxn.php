@@ -21,7 +21,8 @@ if (count($_GET) === 0) {
 $select = [
   'game_name',
   'attendee_id',
-  'timestamp'
+  'timestamp',
+  'txn_id'
 ];
 
 $ptwTxnList = select_sql($select, 'ptw_txn', $where);
