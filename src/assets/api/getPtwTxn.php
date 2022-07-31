@@ -1,58 +1,62 @@
 <?php
 include 'include.php';
 
-function destring($str)
-{
-  return (int)$str;
-}
+// function destring($str)
+// {
+//   return (int)$str;
+// }
 
-class PtwTxn
-{
-  public $attendee_id;
-  public $first_name;
-  public $last_name;
-  public $game_name;
-}
+$sql = "SELECT Ptw.game_name, Attendee.attendee_id, Attendee.first_name, Attendee.last_name, Ptw.timestampFROM ptw_txn INNER JOIN attendees ON Ptw.attendee_id=Attendee.attendee_id";
 
-if (count($_GET) === 0) {
-  $where = null;
-} else {
-  $where = $_GET;
-}
+json_return(sql_submit($sql));
 
-$select = [
-  'game_name',
-  'attendee_id',
-  'timestamp'
-];
+// class PtwTxn
+// {
+//   public $attendee_id;
+//   public $first_name;
+//   public $last_name;
+//   public $game_name;
+// }
 
-$ptwTxnList = select_sql($select, 'ptw_txn', $where);
+// if (count($_GET) === 0) {
+//   $where = null;
+// } else {
+//   $where = $_GET;
+// }
 
-$attendee_select = [
-  'attendee_id',
-  'first_name',
-  'last_name',
-];
+// $select = [
+//   'game_name',
+//   'attendee_id',
+//   'timestamp'
+// ];
 
-$return_array = [];
+// $ptwTxnList = select_sql($select, 'ptw_txn', $where);
 
-foreach ($ptwTxnList as $entry) {
+// $attendee_select = [
+//   'attendee_id',
+//   'first_name',
+//   'last_name',
+// ];
 
-  print_r($entry);
+// $return_array = [];
 
-  $where = [
-    'attendee_id' => (int)$entry->attendee_id,
-  ];
+// foreach ($ptwTxnList as $entry) {
 
-  $attendee = select_sql($attendee_select, 'attendees', $where)[0];
+//   print_r($entry);
 
-  $scrTxn = new PtwTxn();
-  $scrTxn->attendee_id = $entry->attendee_id;
-  $scrTxn->first_name = $attendee->first_name;
-  $scrTxn->last_name = $attendee->last_name;
-  $scrTxn->game_name = $entry->game_name;
+//   $where = [
+//     'attendee_id' => (int)$entry->attendee_id,
+//   ];
 
-  $return_array[] = $scrTxn;
-}
+//   $attendee = select_sql($attendee_select, 'attendees', $where)[0];
 
-json_return($return_array);
+//   $scrTxn = new PtwTxn();
+//   $scrTxn->attendee_id = $entry->attendee_id;
+//   $scrTxn->first_name = $attendee->first_name;
+//   $scrTxn->last_name = $attendee->last_name;
+//   $scrTxn->game_name = $entry->game_name;
+
+//   $return_array[] = $scrTxn;
+// }
+
+// // json_return($return_array);
