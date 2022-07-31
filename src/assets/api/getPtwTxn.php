@@ -4,6 +4,8 @@ include 'include.php';
 function getHash($obj)
 {
   $obj->hash = hash('sha256', json_encode($obj));
+
+  print_r($obj);
   return $obj;
 }
 
@@ -23,4 +25,4 @@ $ptwTxnList = select_sql($select, 'ptw_txn', $where);
 
 $returnList = array_map('getHash', $ptwTxnList);
 
-json_return($$returnList);
+json_return($returnList);
