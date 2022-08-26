@@ -25,7 +25,6 @@ export class MainComponent implements OnInit {
   constructor(
     private http: HttpClient,
     public library: FaIconLibrary,
-    private _attendeesService: AttendeesService,
   ) {
     this.http.get('getLibTabs').pipe(take(1)).subscribe((data: any) => {
       this.gameLibTabs = data as GameTab[];

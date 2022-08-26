@@ -1,4 +1,17 @@
 <div class="main">
+  <div
+    *ngFor="let option of menuOptions"
+    class="utilities-option"
+  >
+    <fa-icon
+      class="fa-1x"
+      [icon]="option.icon.name"
+    ></fa-icon>
+    {{ option.name }}
+  </div>
+</div>
+
+<!-- <div class="main">
   <button
     *ngFor="let option of menuOptions"
     mat-stroked-button
@@ -25,4 +38,4 @@
     </fa-icon>
     <span class="settings-option">Settings</span>
   </button>
-  </div>
+  </div> -->

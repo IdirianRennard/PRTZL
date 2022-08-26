@@ -1,8 +1,11 @@
 import { MatDialog } from '@angular/material/dialog';
 import { Component, OnInit } from '@angular/core';
-import { faChevronRight, faCircle, faFlag, faGear } from '@fortawesome/free-solid-svg-icons';
-import { Utilities } from 'src/assets/models/utilities.enum';
+import { faChevronRight, faCircle, faFlag, faGear, fas } from '@fortawesome/free-solid-svg-icons';
+import { Utility } from 'src/assets/models/utilityMenu';
+import { take } from 'rxjs';
 import { PtwDrawingComponent } from '../ptw-drawing/ptw-drawing.component';
+import { HttpClient } from '@angular/common/http';
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-utilities-menu',
@@ -11,26 +14,31 @@ import { PtwDrawingComponent } from '../ptw-drawing/ptw-drawing.component';
 })
 export class UtilitiesMenuComponent implements OnInit {
 
-  public readonly settings = faGear;
-  public readonly utilities = faCircle;
 
-  public menuOptions = Object.values(Utilities);
+  public menuOptions: Utility[] = [];
 
-  constructor(public ptwDrawing: MatDialog) { }
+  constructor(private _http: HttpClient, public library: FaIconLibrary) {
+    this._http.get<Utility[]>('getUtilMenuTabs').pipe(take(1)).subscribe((utils: Utility[]) => {
+      this.menuOptions = utils;
+    });
+
+    library.addIconPacks(fas);
+
+  }
 
   ngOnInit() {
-    console.log(this.menuOptions)
+
   }
 
-  public openOptionDialog(option: string) {
+  // public openOptionDialog(option: string) {
 
-    console.log(option)
+  //   console.log(option)
 
-    switch (option) {
-      case Utilities.PTW_DRAWING:
-        this.ptwDrawing.open(PtwDrawingComponent)
-        break;
-    }
-  }
+  //   switch (option) {
+  //     case Utilities.PTW_DRAWING:
+  //       this.ptwDrawing.open(PtwDrawingComponent)
+  //       break;
+  //   }
+  // }
 
 }
