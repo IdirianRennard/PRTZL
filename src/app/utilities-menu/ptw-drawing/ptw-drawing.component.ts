@@ -25,9 +25,9 @@ export class PtwDrawingComponent implements OnInit {
     private _attendeeService: AttendeesService,
     private _ptwService: PtwService,
   ) {
-    this._ptwService.getPtwLibrary().pipe(take(1)).subscribe((library: GameLibraryDto[]) => {
-      this.ptwGames = library;
-    });
+    // this._ptwService.getPtwLibrary().pipe(take(1)).subscribe((library: GameLibraryDto[]) => {
+    //   this.ptwGames = library;
+    // });
 
     this._ptwService.getAllPtwTxn().pipe(take(1)).subscribe((ptwTxns: any) => {
       this.ptwTxnList = ptwTxns;

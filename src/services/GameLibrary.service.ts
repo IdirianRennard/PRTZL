@@ -1,9 +1,8 @@
 import { GameLibraryDto } from './../assets/models/game-lib';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, take } from 'rxjs';
+import { map, Observable, of, take } from 'rxjs';
 import { LibCheckoutTxn } from 'src/assets/models/game-lib';
-import { GoogleSheetsDbService } from 'ng-google-sheets-db';
 
 @Injectable({
   providedIn: 'root'
@@ -38,13 +37,16 @@ export class GameLibraryService {
   public fullLibrary: GameLibraryDto[] = [];
 
   public get library$(): Observable<GameLibraryDto[]> {
-    return this._google.get<GameLibraryDto>(this._googleSheetId, "Permanent Game Library", this._mapping);
-  }
-  public get ptwLibrary$(): Observable<GameLibraryDto[]> {
-    return this._google.get<GameLibraryDto>(this._googleSheetId, "Play to Win", this._mapping);
+    return of([]);
+    // return this._google.get<GameLibraryDto>(this._googleSheetId, "Permanent Game Library", this._mapping);
   }
 
-  constructor(private http: HttpClient, private _google: GoogleSheetsDbService) {
+  public get ptwLibrary$(): Observable<GameLibraryDto[]> {
+    return of([]);
+    // return this._google.get<GameLibraryDto>(this._googleSheetId, "Play to Win", this._mapping);
+  }
+
+  constructor(private http: HttpClient) {
   }
 
   public getAllXOTxns(): any {
@@ -72,7 +74,8 @@ export class GameLibraryService {
   }
 
   public getPtwLibrary() {
-    return this.ptwLibrary$;
+    return [];
+    // return this.ptwLibrary$;
   }
 
   public postGameXIn(reg: any): any {
