@@ -1,0 +1,105 @@
+/*Classes Alphabetically */
+
+.btn-primary {
+    background-color: #3f280e;
+    border: #3f280e;
+}
+
+.help-block {
+    color: #cccccc;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: black;
+}
+
+.navbar-inverse .navbar-nav > li > a :hover {
+    text-decoration: underline;
+}
+
+.theme-container {
+    border-radius: 25px;
+    background-color: #1ccf1c;
+    color: black;
+    padding: 1em;
+    border-color: #1ccf1c;
+    border-width: 3px;
+}
+
+.help-block {
+    color: #cccccc;
+}
+
+.navbar {
+  position: relative;
+  min-height: 50px;
+  border: 1px solid transparent;
+  border-radius: 0 0 50px 50px;
+  margin: 0 0 1.5rem 0;
+}
+
+.theme-container {
+  padding: 2.5rem 1.5rem 2.5rem 1.5rem;
+  border-radius: 50px;
+  margin-bottom: 0.5rem;
+}
+
+.theme-header {
+  height: 150px;
+  width: 100%;
+  background-size: 1200px 150px;
+  border-radius: 50px;
+}
+
+.theme-header .theme-heading a{
+    color: black;
+}
+
+/*.theme-heading :before {
+    background-image: url('https://houserennard.online/prtzl/images/logo.png');
+    background-size: .75em;
+    display: inline-block;
+    width: .75em;
+    height: .75em;
+    content: "";
+    margin-right: .25em;
+}*/
+
+
+.theme-nav .navbar-inverse {
+    border: 0px;
+    border-radius: 0px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    background-color: #1ccf1c;
+    border-color: black;
+    border-width: 5px;
+}
+
+
+.theme-nav .navbar-inverse .navbar-nav>.open>a, .theme-nav .navbar-inverse .navbar-nav>.open>a:focus {
+    background-color: black;
+    border: 0px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+/*Elements Alphabetically */
+
+
+body {
+    background-image: linear-gradient( #98FB98 10% , #71eeb8 );
+}
+
+p {
+    padding: 10px;
+}
+
+p a:hover {
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+    padding: 3px;
+}
+
+#XXspaces_needed { display:none; }

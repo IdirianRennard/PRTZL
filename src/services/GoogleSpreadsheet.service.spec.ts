@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { GoogleSpreadsheetService } from './Google-Spreadsheet.service';
+import { GoogleSpreadsheetService } from './GoogleSpreadsheet.service';
 
 describe('Service: GoogleSpreadsheet', () => {
   beforeEach(() => {

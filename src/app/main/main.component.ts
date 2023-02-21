@@ -1,3 +1,4 @@
+import { GoogleSpreadsheetService } from 'src/services/GoogleSpreadsheet.service';
 import { AttendeesService } from 'src/services/Attendees.service';
 import { faSquareCaretLeft, faSquareCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -7,6 +8,7 @@ import { take } from 'rxjs';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { MatSidenav } from '@angular/material/sidenav';
+
 @Component({
   selector: 'prtzl-main',
   templateUrl: './main.component.html',
@@ -19,6 +21,7 @@ export class MainComponent implements OnInit {
 
   public gameLibTabs!: GameTab[];
   public activeTab!: GameTab;
+  public google = new GoogleSpreadsheetService();
 
   @ViewChild('utilities') public utilities!: MatSidenav;
 

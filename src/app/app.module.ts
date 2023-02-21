@@ -66,7 +66,7 @@ import { PtwDrawingComponent } from './utilities-menu/ptw-drawing/ptw-drawing.co
     MatSidenavModule,
     MatTabsModule,
     MatToolbarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     {
