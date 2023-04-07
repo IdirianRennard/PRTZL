@@ -9,7 +9,9 @@ import { LibCheckoutTxn } from 'src/assets/models/game-lib';
 })
 export class GameLibraryService {
 
-  private _googleSheetId = "1dHLqoKq_Cfe979FCK7e_48oFujrBNMYdSEdlicpcsYY";
+  private _headers = new HttpHeaders({ 'content-type': 'application/json' });
+
+  // private _googleSheetId = "1dHLqoKq_Cfe979FCK7e_48oFujrBNMYdSEdlicpcsYY";
   private _mapping: GameLibraryDto = {
     title: 'Game',
     barcode: 'Barcode',
@@ -37,8 +39,8 @@ export class GameLibraryService {
   public fullLibrary: GameLibraryDto[] = [];
 
   public get library$(): Observable<GameLibraryDto[]> {
-    return of([]);
-    // return this._google.get<GameLibraryDto>(this._googleSheetId, "Permanent Game Library", this._mapping);
+    // return of([]);
+    return this.http.get<GameLibraryDto[]>('getGameLib', { 'headers': this._headers })
   }
 
   public get ptwLibrary$(): Observable<GameLibraryDto[]> {
@@ -50,9 +52,7 @@ export class GameLibraryService {
   }
 
   public getAllXOTxns(): any {
-    const headers = new HttpHeaders({ 'content-type': 'application/json' });
-
-    return this.http.get('getLibXOTxn', { 'headers': headers });
+    return this.http.get('getLibXOTxn', { 'headers': this._headers });
   }
 
   public getTxnsByAttendee(barcode: string): LibCheckoutTxn[] {
@@ -68,9 +68,7 @@ export class GameLibraryService {
   }
 
   public getGameXOTxn(barcode: string): any {
-    const headers = new HttpHeaders({ 'content-type': 'application/json' });
-
-    return this.http.get('getLibXOTxn/?barcode=' + barcode, { 'headers': headers });
+    return this.http.get('getLibXOTxn/?barcode=' + barcode, { 'headers': this._headers });
   }
 
   public getPtwLibrary() {
@@ -79,18 +77,15 @@ export class GameLibraryService {
   }
 
   public postGameXIn(reg: any): any {
-    const headers = new HttpHeaders({ 'content-type': 'application/json' });
-    return this.http.post('postGameXIn', reg, { 'headers': headers });
+    return this.http.post('postGameXIn', reg, { 'headers': this._headers });
   }
 
   public postGameXO(reg: any): any {
-    const headers = new HttpHeaders({ 'content-type': 'application/json' });
-    return this.http.post('postGameXO', reg, { 'headers': headers });
+    return this.http.post('postGameXO', reg, { 'headers': this._headers });
   }
 
   public postPtwEntry(reg: any): any {
-    const headers = new HttpHeaders({ 'content-type': 'application/json' });
-    return this.http.post('postPtwEntry', reg, { 'headers': headers });
+    return this.http.post('postPtwEntry', reg, { 'headers': this._headers });
   }
 
 }

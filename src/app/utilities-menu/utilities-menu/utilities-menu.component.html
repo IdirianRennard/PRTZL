@@ -3,39 +3,15 @@
     *ngFor="let option of menuOptions"
     class="utilities-option"
   >
-    <fa-icon
-      class="fa-1x"
-      [icon]="option.icon.name"
-    ></fa-icon>
-    {{ option.name }}
+    <button
+      mat-stroked-button
+      class="utilities-button"
+    >
+      <fa-icon
+        class="fa-1x"
+        [icon]="option.icon.name"
+      ></fa-icon>
+      {{ option.name }}
+    </button>
   </div>
 </div>
-
-<!-- <div class="main">
-  <button
-    *ngFor="let option of menuOptions"
-    mat-stroked-button
-    class="ultilties-option"
-    (click)="openOptionDialog(option)"
-  >
-    <fa-icon
-      class="fa-1x"
-      [icon]="utilities"
-    >
-    </fa-icon>
-    <span class="utilities-option-name">{{ option }}</span>
-  </button>
-</div>
-<div class="settings">
-  <button
-    mat-stroked-button
-    class="ultilities-option"
-  >
-    <fa-icon
-      class="fa-2x"
-      [icon]="settings"
-    >
-    </fa-icon>
-    <span class="settings-option">Settings</span>
-  </button>
-  </div> -->

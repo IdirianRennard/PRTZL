@@ -1,5 +1,4 @@
 import { GoogleSpreadsheetService } from 'src/services/GoogleSpreadsheet.service';
-import { AttendeesService } from 'src/services/Attendees.service';
 import { faSquareCaretLeft, faSquareCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';

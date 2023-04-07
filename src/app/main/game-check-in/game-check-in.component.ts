@@ -135,20 +135,21 @@ export class GameCheckInComponent implements OnInit, AfterViewInit {
       this._gameList$ = this.setPtWForLibrary(ptwLibrary, true);
 
       this._libService.library$.pipe(take(1)).subscribe((gameLibrary: GameLibraryDto[]) => {
-        gameLibrary.forEach((key, val) => {
-          const ptwFilter = this._gameList$.filter((game) => game.title === key.title)
+        console.log(gameLibrary)
+        // gameLibrary.forEach((key, val) => {
+        //   const ptwFilter = this._gameList$.filter((game) => game.title === key.title)
 
-          if (ptwFilter.length > 0) {
-            key.ptw = true
-          } else {
-            key.ptw = false
-          }
+        //   if (ptwFilter.length > 0) {
+        //     key.ptw = true
+        //   } else {
+        //     key.ptw = false
+        //   }
 
-          this._gameList$ = [
-            ...this._gameList$,
-            key
-          ];
-        })
+        //   this._gameList$ = [
+        //     ...this._gameList$,
+        //     key
+        //   ];
+        // })
       });
     });
   }
